@@ -1,40 +1,26 @@
-If you use this template for research, please [cite it](template_reference.bib):
-> Kedron, P., & Holler, J. (2023). Template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences. https://doi.org/10.17605/OSF.IO/W29MQ
-
-# Title of Study
+# Learn Simple Features
 
 ## Contributors
 
-- First Name Last Name\*, email address, @githubname, ORCID link, affiliated institution(s)
-- First Name Last Name, email address, @githubname, ORCID link, affiliated institution(s)
+- Joseph Holler\*, josephh@middlebury.edu, [@josephholler](https://github.com/josephholler), ORCID:[0000-0002-2381-2699](https://orcid.org/0000-0002-2381-2699"), Middlebury College
 
 \* Corresponding author and creator
 
 ## Abstract
 
-Write a brief abstract about your research project.
-If the project is a reproduction or replication study, include the full citation with a statement
-This study is a *reproduction/replication* of:
-
-> citation to prior study
-
-A graphical abstract of the study could also be included as an image here.
+This project is a resource for learning geographic analysis using primarily vector data with the *sf* for R. To do so, we use a simplified teaching data set inspired by the city of Central Falls, Rhode Island. 
 
 ## Study Metadata
 
-- `Key words`: Comma-separated list of keywords (tags) for searchability. Geographers often use one or two keywords each for: theory, geographic context, and methods.
-- `Subject`: select from the [BePress Taxonomy](http://digitalcommons.bepress.com/cgi/viewcontent.cgi?article=1008&context=reference)
-- `Date created`: date when project was started
-- `Date modified`: date of most recent revision
-- `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
-- `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
-- `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
-- `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
-- `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
-- `Funding Name`: name of funding for the project
-- `Funding Title`: title of project grant
-- `Award info URI`: web address for award information
-- `Award number`: award number
+- `Key words`: Central Falls, sf, vector analysis, teaching demonstration
+- `Subject`: Social and Behavioral Sciences: Geography: Geographic Information Sciences
+- `Date created`: 2025-02-12
+- `Date modified`: 2025-02-12
+- `Spatial Coverage`: Central Falls, Rhode Island, OSM:[191213](https://www.openstreetmap.org/relation/191213)
+- `Spatial Resolution`: 250 meters
+- `Spatial Reference System`: EPSG:6567 NAD83(2011) / Rhode Island
+- `Temporal Coverage`: N/A
+- `Temporal Resolution`: N/A
 
 ## Related to
 
