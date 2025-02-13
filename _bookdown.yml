@@ -1,0 +1,8 @@
+delete_merged_file: true
+output_dir: "docs"
+language:
+  ui:
+    chapter_name: "Chapter "
+    
+rmd_subdir: yes
+always_allow_html: true

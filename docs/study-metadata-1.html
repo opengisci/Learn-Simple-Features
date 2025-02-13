@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Study metadata | Analysis</title>
+  <meta name="description" content="Learn R simple features (SF) using Central Falls examples." />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Study metadata | Analysis" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Learn R simple features (SF) using Central Falls examples." />
+  <meta name="github-repo" content="opengisci/Learn-Simple-Features" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Study metadata | Analysis" />
+  
+  <meta name="twitter:description" content="Learn R simple features (SF) using Central Falls examples." />
+  
+
+<meta name="author" content="HEGSRR" />
+
+
+<meta name="date" content="2025-02-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="abstract-1.html"/>
+<link rel="next" href="study-design.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#abstract"><i class="fa fa-check"></i><b>1.1</b> Abstract</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#study-metadata"><i class="fa fa-check"></i><b>1.2</b> Study Metadata</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#hello-central-falls-world"><i class="fa fa-check"></i><b>1.3</b> Hello, Central Falls world</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="instructions.html"><a href="instructions.html"><i class="fa fa-check"></i><b>2</b> Instructions</a></li>
+<li class="chapter" data-level="3" data-path="abstract-1.html"><a href="abstract-1.html"><i class="fa fa-check"></i><b>3</b> Abstract</a></li>
+<li class="chapter" data-level="4" data-path="study-metadata-1.html"><a href="study-metadata-1.html"><i class="fa fa-check"></i><b>4</b> Study metadata</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="study-metadata-1.html"><a href="study-metadata-1.html#original-study-spatio-temporal-metadata"><i class="fa fa-check"></i><b>4.1</b> Original study spatio-temporal metadata</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="study-design.html"><a href="study-design.html"><i class="fa fa-check"></i><b>5</b> Study design</a></li>
+<li class="chapter" data-level="6" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html"><i class="fa fa-check"></i><b>6</b> Materials and procedure</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#computational-environment"><i class="fa fa-check"></i><b>6.1</b> Computational environment</a></li>
+<li class="chapter" data-level="6.2" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#data-and-variables"><i class="fa fa-check"></i><b>6.2</b> Data and variables</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#primary-data-source1-name"><i class="fa fa-check"></i><b>6.2.1</b> Primary data source1 name</a></li>
+<li class="chapter" data-level="6.2.2" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#primary-data-source2-name"><i class="fa fa-check"></i><b>6.2.2</b> Primary data source2 name</a></li>
+<li class="chapter" data-level="6.2.3" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#secondary-data-source1-name"><i class="fa fa-check"></i><b>6.2.3</b> Secondary data source1 name</a></li>
+<li class="chapter" data-level="6.2.4" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#secondary-data-source2-name"><i class="fa fa-check"></i><b>6.2.4</b> Secondary data source2 name</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#prior-observations"><i class="fa fa-check"></i><b>6.3</b> Prior observations</a></li>
+<li class="chapter" data-level="6.4" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#bias-and-threats-to-validity"><i class="fa fa-check"></i><b>6.4</b> Bias and threats to validity</a></li>
+<li class="chapter" data-level="6.5" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#data-transformations"><i class="fa fa-check"></i><b>6.5</b> Data transformations</a></li>
+<li class="chapter" data-level="6.6" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#analysis"><i class="fa fa-check"></i><b>6.6</b> Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>7</b> Results</a></li>
+<li class="chapter" data-level="8" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>8</b> Discussion</a></li>
+<li class="chapter" data-level="9" data-path="integrity-statement.html"><a href="integrity-statement.html"><i class="fa fa-check"></i><b>9</b> Integrity Statement</a></li>
+<li class="chapter" data-level="10" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>10</b> Acknowledgements</a></li>
+<li class="chapter" data-level="11" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>11</b> References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="study-metadata-1" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Study metadata<a href="study-metadata-1.html#study-metadata-1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<ul>
+<li><code>Key words</code>: Comma-separated list of keywords (tags) for searchability. Geographers often use one or two keywords each for: theory, geographic context, and methods.</li>
+<li><code>Subject</code>: select from the <a href="http://digitalcommons.bepress.com/cgi/viewcontent.cgi?article=1008&amp;context=reference">BePress Taxonomy</a></li>
+<li><code>Date created</code>: date when project was started</li>
+<li><code>Date modified</code>: date of most recent revision</li>
+<li><code>Spatial Coverage</code>: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.</li>
+<li><code>Spatial Resolution</code>: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size</li>
+<li><code>Spatial Reference System</code>: Specify the geographic or projected coordinate system for the study, e.g. EPSG:4326</li>
+<li><code>Temporal Coverage</code>: Specify the temporal extent of your study—i.e. the range of time represented by the data observations.</li>
+<li><code>Temporal Resolution</code>: Specify the temporal resolution of your study—i.e. the duration of time for which each observation represents or the revisit period for repeated observations</li>
+</ul>
+<div id="original-study-spatio-temporal-metadata" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Original study spatio-temporal metadata<a href="study-metadata-1.html#original-study-spatio-temporal-metadata" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><code>Spatial Coverage</code>: extent of original study</li>
+<li><code>Spatial Resolution</code>: resolution of original study</li>
+<li><code>Spatial Reference System</code>: spatial reference system of original study</li>
+<li><code>Temporal Coverage</code>: temporal extent of original study</li>
+<li><code>Temporal Resolution</code>: temporal resolution of original study</li>
+</ul>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="abstract-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="study-design.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

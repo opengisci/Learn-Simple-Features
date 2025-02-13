@@ -6,3 +6,65 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Hello, Central Falls world
+
+Let's read a reference point grid from the geopackage `cf_given` in the layer `pointgrid`.
+
+As we read the data in, we'll recalculate x- and y- offsets for label placement in `tmap`.
+
+```{r}
+pointgrid <- st_read(here("data", "raw", "public", "cf_given.gpkg"), 
+                     layer="pointgrid") |> 
+  mutate(xOff = xOff / 4,
+         yOff = yOff / -4)
+```
+
+Let's display the grid.
+We add a buffer to the pointgrid so that we have sufficient space surrounding the grid in which to place the labels.
+
+```{r}
+pointgrid_map <- 
+tm_shape(pointgrid,
+         bbox = st_buffer(pointgrid, 250)) +
+  tm_symbols(border.alpha = 0.5,
+             alpha = 0) +
+  tm_text("label",
+          ymod="yOff",
+          xmod="xOff")
+
+pointgrid_map
+```
+
+Let's read a layer of Central Falls zones, the local geographic unit of enumeration and neighborhood governance.
+
+```{r}
+zones <- st_read(here("data", "raw", "public", "cf_digitized.gpkg"), 
+                     layer="zones")
+```
+
+Let's inspect the attribute table.
+
+```{r}
+zones |> st_drop_geometry()
+```
+
+Notice how the `id` column has been converted into row labels.
+There are four other columns:
+- `zone` is character string with the zone name based on compass direction.
+- `pop` is an integer count of the total population
+- `minority` is an integer count of the population reporting as any minority identity on the census
+- `poverty` is an integer count of the population with household income below the poverty level
+
+Let's map the zones.
+
+```{r}
+pointgrid_map +
+  tm_shape(zones) +
+  tm_polygons(border.col = "grey",
+              lwd = 2,
+              lty = "dashed",
+              border.alpha = 0.8,
+              alpha = 0) +
+  tm_text("zone")
+```
+

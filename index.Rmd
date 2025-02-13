@@ -1,0 +1,94 @@
+--- 
+title: "Learn Simple Features"
+author:
+  - Joseph Holler
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+#bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: Learn R simple features (SF) using Central Falls examples.
+link-citations: yes
+github-repo: opengisci/Learn-Simple-Features
+---
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+
+knitr::opts_chunk$set(echo = TRUE)
+
+# record all the packages you are using here
+# this includes any calls to library(), require(),
+# and double colons such as here::i_am()
+packages <- c("here", "tidyverse", "sf", "tmap")
+
+# force all conflicts to become errors
+# if you load dplyr and use filter(), R has to guess whether you mean dplyr::filter() or stats::filter()
+# the conflicted package forces you to be explicit about this
+# disable at your own peril
+# https://conflicted.r-lib.org/
+require(conflicted)
+
+# load and install required packages
+# https://groundhogr.com/
+if (!require(groundhog)) {
+  install.packages("groundhog")
+  require(groundhog)
+}
+
+# this date will be used to determine the versions of R and your packages
+# it is best practice to keep R and its packages up to date
+groundhog.day <- "2025-01-01"
+
+# you may want to use set.groundhog.folder() to choose where to install pacakges under groundhog
+# the folder should be on the same drive as your R installation, and should not be synced to the cloud
+
+# this replaces any library() or require() calls
+groundhog.library(packages, groundhog.day)
+# you may need to install a correct version of R
+# you may need to respond OK in the console to permit groundhog to install packages
+# you may need to restart R and rerun this code to load installed packages
+# In RStudio, restart r with Session -> Restart Session
+
+# record the R processing environment
+# alternatively, use devtools::session_info() for better results
+writeLines(
+  capture.output(sessionInfo()),
+  here("procedure", "environment", paste0("r-environment-", Sys.Date(), ".txt"))
+)
+
+# save package citations
+knitr::write_bib(c(packages, "base"), file = here("software.bib"))
+
+# set up default knitr parameters
+# https://yihui.org/knitr/options/
+knitr::opts_chunk$set(
+  echo = FALSE, # Run code, show outputs (don't show code)
+  fig.retina = 4,
+  fig.width = 8,
+  fig.path = paste0(here("results", "figures"), "/")
+)
+```
+
+
+# Introduction
+
+## Abstract
+
+This project is a resource for learning geographic analysis using primarily vector data with the *sf* for R. To do so, we use a simplified teaching data set inspired by the city of Central Falls, Rhode Island. 
+
+## Study Metadata
+
+- `Key words`: Central Falls, sf, vector analysis, teaching demonstration
+- `Subject`: Social and Behavioral Sciences: Geography: Geographic Information Sciences
+- `Date created`: 2025-02-12
+- `Date modified`: 2025-02-12
+- `Spatial Coverage`: Central Falls, Rhode Island, OSM:[191213](https://www.openstreetmap.org/relation/191213)
+- `Spatial Resolution`: 250 meters
+- `Spatial Reference System`: EPSG:6567 NAD83(2011) / Rhode Island
+- `Temporal Coverage`: N/A
+- `Temporal Resolution`: N/A

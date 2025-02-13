@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Analysis</title>
+  <meta name="description" content="Learn R simple features (SF) using Central Falls examples." />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Analysis" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Learn R simple features (SF) using Central Falls examples." />
+  <meta name="github-repo" content="opengisci/Learn-Simple-Features" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Analysis" />
+  
+  <meta name="twitter:description" content="Learn R simple features (SF) using Central Falls examples." />
+  
+
+<meta name="author" content="HEGSRR" />
+
+
+<meta name="date" content="2025-02-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="instructions.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#abstract"><i class="fa fa-check"></i><b>1.1</b> Abstract</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#study-metadata"><i class="fa fa-check"></i><b>1.2</b> Study Metadata</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#hello-central-falls-world"><i class="fa fa-check"></i><b>1.3</b> Hello, Central Falls world</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="instructions.html"><a href="instructions.html"><i class="fa fa-check"></i><b>2</b> Instructions</a></li>
+<li class="chapter" data-level="3" data-path="abstract-1.html"><a href="abstract-1.html"><i class="fa fa-check"></i><b>3</b> Abstract</a></li>
+<li class="chapter" data-level="4" data-path="study-metadata-1.html"><a href="study-metadata-1.html"><i class="fa fa-check"></i><b>4</b> Study metadata</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="study-metadata-1.html"><a href="study-metadata-1.html#original-study-spatio-temporal-metadata"><i class="fa fa-check"></i><b>4.1</b> Original study spatio-temporal metadata</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="study-design.html"><a href="study-design.html"><i class="fa fa-check"></i><b>5</b> Study design</a></li>
+<li class="chapter" data-level="6" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html"><i class="fa fa-check"></i><b>6</b> Materials and procedure</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#computational-environment"><i class="fa fa-check"></i><b>6.1</b> Computational environment</a></li>
+<li class="chapter" data-level="6.2" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#data-and-variables"><i class="fa fa-check"></i><b>6.2</b> Data and variables</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#primary-data-source1-name"><i class="fa fa-check"></i><b>6.2.1</b> Primary data source1 name</a></li>
+<li class="chapter" data-level="6.2.2" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#primary-data-source2-name"><i class="fa fa-check"></i><b>6.2.2</b> Primary data source2 name</a></li>
+<li class="chapter" data-level="6.2.3" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#secondary-data-source1-name"><i class="fa fa-check"></i><b>6.2.3</b> Secondary data source1 name</a></li>
+<li class="chapter" data-level="6.2.4" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#secondary-data-source2-name"><i class="fa fa-check"></i><b>6.2.4</b> Secondary data source2 name</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#prior-observations"><i class="fa fa-check"></i><b>6.3</b> Prior observations</a></li>
+<li class="chapter" data-level="6.4" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#bias-and-threats-to-validity"><i class="fa fa-check"></i><b>6.4</b> Bias and threats to validity</a></li>
+<li class="chapter" data-level="6.5" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#data-transformations"><i class="fa fa-check"></i><b>6.5</b> Data transformations</a></li>
+<li class="chapter" data-level="6.6" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#analysis"><i class="fa fa-check"></i><b>6.6</b> Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>7</b> Results</a></li>
+<li class="chapter" data-level="8" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>8</b> Discussion</a></li>
+<li class="chapter" data-level="9" data-path="integrity-statement.html"><a href="integrity-statement.html"><i class="fa fa-check"></i><b>9</b> Integrity Statement</a></li>
+<li class="chapter" data-level="10" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>10</b> Acknowledgements</a></li>
+<li class="chapter" data-level="11" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>11</b> References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Analysis</h1>
+<p class="author"><em>HEGSRR</em></p>
+<p class="date"><em>2025-02-13</em></p>
+</div>
+<div id="introduction" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="abstract" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Abstract<a href="index.html#abstract" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This project is a resource for learning geographic analysis using primarily vector data with the <em>sf</em> for R. To do so, we use a simplified teaching data set inspired by the city of Central Falls, Rhode Island.</p>
+</div>
+<div id="study-metadata" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Study Metadata<a href="index.html#study-metadata" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><code>Key words</code>: Central Falls, sf, vector analysis, teaching demonstration</li>
+<li><code>Subject</code>: Social and Behavioral Sciences: Geography: Geographic Information Sciences</li>
+<li><code>Date created</code>: 2025-02-12</li>
+<li><code>Date modified</code>: 2025-02-12</li>
+<li><code>Spatial Coverage</code>: Central Falls, Rhode Island, OSM:<a href="https://www.openstreetmap.org/relation/191213">191213</a></li>
+<li><code>Spatial Resolution</code>: 250 meters</li>
+<li><code>Spatial Reference System</code>: EPSG:6567 NAD83(2011) / Rhode Island</li>
+<li><code>Temporal Coverage</code>: N/A</li>
+<li><code>Temporal Resolution</code>: N/A</li>
+</ul>
+
+</div>
+<div id="hello-central-falls-world" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Hello, Central Falls world<a href="index.html#hello-central-falls-world" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s read a reference point grid from the geopackage <code>cf_given</code> in the layer <code>pointgrid</code>.</p>
+<p>As we read the data in, we’ll recalculate x- and y- offsets for label placement in <code>tmap</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a>pointgrid <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_given.gpkg&quot;</span>), </span>
+<span id="cb1-2"><a href="index.html#cb1-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;pointgrid&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-3"><a href="index.html#cb1-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">xOff =</span> xOff <span class="sc">/</span> <span class="dv">4</span>,</span>
+<span id="cb1-4"><a href="index.html#cb1-4" tabindex="-1"></a>         <span class="at">yOff =</span> yOff <span class="sc">/</span> <span class="sc">-</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## Reading layer `pointgrid&#39; from data source 
+##   `C:\git\opengisci\Learn-Simple-Features\data\raw\public\cf_given.gpkg&#39; 
+##   using driver `GPKG&#39;
+## Simple feature collection with 81 features and 8 fields
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 107710.4 ymin: 88292.71 xmax: 109710.4 ymax: 90292.71
+## Projected CRS: NAD83(2011) / Rhode Island</code></pre>
+<p>Let’s display the grid.
+We add a buffer to the pointgrid so that we have sufficient space surrounding the grid in which to place the labels.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" tabindex="-1"></a>pointgrid_map <span class="ot">&lt;-</span> </span>
+<span id="cb3-2"><a href="index.html#cb3-2" tabindex="-1"></a><span class="fu">tm_shape</span>(pointgrid,</span>
+<span id="cb3-3"><a href="index.html#cb3-3" tabindex="-1"></a>         <span class="at">bbox =</span> <span class="fu">st_buffer</span>(pointgrid, <span class="dv">250</span>)) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="index.html#cb3-4" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">border.alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb3-5"><a href="index.html#cb3-5" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="index.html#cb3-6" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;label&quot;</span>,</span>
+<span id="cb3-7"><a href="index.html#cb3-7" tabindex="-1"></a>          <span class="at">ymod=</span><span class="st">&quot;yOff&quot;</span>,</span>
+<span id="cb3-8"><a href="index.html#cb3-8" tabindex="-1"></a>          <span class="at">xmod=</span><span class="st">&quot;xOff&quot;</span>)</span>
+<span id="cb3-9"><a href="index.html#cb3-9" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="index.html#cb3-10" tabindex="-1"></a>pointgrid_map</span></code></pre></div>
+<p><img src="results/figures/unnamed-chunk-4-1.png" width="768" /></p>
+<p>Let’s read a layer of Central Falls zones, the local geographic unit of enumeration and neighborhood governance.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="index.html#cb4-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_digitized.gpkg&quot;</span>), </span>
+<span id="cb4-2"><a href="index.html#cb4-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;zones&quot;</span>)</span></code></pre></div>
+<pre><code>## Reading layer `zones&#39; from data source 
+##   `C:\git\opengisci\Learn-Simple-Features\data\raw\public\cf_digitized.gpkg&#39; 
+##   using driver `GPKG&#39;
+## Simple feature collection with 4 features and 4 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 107710.4 ymin: 88292.71 xmax: 109710.4 ymax: 90292.71
+## Projected CRS: NAD83(2011) / Rhode Island</code></pre>
+<p>Let’s inspect the attribute table.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="index.html#cb6-1" tabindex="-1"></a>zones <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>()</span></code></pre></div>
+<pre><code>##   zone  pop minority poverty
+## 1   NW 5300     4300    2000
+## 2   NE 4800     3800    1350
+## 3   SE 4400     3200    1400
+## 4   SW 4600     3600    1300</code></pre>
+<p>Notice how the <code>id</code> column has been converted into row labels.
+There are four other columns:
+- <code>zone</code> is character string with the zone name based on compass direction.
+- <code>pop</code> is an integer count of the total population
+- <code>minority</code> is an integer count of the population reporting as any minority identity on the census
+- <code>poverty</code> is an integer count of the population with household income below the poverty level</p>
+<p>Let’s map the zones.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="index.html#cb8-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb8-2"><a href="index.html#cb8-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>(zones) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="index.html#cb8-3" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">border.col =</span> <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb8-4"><a href="index.html#cb8-4" tabindex="-1"></a>              <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb8-5"><a href="index.html#cb8-5" tabindex="-1"></a>              <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>,</span>
+<span id="cb8-6"><a href="index.html#cb8-6" tabindex="-1"></a>              <span class="at">border.alpha =</span> <span class="fl">0.8</span>,</span>
+<span id="cb8-7"><a href="index.html#cb8-7" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="index.html#cb8-8" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;zone&quot;</span>)</span></code></pre></div>
+<p><img src="results/figures/unnamed-chunk-7-1.png" width="768" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="instructions.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
