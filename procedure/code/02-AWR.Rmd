@@ -1,0 +1,136 @@
+---
+output: html_document
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Area-weighted re-aggregation
+
+Suppose that we need to summarize population data from `zones` in the boundaries of the `watersheds`.
+We only have one commonality between the two layers: geographic location. 
+To make matters more complicated, the boundaries are not neatly nested within one another.
+In order to move data from the `zones` into the `watersheds`, we must assume that the population (and variables thereof) are equally distributed across the space of the zones.
+
+## Calculate source areas
+
+```{r}
+zones <- mutate(zones, s_area = st_area(geom))
+```
+
+
+## Disaggregate
+
+Let's use the `st_intersection` operation to overlay `zones` and `watersheds`.
+
+```{r warning=FALSE}
+fragments <- st_intersection(zones, watersheds)
+```
+
+Resulting in the table...
+
+```{r}
+fragments |> st_drop_geometry()
+```
+
+and the map...
+
+```{r}
+pointgrid_map +
+  fragments |> rownames_to_column(var = "id") |> 
+    tm_shape() +
+    tm_polygons(alpha = 0.5) +
+    tm_text("id")
+```
+
+Now, calculate area-weighted estimates.
+We use an `as.numeric` function to discard the `units` data of `m^2`.
+
+```{r}
+fragments <- mutate(fragments,
+                    f_area = st_area(geom),
+                    aw = as.numeric(f_area / s_area),
+                    aw_pop = aw * pop,
+                    aw_minor = aw * minority,
+                    aw_pov = aw * poverty)
+
+fragments |> st_drop_geometry()
+```
+
+## Reaggregate
+
+Now it's time to re-aggregate into watersheds.
+In R, we accomplish this by grouping with `group_by` and summarizing with `summarize`.
+We dissolve the polygons together with `st_union`.
+
+```{r}
+watersheds_pop <- fragments |> group_by(name) |> 
+  summarize(
+    sumpop = sum(aw_pop),
+    summinor = sum(aw_minor),
+    sumpov = sum(aw_pov),
+    geom = st_union(geom)
+  )
+```
+
+Let's calculate the percentage minority and percentage below poverty and view the resulting attribute table.
+
+```{r}
+watersheds_pop <- mutate(watersheds_pop,
+                         pctminority = round(summinor / sumpop * 100, 1),
+                         pctpov = round(sumpov / sumpop * 100, 1))
+
+watersheds_pop |> st_drop_geometry()
+```
+
+And map the percentage in poverty in watersheds.
+
+```{r}
+pointgrid_map +
+  watersheds_pop |> 
+    tm_shape() +
+    tm_polygons(col = "pctminority",
+                alpha = 0.5,
+                legend.show = FALSE) +
+    tm_text("pctminority")
+```
+Another approach could have summarized the attribute data *without* the geometry data, and then joined the summaries back to the watersheds by attribute.
+
+First, drop the geometry data and summarize the attribute data.
+
+```{r}
+watersheds_sum <- fragments |> 
+  st_drop_geometry() |> 
+  group_by(name) |> 
+  summarize(
+    sumpop = sum(aw_pop),
+    summinor = sum(aw_minor),
+    sumpov = sum(aw_pov)
+  )
+
+watersheds_sum
+```
+
+Next, join the data to watersheds by attribute.
+
+```{r}
+watersheds_pop <- watersheds |> 
+  left_join(watersheds_sum, by = join_by(name)) |> 
+  mutate(pctminority = round(summinor / sumpop * 100, 1),
+         pctpov = round(sumpov / sumpop * 100, 1))
+
+watersheds_pop |> st_drop_geometry()
+```
+
+And map the percentage in poverty in watersheds.
+
+```{r}
+pointgrid_map +
+  watersheds_pop |> 
+    tm_shape() +
+    tm_polygons(col = "pctminority",
+                alpha = 0.5,
+                legend.show = FALSE) +
+    tm_text("pctminority")
+```

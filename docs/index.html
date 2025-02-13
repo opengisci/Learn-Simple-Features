@@ -4,23 +4,23 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Analysis</title>
+  <title>Learn Simple Features</title>
   <meta name="description" content="Learn R simple features (SF) using Central Falls examples." />
   <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Analysis" />
+  <meta property="og:title" content="Learn Simple Features" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Learn R simple features (SF) using Central Falls examples." />
   <meta name="github-repo" content="opengisci/Learn-Simple-Features" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Analysis" />
+  <meta name="twitter:title" content="Learn Simple Features" />
   
   <meta name="twitter:description" content="Learn R simple features (SF) using Central Falls examples." />
   
 
-<meta name="author" content="HEGSRR" />
+<meta name="author" content="Joseph Holler" />
 
 
 <meta name="date" content="2025-02-13" />
@@ -31,7 +31,7 @@
   
   
 
-<link rel="next" href="instructions.html"/>
+<link rel="next" href="area-weighted-re-aggregation.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -143,33 +143,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#study-metadata"><i class="fa fa-check"></i><b>1.2</b> Study Metadata</a></li>
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#hello-central-falls-world"><i class="fa fa-check"></i><b>1.3</b> Hello, Central Falls world</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="instructions.html"><a href="instructions.html"><i class="fa fa-check"></i><b>2</b> Instructions</a></li>
-<li class="chapter" data-level="3" data-path="abstract-1.html"><a href="abstract-1.html"><i class="fa fa-check"></i><b>3</b> Abstract</a></li>
-<li class="chapter" data-level="4" data-path="study-metadata-1.html"><a href="study-metadata-1.html"><i class="fa fa-check"></i><b>4</b> Study metadata</a>
+<li class="chapter" data-level="2" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html"><i class="fa fa-check"></i><b>2</b> Area-weighted re-aggregation</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="study-metadata-1.html"><a href="study-metadata-1.html#original-study-spatio-temporal-metadata"><i class="fa fa-check"></i><b>4.1</b> Original study spatio-temporal metadata</a></li>
+<li class="chapter" data-level="2.1" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html#calculate-source-areas"><i class="fa fa-check"></i><b>2.1</b> Calculate source areas</a></li>
+<li class="chapter" data-level="2.2" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html#disaggregate"><i class="fa fa-check"></i><b>2.2</b> Disaggregate</a></li>
+<li class="chapter" data-level="2.3" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html#reaggregate"><i class="fa fa-check"></i><b>2.3</b> Reaggregate</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="study-design.html"><a href="study-design.html"><i class="fa fa-check"></i><b>5</b> Study design</a></li>
-<li class="chapter" data-level="6" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html"><i class="fa fa-check"></i><b>6</b> Materials and procedure</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#computational-environment"><i class="fa fa-check"></i><b>6.1</b> Computational environment</a></li>
-<li class="chapter" data-level="6.2" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#data-and-variables"><i class="fa fa-check"></i><b>6.2</b> Data and variables</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#primary-data-source1-name"><i class="fa fa-check"></i><b>6.2.1</b> Primary data source1 name</a></li>
-<li class="chapter" data-level="6.2.2" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#primary-data-source2-name"><i class="fa fa-check"></i><b>6.2.2</b> Primary data source2 name</a></li>
-<li class="chapter" data-level="6.2.3" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#secondary-data-source1-name"><i class="fa fa-check"></i><b>6.2.3</b> Secondary data source1 name</a></li>
-<li class="chapter" data-level="6.2.4" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#secondary-data-source2-name"><i class="fa fa-check"></i><b>6.2.4</b> Secondary data source2 name</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#prior-observations"><i class="fa fa-check"></i><b>6.3</b> Prior observations</a></li>
-<li class="chapter" data-level="6.4" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#bias-and-threats-to-validity"><i class="fa fa-check"></i><b>6.4</b> Bias and threats to validity</a></li>
-<li class="chapter" data-level="6.5" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#data-transformations"><i class="fa fa-check"></i><b>6.5</b> Data transformations</a></li>
-<li class="chapter" data-level="6.6" data-path="materials-and-procedure.html"><a href="materials-and-procedure.html#analysis"><i class="fa fa-check"></i><b>6.6</b> Analysis</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>7</b> Results</a></li>
-<li class="chapter" data-level="8" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>8</b> Discussion</a></li>
-<li class="chapter" data-level="9" data-path="integrity-statement.html"><a href="integrity-statement.html"><i class="fa fa-check"></i><b>9</b> Integrity Statement</a></li>
-<li class="chapter" data-level="10" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>10</b> Acknowledgements</a></li>
-<li class="chapter" data-level="11" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>11</b> References</a></li>
 </ul>
 
       </nav>
@@ -179,7 +158,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analysis</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Learn Simple Features</a>
           </h1>
         </div>
 
@@ -188,8 +167,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">Analysis</h1>
-<p class="author"><em>HEGSRR</em></p>
+<h1 class="title">Learn Simple Features</h1>
+<p class="author"><em>Joseph Holler</em></p>
 <p class="date"><em>2025-02-13</em></p>
 </div>
 <div id="introduction" class="section level1 hasAnchor" number="1">
@@ -220,7 +199,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a>pointgrid <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_given.gpkg&quot;</span>), </span>
 <span id="cb1-2"><a href="index.html#cb1-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;pointgrid&quot;</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb1-3"><a href="index.html#cb1-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">xOff =</span> xOff <span class="sc">/</span> <span class="dv">4</span>,</span>
-<span id="cb1-4"><a href="index.html#cb1-4" tabindex="-1"></a>         <span class="at">yOff =</span> yOff <span class="sc">/</span> <span class="sc">-</span><span class="dv">4</span>)</span></code></pre></div>
+<span id="cb1-4"><a href="index.html#cb1-4" tabindex="-1"></a>         <span class="at">yOff =</span> yOff <span class="sc">/</span> <span class="sc">-</span><span class="dv">4</span>,</span>
+<span id="cb1-5"><a href="index.html#cb1-5" tabindex="-1"></a>         <span class="at">order =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-6"><a href="index.html#cb1-6" tabindex="-1"></a>           order <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="fl">0.5</span>,</span>
+<span id="cb1-7"><a href="index.html#cb1-7" tabindex="-1"></a>           <span class="at">.default =</span> order</span>
+<span id="cb1-8"><a href="index.html#cb1-8" tabindex="-1"></a>         ))</span></code></pre></div>
 <pre><code>## Reading layer `pointgrid&#39; from data source 
 ##   `C:\git\opengisci\Learn-Simple-Features\data\raw\public\cf_given.gpkg&#39; 
 ##   using driver `GPKG&#39;
@@ -231,18 +214,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Projected CRS: NAD83(2011) / Rhode Island</code></pre>
 <p>Let’s display the grid.
 We add a buffer to the pointgrid so that we have sufficient space surrounding the grid in which to place the labels.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" tabindex="-1"></a>pointgrid_map <span class="ot">&lt;-</span> </span>
-<span id="cb3-2"><a href="index.html#cb3-2" tabindex="-1"></a><span class="fu">tm_shape</span>(pointgrid,</span>
-<span id="cb3-3"><a href="index.html#cb3-3" tabindex="-1"></a>         <span class="at">bbox =</span> <span class="fu">st_buffer</span>(pointgrid, <span class="dv">250</span>)) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="index.html#cb3-4" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">border.alpha =</span> <span class="fl">0.5</span>,</span>
-<span id="cb3-5"><a href="index.html#cb3-5" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb3-6"><a href="index.html#cb3-6" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;label&quot;</span>,</span>
-<span id="cb3-7"><a href="index.html#cb3-7" tabindex="-1"></a>          <span class="at">ymod=</span><span class="st">&quot;yOff&quot;</span>,</span>
-<span id="cb3-8"><a href="index.html#cb3-8" tabindex="-1"></a>          <span class="at">xmod=</span><span class="st">&quot;xOff&quot;</span>)</span>
-<span id="cb3-9"><a href="index.html#cb3-9" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="index.html#cb3-10" tabindex="-1"></a>pointgrid_map</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" tabindex="-1"></a>pointgrid_map <span class="ot">&lt;-</span> pointgrid <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="index.html#cb3-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>(<span class="at">bbox =</span> <span class="fu">st_buffer</span>(pointgrid, <span class="dv">250</span>)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="index.html#cb3-3" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">border.alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb3-4"><a href="index.html#cb3-4" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="dv">0</span>,</span>
+<span id="cb3-5"><a href="index.html#cb3-5" tabindex="-1"></a>             <span class="at">size =</span> <span class="st">&quot;order&quot;</span>,</span>
+<span id="cb3-6"><a href="index.html#cb3-6" tabindex="-1"></a>             <span class="at">legend.size.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="index.html#cb3-7" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;label&quot;</span>,</span>
+<span id="cb3-8"><a href="index.html#cb3-8" tabindex="-1"></a>          <span class="at">ymod=</span><span class="st">&quot;yOff&quot;</span>,</span>
+<span id="cb3-9"><a href="index.html#cb3-9" tabindex="-1"></a>          <span class="at">xmod=</span><span class="st">&quot;xOff&quot;</span>,</span>
+<span id="cb3-10"><a href="index.html#cb3-10" tabindex="-1"></a>          <span class="at">col=</span><span class="st">&quot;grey50&quot;</span>)</span>
+<span id="cb3-11"><a href="index.html#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="index.html#cb3-12" tabindex="-1"></a>pointgrid_map</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-4-1.png" width="768" /></p>
-<p>Let’s read a layer of Central Falls zones, the local geographic unit of enumeration and neighborhood governance.</p>
+<p>Let’s read a layer of Central Falls <code>zones</code>, the local geographic unit of enumeration and neighborhood governance.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="index.html#cb4-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_digitized.gpkg&quot;</span>), </span>
 <span id="cb4-2"><a href="index.html#cb4-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;zones&quot;</span>)</span></code></pre></div>
 <pre><code>## Reading layer `zones&#39; from data source 
@@ -253,7 +238,7 @@ We add a buffer to the pointgrid so that we have sufficient space surrounding th
 ## Dimension:     XY
 ## Bounding box:  xmin: 107710.4 ymin: 88292.71 xmax: 109710.4 ymax: 90292.71
 ## Projected CRS: NAD83(2011) / Rhode Island</code></pre>
-<p>Let’s inspect the attribute table.</p>
+<p>Let’s inspect the <code>zones</code> attribute table.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="index.html#cb6-1" tabindex="-1"></a>zones <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>()</span></code></pre></div>
 <pre><code>##   zone  pop minority poverty
 ## 1   NW 5300     4300    2000
@@ -266,16 +251,86 @@ There are four other columns:
 - <code>pop</code> is an integer count of the total population
 - <code>minority</code> is an integer count of the population reporting as any minority identity on the census
 - <code>poverty</code> is an integer count of the population with household income below the poverty level</p>
-<p>Let’s map the zones.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="index.html#cb8-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb8-2"><a href="index.html#cb8-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>(zones) <span class="sc">+</span></span>
-<span id="cb8-3"><a href="index.html#cb8-3" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">border.col =</span> <span class="st">&quot;grey&quot;</span>,</span>
+<p>Let’s map the <code>zones</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="index.html#cb8-1" tabindex="-1"></a>zones_map <span class="ot">&lt;-</span> zones <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="index.html#cb8-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="index.html#cb8-3" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">border.col =</span> <span class="st">&quot;grey30&quot;</span>,</span>
 <span id="cb8-4"><a href="index.html#cb8-4" tabindex="-1"></a>              <span class="at">lwd =</span> <span class="dv">2</span>,</span>
 <span id="cb8-5"><a href="index.html#cb8-5" tabindex="-1"></a>              <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>,</span>
-<span id="cb8-6"><a href="index.html#cb8-6" tabindex="-1"></a>              <span class="at">border.alpha =</span> <span class="fl">0.8</span>,</span>
-<span id="cb8-7"><a href="index.html#cb8-7" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb8-8"><a href="index.html#cb8-8" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;zone&quot;</span>)</span></code></pre></div>
+<span id="cb8-6"><a href="index.html#cb8-6" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="index.html#cb8-7" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;zone&quot;</span>,</span>
+<span id="cb8-8"><a href="index.html#cb8-8" tabindex="-1"></a>          <span class="at">col=</span><span class="st">&quot;grey30&quot;</span>)  </span>
+<span id="cb8-9"><a href="index.html#cb8-9" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="index.html#cb8-10" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb8-11"><a href="index.html#cb8-11" tabindex="-1"></a>  zones_map</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-7-1.png" width="768" /></p>
+<p>Let’s load in the <code>parks</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="index.html#cb9-1" tabindex="-1"></a>parks <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_digitized.gpkg&quot;</span>), </span>
+<span id="cb9-2"><a href="index.html#cb9-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;parks&quot;</span>)</span></code></pre></div>
+<pre><code>## Reading layer `parks&#39; from data source 
+##   `C:\git\opengisci\Learn-Simple-Features\data\raw\public\cf_digitized.gpkg&#39; 
+##   using driver `GPKG&#39;
+## Simple feature collection with 5 features and 1 field
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 107710.4 ymin: 88792.71 xmax: 109710.4 ymax: 90292.71
+## Projected CRS: NAD83(2011) / Rhode Island</code></pre>
+<p>Let’s inspect the <code>parks</code> attribute table.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="index.html#cb11-1" tabindex="-1"></a>parks <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>()</span></code></pre></div>
+<pre><code>##         park
+## 1 Blackstone
+## 2    Spintex
+## 3   Macomber
+## 4      Jenks
+## 5         FC</code></pre>
+<p>There is just one field, <code>park</code>, containing the park names.</p>
+<p>Let’s map the <code>parks</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="index.html#cb13-1" tabindex="-1"></a>working_color <span class="ot">=</span> <span class="st">&quot;darkgreen&quot;</span></span>
+<span id="cb13-2"><a href="index.html#cb13-2" tabindex="-1"></a>parks_map <span class="ot">&lt;-</span> parks <span class="sc">|&gt;</span> </span>
+<span id="cb13-3"><a href="index.html#cb13-3" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span> </span>
+<span id="cb13-4"><a href="index.html#cb13-4" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">border.col =</span> working_color,</span>
+<span id="cb13-5"><a href="index.html#cb13-5" tabindex="-1"></a>              <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb13-6"><a href="index.html#cb13-6" tabindex="-1"></a>              <span class="at">col =</span> working_color,</span>
+<span id="cb13-7"><a href="index.html#cb13-7" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="index.html#cb13-8" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;park&quot;</span>,</span>
+<span id="cb13-9"><a href="index.html#cb13-9" tabindex="-1"></a>          <span class="at">col=</span>working_color,</span>
+<span id="cb13-10"><a href="index.html#cb13-10" tabindex="-1"></a>          <span class="at">along.lines =</span> <span class="cn">TRUE</span>)  </span>
+<span id="cb13-11"><a href="index.html#cb13-11" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="index.html#cb13-12" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb13-13"><a href="index.html#cb13-13" tabindex="-1"></a>  parks_map</span></code></pre></div>
+<p><img src="results/figures/unnamed-chunk-10-1.png" width="768" /></p>
+<p>Let’s load in the <code>watersheds</code></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="index.html#cb14-1" tabindex="-1"></a>watersheds <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_digitized.gpkg&quot;</span>), </span>
+<span id="cb14-2"><a href="index.html#cb14-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;watersheds&quot;</span>)</span></code></pre></div>
+<pre><code>## Reading layer `watersheds&#39; from data source 
+##   `C:\git\opengisci\Learn-Simple-Features\data\raw\public\cf_digitized.gpkg&#39; 
+##   using driver `GPKG&#39;
+## Simple feature collection with 3 features and 1 field
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 107710.4 ymin: 88292.71 xmax: 109710.4 ymax: 90292.71
+## Projected CRS: NAD83(2011) / Rhode Island</code></pre>
+<p>Let’s inspect the <code>watersheds</code> attribute table.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="index.html#cb16-1" tabindex="-1"></a>watersheds <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>()</span></code></pre></div>
+<pre><code>##           name
+## 1   Moshassuck
+## 2 Narragansett
+## 3   Blackstone</code></pre>
+<p>Let’s map the <code>watersheds</code>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="index.html#cb18-1" tabindex="-1"></a>working_color <span class="ot">=</span> <span class="st">&quot;royalblue3&quot;</span></span>
+<span id="cb18-2"><a href="index.html#cb18-2" tabindex="-1"></a>watersheds_map <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> </span>
+<span id="cb18-3"><a href="index.html#cb18-3" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span> </span>
+<span id="cb18-4"><a href="index.html#cb18-4" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">border.col =</span> working_color,</span>
+<span id="cb18-5"><a href="index.html#cb18-5" tabindex="-1"></a>              <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb18-6"><a href="index.html#cb18-6" tabindex="-1"></a>              <span class="at">col =</span> working_color,</span>
+<span id="cb18-7"><a href="index.html#cb18-7" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb18-8"><a href="index.html#cb18-8" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;name&quot;</span>,</span>
+<span id="cb18-9"><a href="index.html#cb18-9" tabindex="-1"></a>          <span class="at">col=</span>working_color,</span>
+<span id="cb18-10"><a href="index.html#cb18-10" tabindex="-1"></a>          <span class="at">along.lines =</span> <span class="cn">TRUE</span>)   </span>
+<span id="cb18-11"><a href="index.html#cb18-11" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="index.html#cb18-12" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb18-13"><a href="index.html#cb18-13" tabindex="-1"></a>  watersheds_map</span></code></pre></div>
+<p><img src="results/figures/unnamed-chunk-13-1.png" width="768" /></p>
 
 </div>
 </div>
@@ -285,7 +340,7 @@ There are four other columns:
         </div>
       </div>
 
-<a href="instructions.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="area-weighted-re-aggregation.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
