@@ -31,7 +31,7 @@ fragments <- st_intersection(zones, watersheds)
 Resulting in the table...
 
 ```{r}
-fragments |> st_drop_geometry()
+fragments |> st_drop_geometry() |> knitr::kable()
 ```
 
 and the map...
@@ -55,7 +55,7 @@ fragments <- mutate(fragments,
                     aw_minor = aw * minority,
                     aw_pov = aw * poverty)
 
-fragments |> st_drop_geometry()
+fragments |> st_drop_geometry() |> knitr::kable()
 ```
 
 ## Reaggregate
@@ -63,6 +63,9 @@ fragments |> st_drop_geometry()
 Now it's time to re-aggregate into watersheds.
 In R, we accomplish this by grouping with `group_by` and summarizing with `summarize`.
 We dissolve the polygons together with `st_union`.
+**Based on this, it may note be required to explicitly specify `geom = st_union(geom)`**
+https://bookdown.org/robinlovelace/geocompr/geometric-operations.html
+
 
 ```{r}
 watersheds_pop <- fragments |> group_by(name) |> 
@@ -81,7 +84,7 @@ watersheds_pop <- mutate(watersheds_pop,
                          pctminority = round(summinor / sumpop * 100, 1),
                          pctpov = round(sumpov / sumpop * 100, 1))
 
-watersheds_pop |> st_drop_geometry()
+watersheds_pop |> st_drop_geometry() |> knitr::kable()
 ```
 
 And map the percentage in poverty in watersheds.
@@ -109,7 +112,7 @@ watersheds_sum <- fragments |>
     sumpov = sum(aw_pov)
   )
 
-watersheds_sum
+watersheds_sum |> knitr::kable()
 ```
 
 Next, join the data to watersheds by attribute.
@@ -120,10 +123,10 @@ watersheds_pop <- watersheds |>
   mutate(pctminority = round(summinor / sumpop * 100, 1),
          pctpov = round(sumpov / sumpop * 100, 1))
 
-watersheds_pop |> st_drop_geometry()
+watersheds_pop |> st_drop_geometry() |> knitr::kable()
 ```
 
-And map the percentage in poverty in watersheds.
+And map the percentage of people in poverty in watersheds.
 
 ```{r}
 pointgrid_map +

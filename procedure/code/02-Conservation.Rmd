@@ -1,0 +1,156 @@
+---
+output: html_document
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Measuring shapes
+
+Let's practice using spatial functions to measure and characterize the shapes of polygons using the example of `watersheds`.
+All of these measurements are dependent upon the accuracy of the map projection in which the data is stored.
+
+Also, different from normal GIS, measurements produce a value with a unit in R! 
+This *can* be helpful, but when it isn't, it's easy enough to convert back to a simple number with `as.numeric()`.
+
+## Area and Perimeter
+
+What is the area of each watershed?
+You'll need to know which column stores the geographic *geometry* data. 
+
+```{r}
+watersheds_shp <- mutate(watersheds, 
+                     warea = st_area(geom),
+                     wperim = st_perimeter(geom))
+
+watersheds_shp |> st_drop_geometry() |> knitr::kable()
+```
+
+We can also calculate the compactness as a function of perimeter and area.
+
+```{r}
+watersheds_shp <- mutate(watersheds_shp, 
+                     compact = round(
+                       as.numeric(
+                         (400 * pi * warea) / wperim^2),
+                       2))
+
+watersheds_shp |> st_drop_geometry() |> knitr::kable()
+```
+
+Do the compactness scores make sense?
+Let's map them.
+
+```{r}
+pointgrid_map +
+  watersheds_shp |> 
+    tm_shape() +
+    tm_polygons(col = "compact",
+                alpha = 0.5,
+                legend.show = FALSE) +
+    tm_text("compact")
+```
+
+Looks good to me!
+
+## What's the point?
+
+We also have a few methods for converting polygons to points.
+
+*Centroids* are located at the center of gravity of a polygon.
+
+```{r warning=FALSE}
+watersheds_centroids <- watersheds_shp |> st_centroid()
+```
+Here are the centroids:
+
+```{r}
+pointgrid_map +
+  watersheds_map +
+  tm_shape(watersheds_centroids) +
+  tm_symbols(
+    size = 1,
+    col = "blue"
+  )
+```
+
+Centroids sometimes fall outside of the polygon, which might produce undesirable results for cartography or topological analysis. In those cases `point_on_surface` may be better.
+
+```{r warning=FALSE}
+watersheds_pt_on_surf <- watersheds_shp |> st_point_on_surface()
+```
+
+Let's see the points on surface in relation to the centroids.
+
+```{r}
+pointgrid_map +
+  watersheds_map +
+  tm_shape(watersheds_centroids) +
+  tm_symbols(
+    size = 1,
+    col = "blue"
+  ) +
+  tm_shape(watersheds_pt_on_surf) +
+  tm_symbols(
+    size = 0.5,
+    col = "white"
+  )
+```
+
+## Minimum bounding geometries
+
+Some measures of gerrymandering rely on the ratio of the area to the area of the convex hull or of the minimum bounding circle.
+
+Let's calculate the convex hull.
+
+```{r warning = FALSE}
+watersheds_hull <- watersheds_shp |> st_convex_hull()
+```
+
+And visualize the resulting polygons.
+
+```{r}
+pointgrid_map +
+  watersheds_map +
+  tm_shape(watersheds_hull) +
+  tm_polygons(
+    border.col = "white",
+    col = "red",
+    lwd = 3,
+    lty = "dotted",
+    alpha = 0.2
+  ) 
+```
+
+How would the ratios of area to area of the convex hull come out?
+The watersheds contributing to more overlapping areas whould result in lower compactness scores.
+
+```{r}
+watersheds_hull <- mutate(watersheds_hull,
+                          compact_hull = round(as.numeric(warea / st_area(geom)), 2))
+
+watersheds_hull |> knitr::kable()
+```
+
+Finally, let's find the minimum bounding circles and calculate the same.
+https://r-spatial.github.io/lwgeom/reference/bounding_circle.html
+
+```{r}
+watersheds_boundcircle <- watersheds_shp |> st_minimum_rotated_()
+```
+
+
+
+```{r}
+pointgrid_map +
+  watersheds_map +
+  tm_shape(watersheds_boundcircle) +
+  tm_polygons(
+    border.col = "white",
+    col = "red",
+    lwd = 3,
+    lty = "dotted",
+    alpha = 0.2
+  ) 
+```

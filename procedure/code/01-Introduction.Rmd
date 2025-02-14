@@ -10,7 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Let's read a reference point grid from the geopackage `cf_given` in the layer `pointgrid`.
 
-As we read the data in, we'll recalculate x- and y- offsets for label placement in `tmap`.
+As we read the data in, we'll recalculate x- and y- offsets for label placement in `tmap`.  
+Those offsets worked well to place the grid reference letters and numbers just outside the grid in QGIS layouts, but they need to be adjusted to achieve the same placements in `tmap`.
 
 ```{r}
 pointgrid <- st_read(here("data", "raw", "public", "cf_given.gpkg"), 
@@ -22,9 +23,11 @@ pointgrid <- st_read(here("data", "raw", "public", "cf_given.gpkg"),
            .default = order
          ))
 ```
+As we load the data, *sf* reports some basic geographic metadata about the layer, including the geometry type, bounding box (geographic extent), and coordinate reference system.
 
 Let's display the grid.
-We add a buffer to the pointgrid so that we have sufficient space surrounding the grid in which to place the labels.
+
+We make the `bbox` equal to a buffered `pointgrid` to add some margin space to the map figure.
 
 ```{r}
 pointgrid_map <- pointgrid |> 
@@ -36,7 +39,8 @@ pointgrid_map <- pointgrid |>
   tm_text("label",
           ymod="yOff",
           xmod="xOff",
-          col="grey50")
+          col="grey50",
+          fontfamily = "mono")
 
 pointgrid_map
 ```
@@ -51,11 +55,12 @@ zones <- st_read(here("data", "raw", "public", "cf_digitized.gpkg"),
 Let's inspect the `zones` attribute table.
 
 ```{r}
-zones |> st_drop_geometry()
+zones |> st_drop_geometry() |> knitr::kable()
 ```
 
 Notice how the `id` column has been converted into row labels.
 There are four other columns:
+
 - `zone` is character string with the zone name based on compass direction.
 - `pop` is an integer count of the total population
 - `minority` is an integer count of the population reporting as any minority identity on the census
@@ -87,7 +92,7 @@ parks <- st_read(here("data", "raw", "public", "cf_digitized.gpkg"),
 Let's inspect the `parks` attribute table.
 
 ```{r}
-parks |> st_drop_geometry()
+parks |> st_drop_geometry() |> knitr::kable()
 ```
 
 There is just one field, `park`, containing the park names.
@@ -120,7 +125,7 @@ watersheds <- st_read(here("data", "raw", "public", "cf_digitized.gpkg"),
 Let's inspect the `watersheds` attribute table.
 
 ```{r}
-watersheds |> st_drop_geometry()
+watersheds |> st_drop_geometry() |> knitr::kable()
 ```
 
 Let's map the `watersheds`.
@@ -135,8 +140,12 @@ watersheds_map <- watersheds |>
               alpha = 0.2) +
   tm_text("name",
           col=working_color,
-          along.lines = TRUE)   
+          ymod=1,
+          fontface = "italic",
+          fontfamily = "serif")   
 
 pointgrid_map +
   watersheds_map
 ```
+
+I am not certain why the `fontface = "italic"` option in the `tm_text()` function is not having any effect on the font face.

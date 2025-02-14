@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Area-weighted re-aggregation | Learn Simple Features</title>
+  <title>Chapter 2 Area-weighted re-aggregation | Learn Simple Features for Spatial Analysis in R</title>
   <meta name="description" content="Learn R simple features (SF) using Central Falls examples." />
   <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Area-weighted re-aggregation | Learn Simple Features" />
+  <meta property="og:title" content="Chapter 2 Area-weighted re-aggregation | Learn Simple Features for Spatial Analysis in R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Learn R simple features (SF) using Central Falls examples." />
   <meta name="github-repo" content="opengisci/Learn-Simple-Features" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Area-weighted re-aggregation | Learn Simple Features" />
+  <meta name="twitter:title" content="Chapter 2 Area-weighted re-aggregation | Learn Simple Features for Spatial Analysis in R" />
   
   <meta name="twitter:description" content="Learn R simple features (SF) using Central Falls examples." />
   
@@ -158,7 +158,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Learn Simple Features</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Learn Simple Features for Spatial Analysis in R</a>
           </h1>
         </div>
 
@@ -174,129 +174,425 @@ To make matters more complicated, the boundaries are not neatly nested within on
 In order to move data from the <code>zones</code> into the <code>watersheds</code>, we must assume that the population (and variables thereof) are equally distributed across the space of the zones.</p>
 <div id="calculate-source-areas" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Calculate source areas<a href="area-weighted-re-aggregation.html#calculate-source-areas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="area-weighted-re-aggregation.html#cb19-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">mutate</span>(zones, <span class="at">s_area =</span> <span class="fu">st_area</span>(geom))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="area-weighted-re-aggregation.html#cb16-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">mutate</span>(zones, <span class="at">s_area =</span> <span class="fu">st_area</span>(geom))</span></code></pre></div>
 </div>
 <div id="disaggregate" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Disaggregate<a href="area-weighted-re-aggregation.html#disaggregate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Let’s use the <code>st_intersection</code> operation to overlay <code>zones</code> and <code>watersheds</code>.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="area-weighted-re-aggregation.html#cb20-1" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(zones, watersheds)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="area-weighted-re-aggregation.html#cb17-1" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(zones, watersheds)</span></code></pre></div>
 <p>Resulting in the table…</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="area-weighted-re-aggregation.html#cb21-1" tabindex="-1"></a>fragments <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>()</span></code></pre></div>
-<pre><code>##     zone  pop minority poverty        s_area         name
-## 1     NW 5300     4300    2000  875000 [m^2]   Moshassuck
-## 4     SW 4600     3600    1300 1000000 [m^2]   Moshassuck
-## 3     SE 4400     3200    1400 1000000 [m^2] Narragansett
-## 4.1   SW 4600     3600    1300 1000000 [m^2] Narragansett
-## 1.1   NW 5300     4300    2000  875000 [m^2]   Blackstone
-## 2     NE 4800     3800    1350 1000000 [m^2]   Blackstone
-## 3.1   SE 4400     3200    1400 1000000 [m^2]   Blackstone
-## 4.2   SW 4600     3600    1300 1000000 [m^2]   Blackstone</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="area-weighted-re-aggregation.html#cb18-1" tabindex="-1"></a>fragments <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">zone</th>
+<th align="right">pop</th>
+<th align="right">minority</th>
+<th align="right">poverty</th>
+<th align="right">s_area</th>
+<th align="left">name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">NW</td>
+<td align="right">5300</td>
+<td align="right">4300</td>
+<td align="right">2000</td>
+<td align="right">875000 [m^2]</td>
+<td align="left">Moshassuck</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">SW</td>
+<td align="right">4600</td>
+<td align="right">3600</td>
+<td align="right">1300</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Moshassuck</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">SE</td>
+<td align="right">4400</td>
+<td align="right">3200</td>
+<td align="right">1400</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Narragansett</td>
+</tr>
+<tr class="even">
+<td align="left">4.1</td>
+<td align="left">SW</td>
+<td align="right">4600</td>
+<td align="right">3600</td>
+<td align="right">1300</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Narragansett</td>
+</tr>
+<tr class="odd">
+<td align="left">1.1</td>
+<td align="left">NW</td>
+<td align="right">5300</td>
+<td align="right">4300</td>
+<td align="right">2000</td>
+<td align="right">875000 [m^2]</td>
+<td align="left">Blackstone</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">NE</td>
+<td align="right">4800</td>
+<td align="right">3800</td>
+<td align="right">1350</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Blackstone</td>
+</tr>
+<tr class="odd">
+<td align="left">3.1</td>
+<td align="left">SE</td>
+<td align="right">4400</td>
+<td align="right">3200</td>
+<td align="right">1400</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Blackstone</td>
+</tr>
+<tr class="even">
+<td align="left">4.2</td>
+<td align="left">SW</td>
+<td align="right">4600</td>
+<td align="right">3600</td>
+<td align="right">1300</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Blackstone</td>
+</tr>
+</tbody>
+</table>
 <p>and the map…</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="area-weighted-re-aggregation.html#cb23-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb23-2"><a href="area-weighted-re-aggregation.html#cb23-2" tabindex="-1"></a>  fragments <span class="sc">|&gt;</span> <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;id&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb23-3"><a href="area-weighted-re-aggregation.html#cb23-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
-<span id="cb23-4"><a href="area-weighted-re-aggregation.html#cb23-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb23-5"><a href="area-weighted-re-aggregation.html#cb23-5" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;id&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="area-weighted-re-aggregation.html#cb19-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb19-2"><a href="area-weighted-re-aggregation.html#cb19-2" tabindex="-1"></a>  fragments <span class="sc">|&gt;</span> <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;id&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="area-weighted-re-aggregation.html#cb19-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb19-4"><a href="area-weighted-re-aggregation.html#cb19-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="area-weighted-re-aggregation.html#cb19-5" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;id&quot;</span>)</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-18-1.png" width="768" /></p>
 <p>Now, calculate area-weighted estimates.
 We use an <code>as.numeric</code> function to discard the <code>units</code> data of <code>m^2</code>.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="area-weighted-re-aggregation.html#cb24-1" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">mutate</span>(fragments,</span>
-<span id="cb24-2"><a href="area-weighted-re-aggregation.html#cb24-2" tabindex="-1"></a>                    <span class="at">f_area =</span> <span class="fu">st_area</span>(geom),</span>
-<span id="cb24-3"><a href="area-weighted-re-aggregation.html#cb24-3" tabindex="-1"></a>                    <span class="at">aw =</span> <span class="fu">as.numeric</span>(f_area <span class="sc">/</span> s_area),</span>
-<span id="cb24-4"><a href="area-weighted-re-aggregation.html#cb24-4" tabindex="-1"></a>                    <span class="at">aw_pop =</span> aw <span class="sc">*</span> pop,</span>
-<span id="cb24-5"><a href="area-weighted-re-aggregation.html#cb24-5" tabindex="-1"></a>                    <span class="at">aw_minor =</span> aw <span class="sc">*</span> minority,</span>
-<span id="cb24-6"><a href="area-weighted-re-aggregation.html#cb24-6" tabindex="-1"></a>                    <span class="at">aw_pov =</span> aw <span class="sc">*</span> poverty)</span>
-<span id="cb24-7"><a href="area-weighted-re-aggregation.html#cb24-7" tabindex="-1"></a></span>
-<span id="cb24-8"><a href="area-weighted-re-aggregation.html#cb24-8" tabindex="-1"></a>fragments <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>()</span></code></pre></div>
-<pre><code>##     zone  pop minority poverty        s_area         name        f_area
-## 1     NW 5300     4300    2000  875000 [m^2]   Moshassuck  281250 [m^2]
-## 4     SW 4600     3600    1300 1000000 [m^2]   Moshassuck  750000 [m^2]
-## 3     SE 4400     3200    1400 1000000 [m^2] Narragansett  468750 [m^2]
-## 4.1   SW 4600     3600    1300 1000000 [m^2] Narragansett  125000 [m^2]
-## 1.1   NW 5300     4300    2000  875000 [m^2]   Blackstone  593750 [m^2]
-## 2     NE 4800     3800    1350 1000000 [m^2]   Blackstone 1000000 [m^2]
-## 3.1   SE 4400     3200    1400 1000000 [m^2]   Blackstone  531250 [m^2]
-## 4.2   SW 4600     3600    1300 1000000 [m^2]   Blackstone  125000 [m^2]
-##            aw   aw_pop aw_minor    aw_pov
-## 1   0.3214286 1703.571 1382.143  642.8571
-## 4   0.7500000 3450.000 2700.000  975.0000
-## 3   0.4687500 2062.500 1500.000  656.2500
-## 4.1 0.1250000  575.000  450.000  162.5000
-## 1.1 0.6785714 3596.429 2917.857 1357.1429
-## 2   1.0000000 4800.000 3800.000 1350.0000
-## 3.1 0.5312500 2337.500 1700.000  743.7500
-## 4.2 0.1250000  575.000  450.000  162.5000</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="area-weighted-re-aggregation.html#cb20-1" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">mutate</span>(fragments,</span>
+<span id="cb20-2"><a href="area-weighted-re-aggregation.html#cb20-2" tabindex="-1"></a>                    <span class="at">f_area =</span> <span class="fu">st_area</span>(geom),</span>
+<span id="cb20-3"><a href="area-weighted-re-aggregation.html#cb20-3" tabindex="-1"></a>                    <span class="at">aw =</span> <span class="fu">as.numeric</span>(f_area <span class="sc">/</span> s_area),</span>
+<span id="cb20-4"><a href="area-weighted-re-aggregation.html#cb20-4" tabindex="-1"></a>                    <span class="at">aw_pop =</span> aw <span class="sc">*</span> pop,</span>
+<span id="cb20-5"><a href="area-weighted-re-aggregation.html#cb20-5" tabindex="-1"></a>                    <span class="at">aw_minor =</span> aw <span class="sc">*</span> minority,</span>
+<span id="cb20-6"><a href="area-weighted-re-aggregation.html#cb20-6" tabindex="-1"></a>                    <span class="at">aw_pov =</span> aw <span class="sc">*</span> poverty)</span>
+<span id="cb20-7"><a href="area-weighted-re-aggregation.html#cb20-7" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="area-weighted-re-aggregation.html#cb20-8" tabindex="-1"></a>fragments <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<colgroup>
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="8%" />
+<col width="7%" />
+<col width="12%" />
+<col width="11%" />
+<col width="12%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">zone</th>
+<th align="right">pop</th>
+<th align="right">minority</th>
+<th align="right">poverty</th>
+<th align="right">s_area</th>
+<th align="left">name</th>
+<th align="right">f_area</th>
+<th align="right">aw</th>
+<th align="right">aw_pop</th>
+<th align="right">aw_minor</th>
+<th align="right">aw_pov</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">NW</td>
+<td align="right">5300</td>
+<td align="right">4300</td>
+<td align="right">2000</td>
+<td align="right">875000 [m^2]</td>
+<td align="left">Moshassuck</td>
+<td align="right">281250 [m^2]</td>
+<td align="right">0.3214286</td>
+<td align="right">1703.571</td>
+<td align="right">1382.143</td>
+<td align="right">642.8571</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">SW</td>
+<td align="right">4600</td>
+<td align="right">3600</td>
+<td align="right">1300</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Moshassuck</td>
+<td align="right">750000 [m^2]</td>
+<td align="right">0.7500000</td>
+<td align="right">3450.000</td>
+<td align="right">2700.000</td>
+<td align="right">975.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">SE</td>
+<td align="right">4400</td>
+<td align="right">3200</td>
+<td align="right">1400</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Narragansett</td>
+<td align="right">468750 [m^2]</td>
+<td align="right">0.4687500</td>
+<td align="right">2062.500</td>
+<td align="right">1500.000</td>
+<td align="right">656.2500</td>
+</tr>
+<tr class="even">
+<td align="left">4.1</td>
+<td align="left">SW</td>
+<td align="right">4600</td>
+<td align="right">3600</td>
+<td align="right">1300</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Narragansett</td>
+<td align="right">125000 [m^2]</td>
+<td align="right">0.1250000</td>
+<td align="right">575.000</td>
+<td align="right">450.000</td>
+<td align="right">162.5000</td>
+</tr>
+<tr class="odd">
+<td align="left">1.1</td>
+<td align="left">NW</td>
+<td align="right">5300</td>
+<td align="right">4300</td>
+<td align="right">2000</td>
+<td align="right">875000 [m^2]</td>
+<td align="left">Blackstone</td>
+<td align="right">593750 [m^2]</td>
+<td align="right">0.6785714</td>
+<td align="right">3596.429</td>
+<td align="right">2917.857</td>
+<td align="right">1357.1429</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">NE</td>
+<td align="right">4800</td>
+<td align="right">3800</td>
+<td align="right">1350</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Blackstone</td>
+<td align="right">1000000 [m^2]</td>
+<td align="right">1.0000000</td>
+<td align="right">4800.000</td>
+<td align="right">3800.000</td>
+<td align="right">1350.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">3.1</td>
+<td align="left">SE</td>
+<td align="right">4400</td>
+<td align="right">3200</td>
+<td align="right">1400</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Blackstone</td>
+<td align="right">531250 [m^2]</td>
+<td align="right">0.5312500</td>
+<td align="right">2337.500</td>
+<td align="right">1700.000</td>
+<td align="right">743.7500</td>
+</tr>
+<tr class="even">
+<td align="left">4.2</td>
+<td align="left">SW</td>
+<td align="right">4600</td>
+<td align="right">3600</td>
+<td align="right">1300</td>
+<td align="right">1000000 [m^2]</td>
+<td align="left">Blackstone</td>
+<td align="right">125000 [m^2]</td>
+<td align="right">0.1250000</td>
+<td align="right">575.000</td>
+<td align="right">450.000</td>
+<td align="right">162.5000</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="reaggregate" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Reaggregate<a href="area-weighted-re-aggregation.html#reaggregate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now it’s time to re-aggregate into watersheds.
 In R, we accomplish this by grouping with <code>group_by</code> and summarizing with <code>summarize</code>.
 We dissolve the polygons together with <code>st_union</code>.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="area-weighted-re-aggregation.html#cb26-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> fragments <span class="sc">|&gt;</span> <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span> </span>
-<span id="cb26-2"><a href="area-weighted-re-aggregation.html#cb26-2" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb26-3"><a href="area-weighted-re-aggregation.html#cb26-3" tabindex="-1"></a>    <span class="at">sumpop =</span> <span class="fu">sum</span>(aw_pop),</span>
-<span id="cb26-4"><a href="area-weighted-re-aggregation.html#cb26-4" tabindex="-1"></a>    <span class="at">summinor =</span> <span class="fu">sum</span>(aw_minor),</span>
-<span id="cb26-5"><a href="area-weighted-re-aggregation.html#cb26-5" tabindex="-1"></a>    <span class="at">sumpov =</span> <span class="fu">sum</span>(aw_pov),</span>
-<span id="cb26-6"><a href="area-weighted-re-aggregation.html#cb26-6" tabindex="-1"></a>    <span class="at">geom =</span> <span class="fu">st_union</span>(geom)</span>
-<span id="cb26-7"><a href="area-weighted-re-aggregation.html#cb26-7" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="area-weighted-re-aggregation.html#cb21-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> fragments <span class="sc">|&gt;</span> <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="area-weighted-re-aggregation.html#cb21-2" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb21-3"><a href="area-weighted-re-aggregation.html#cb21-3" tabindex="-1"></a>    <span class="at">sumpop =</span> <span class="fu">sum</span>(aw_pop),</span>
+<span id="cb21-4"><a href="area-weighted-re-aggregation.html#cb21-4" tabindex="-1"></a>    <span class="at">summinor =</span> <span class="fu">sum</span>(aw_minor),</span>
+<span id="cb21-5"><a href="area-weighted-re-aggregation.html#cb21-5" tabindex="-1"></a>    <span class="at">sumpov =</span> <span class="fu">sum</span>(aw_pov),</span>
+<span id="cb21-6"><a href="area-weighted-re-aggregation.html#cb21-6" tabindex="-1"></a>    <span class="at">geom =</span> <span class="fu">st_union</span>(geom)</span>
+<span id="cb21-7"><a href="area-weighted-re-aggregation.html#cb21-7" tabindex="-1"></a>  )</span></code></pre></div>
 <p>Let’s calculate the percentage minority and percentage below poverty and view the resulting attribute table.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="area-weighted-re-aggregation.html#cb27-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_pop,</span>
-<span id="cb27-2"><a href="area-weighted-re-aggregation.html#cb27-2" tabindex="-1"></a>                         <span class="at">pctminority =</span> <span class="fu">round</span>(summinor <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb27-3"><a href="area-weighted-re-aggregation.html#cb27-3" tabindex="-1"></a>                         <span class="at">pctpov =</span> <span class="fu">round</span>(sumpov <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
-<span id="cb27-4"><a href="area-weighted-re-aggregation.html#cb27-4" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="area-weighted-re-aggregation.html#cb27-5" tabindex="-1"></a>watersheds_pop <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 3 × 6
-##   name         sumpop summinor sumpov pctminority pctpov
-## * &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;
-## 1 Blackstone   11309.    8868.  3613.        78.4   32  
-## 2 Moshassuck    5154.    4082.  1618.        79.2   31.4
-## 3 Narragansett  2638.    1950    819.        73.9   31</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="area-weighted-re-aggregation.html#cb22-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_pop,</span>
+<span id="cb22-2"><a href="area-weighted-re-aggregation.html#cb22-2" tabindex="-1"></a>                         <span class="at">pctminority =</span> <span class="fu">round</span>(summinor <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb22-3"><a href="area-weighted-re-aggregation.html#cb22-3" tabindex="-1"></a>                         <span class="at">pctpov =</span> <span class="fu">round</span>(sumpov <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
+<span id="cb22-4"><a href="area-weighted-re-aggregation.html#cb22-4" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="area-weighted-re-aggregation.html#cb22-5" tabindex="-1"></a>watersheds_pop <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="right">sumpop</th>
+<th align="right">summinor</th>
+<th align="right">sumpov</th>
+<th align="right">pctminority</th>
+<th align="right">pctpov</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Blackstone</td>
+<td align="right">11308.929</td>
+<td align="right">8867.857</td>
+<td align="right">3613.393</td>
+<td align="right">78.4</td>
+<td align="right">32.0</td>
+</tr>
+<tr class="even">
+<td align="left">Moshassuck</td>
+<td align="right">5153.571</td>
+<td align="right">4082.143</td>
+<td align="right">1617.857</td>
+<td align="right">79.2</td>
+<td align="right">31.4</td>
+</tr>
+<tr class="odd">
+<td align="left">Narragansett</td>
+<td align="right">2637.500</td>
+<td align="right">1950.000</td>
+<td align="right">818.750</td>
+<td align="right">73.9</td>
+<td align="right">31.0</td>
+</tr>
+</tbody>
+</table>
 <p>And map the percentage in poverty in watersheds.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="area-weighted-re-aggregation.html#cb29-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb29-2"><a href="area-weighted-re-aggregation.html#cb29-2" tabindex="-1"></a>  watersheds_pop <span class="sc">|&gt;</span> </span>
-<span id="cb29-3"><a href="area-weighted-re-aggregation.html#cb29-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
-<span id="cb29-4"><a href="area-weighted-re-aggregation.html#cb29-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;pctminority&quot;</span>,</span>
-<span id="cb29-5"><a href="area-weighted-re-aggregation.html#cb29-5" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
-<span id="cb29-6"><a href="area-weighted-re-aggregation.html#cb29-6" tabindex="-1"></a>                <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb29-7"><a href="area-weighted-re-aggregation.html#cb29-7" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;pctminority&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="area-weighted-re-aggregation.html#cb23-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb23-2"><a href="area-weighted-re-aggregation.html#cb23-2" tabindex="-1"></a>  watersheds_pop <span class="sc">|&gt;</span> </span>
+<span id="cb23-3"><a href="area-weighted-re-aggregation.html#cb23-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb23-4"><a href="area-weighted-re-aggregation.html#cb23-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;pctminority&quot;</span>,</span>
+<span id="cb23-5"><a href="area-weighted-re-aggregation.html#cb23-5" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb23-6"><a href="area-weighted-re-aggregation.html#cb23-6" tabindex="-1"></a>                <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="area-weighted-re-aggregation.html#cb23-7" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;pctminority&quot;</span>)</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-22-1.png" width="768" />
 Another approach could have summarized the attribute data <em>without</em> the geometry data, and then joined the summaries back to the watersheds by attribute.</p>
 <p>First, drop the geometry data and summarize the attribute data.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="area-weighted-re-aggregation.html#cb30-1" tabindex="-1"></a>watersheds_sum <span class="ot">&lt;-</span> fragments <span class="sc">|&gt;</span> </span>
-<span id="cb30-2"><a href="area-weighted-re-aggregation.html#cb30-2" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb30-3"><a href="area-weighted-re-aggregation.html#cb30-3" tabindex="-1"></a>  <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span> </span>
-<span id="cb30-4"><a href="area-weighted-re-aggregation.html#cb30-4" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb30-5"><a href="area-weighted-re-aggregation.html#cb30-5" tabindex="-1"></a>    <span class="at">sumpop =</span> <span class="fu">sum</span>(aw_pop),</span>
-<span id="cb30-6"><a href="area-weighted-re-aggregation.html#cb30-6" tabindex="-1"></a>    <span class="at">summinor =</span> <span class="fu">sum</span>(aw_minor),</span>
-<span id="cb30-7"><a href="area-weighted-re-aggregation.html#cb30-7" tabindex="-1"></a>    <span class="at">sumpov =</span> <span class="fu">sum</span>(aw_pov)</span>
-<span id="cb30-8"><a href="area-weighted-re-aggregation.html#cb30-8" tabindex="-1"></a>  )</span>
-<span id="cb30-9"><a href="area-weighted-re-aggregation.html#cb30-9" tabindex="-1"></a></span>
-<span id="cb30-10"><a href="area-weighted-re-aggregation.html#cb30-10" tabindex="-1"></a>watersheds_sum</span></code></pre></div>
-<pre><code>## # A tibble: 3 × 4
-##   name         sumpop summinor sumpov
-##   &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
-## 1 Blackstone   11309.    8868.  3613.
-## 2 Moshassuck    5154.    4082.  1618.
-## 3 Narragansett  2638.    1950    819.</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="area-weighted-re-aggregation.html#cb24-1" tabindex="-1"></a>watersheds_sum <span class="ot">&lt;-</span> fragments <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="area-weighted-re-aggregation.html#cb24-2" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb24-3"><a href="area-weighted-re-aggregation.html#cb24-3" tabindex="-1"></a>  <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span> </span>
+<span id="cb24-4"><a href="area-weighted-re-aggregation.html#cb24-4" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb24-5"><a href="area-weighted-re-aggregation.html#cb24-5" tabindex="-1"></a>    <span class="at">sumpop =</span> <span class="fu">sum</span>(aw_pop),</span>
+<span id="cb24-6"><a href="area-weighted-re-aggregation.html#cb24-6" tabindex="-1"></a>    <span class="at">summinor =</span> <span class="fu">sum</span>(aw_minor),</span>
+<span id="cb24-7"><a href="area-weighted-re-aggregation.html#cb24-7" tabindex="-1"></a>    <span class="at">sumpov =</span> <span class="fu">sum</span>(aw_pov)</span>
+<span id="cb24-8"><a href="area-weighted-re-aggregation.html#cb24-8" tabindex="-1"></a>  )</span>
+<span id="cb24-9"><a href="area-weighted-re-aggregation.html#cb24-9" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="area-weighted-re-aggregation.html#cb24-10" tabindex="-1"></a>watersheds_sum <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="right">sumpop</th>
+<th align="right">summinor</th>
+<th align="right">sumpov</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Blackstone</td>
+<td align="right">11308.929</td>
+<td align="right">8867.857</td>
+<td align="right">3613.393</td>
+</tr>
+<tr class="even">
+<td align="left">Moshassuck</td>
+<td align="right">5153.571</td>
+<td align="right">4082.143</td>
+<td align="right">1617.857</td>
+</tr>
+<tr class="odd">
+<td align="left">Narragansett</td>
+<td align="right">2637.500</td>
+<td align="right">1950.000</td>
+<td align="right">818.750</td>
+</tr>
+</tbody>
+</table>
 <p>Next, join the data to watersheds by attribute.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="area-weighted-re-aggregation.html#cb32-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> </span>
-<span id="cb32-2"><a href="area-weighted-re-aggregation.html#cb32-2" tabindex="-1"></a>  <span class="fu">left_join</span>(watersheds_sum, <span class="at">by =</span> <span class="fu">join_by</span>(name)) <span class="sc">|&gt;</span> </span>
-<span id="cb32-3"><a href="area-weighted-re-aggregation.html#cb32-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pctminority =</span> <span class="fu">round</span>(summinor <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb32-4"><a href="area-weighted-re-aggregation.html#cb32-4" tabindex="-1"></a>         <span class="at">pctpov =</span> <span class="fu">round</span>(sumpov <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
-<span id="cb32-5"><a href="area-weighted-re-aggregation.html#cb32-5" tabindex="-1"></a></span>
-<span id="cb32-6"><a href="area-weighted-re-aggregation.html#cb32-6" tabindex="-1"></a>watersheds_pop <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>()</span></code></pre></div>
-<pre><code>##           name    sumpop summinor   sumpov pctminority pctpov
-## 1   Moshassuck  5153.571 4082.143 1617.857        79.2   31.4
-## 2 Narragansett  2637.500 1950.000  818.750        73.9   31.0
-## 3   Blackstone 11308.929 8867.857 3613.393        78.4   32.0</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="area-weighted-re-aggregation.html#cb25-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="area-weighted-re-aggregation.html#cb25-2" tabindex="-1"></a>  <span class="fu">left_join</span>(watersheds_sum, <span class="at">by =</span> <span class="fu">join_by</span>(name)) <span class="sc">|&gt;</span> </span>
+<span id="cb25-3"><a href="area-weighted-re-aggregation.html#cb25-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pctminority =</span> <span class="fu">round</span>(summinor <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb25-4"><a href="area-weighted-re-aggregation.html#cb25-4" tabindex="-1"></a>         <span class="at">pctpov =</span> <span class="fu">round</span>(sumpov <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
+<span id="cb25-5"><a href="area-weighted-re-aggregation.html#cb25-5" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="area-weighted-re-aggregation.html#cb25-6" tabindex="-1"></a>watersheds_pop <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="right">sumpop</th>
+<th align="right">summinor</th>
+<th align="right">sumpov</th>
+<th align="right">pctminority</th>
+<th align="right">pctpov</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Moshassuck</td>
+<td align="right">5153.571</td>
+<td align="right">4082.143</td>
+<td align="right">1617.857</td>
+<td align="right">79.2</td>
+<td align="right">31.4</td>
+</tr>
+<tr class="even">
+<td align="left">Narragansett</td>
+<td align="right">2637.500</td>
+<td align="right">1950.000</td>
+<td align="right">818.750</td>
+<td align="right">73.9</td>
+<td align="right">31.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Blackstone</td>
+<td align="right">11308.929</td>
+<td align="right">8867.857</td>
+<td align="right">3613.393</td>
+<td align="right">78.4</td>
+<td align="right">32.0</td>
+</tr>
+</tbody>
+</table>
 <p>And map the percentage in poverty in watersheds.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="area-weighted-re-aggregation.html#cb34-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb34-2"><a href="area-weighted-re-aggregation.html#cb34-2" tabindex="-1"></a>  watersheds_pop <span class="sc">|&gt;</span> </span>
-<span id="cb34-3"><a href="area-weighted-re-aggregation.html#cb34-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
-<span id="cb34-4"><a href="area-weighted-re-aggregation.html#cb34-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;pctminority&quot;</span>,</span>
-<span id="cb34-5"><a href="area-weighted-re-aggregation.html#cb34-5" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
-<span id="cb34-6"><a href="area-weighted-re-aggregation.html#cb34-6" tabindex="-1"></a>                <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb34-7"><a href="area-weighted-re-aggregation.html#cb34-7" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;pctminority&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="area-weighted-re-aggregation.html#cb26-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb26-2"><a href="area-weighted-re-aggregation.html#cb26-2" tabindex="-1"></a>  watersheds_pop <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="area-weighted-re-aggregation.html#cb26-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb26-4"><a href="area-weighted-re-aggregation.html#cb26-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;pctminority&quot;</span>,</span>
+<span id="cb26-5"><a href="area-weighted-re-aggregation.html#cb26-5" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb26-6"><a href="area-weighted-re-aggregation.html#cb26-6" tabindex="-1"></a>                <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb26-7"><a href="area-weighted-re-aggregation.html#cb26-7" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;pctminority&quot;</span>)</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-25-1.png" width="768" /></p>
 
 </div>
