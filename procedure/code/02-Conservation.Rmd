@@ -54,7 +54,7 @@ pointgrid_map +
 
 Looks good to me!
 
-## What's the point?
+## Centroids
 
 We also have a few methods for converting polygons to points.
 
@@ -74,6 +74,8 @@ pointgrid_map +
     col = "blue"
   )
 ```
+
+## Point on surface
 
 Centroids sometimes fall outside of the polygon, which might produce undesirable results for cartography or topological analysis. In those cases `point_on_surface` may be better.
 
@@ -98,7 +100,7 @@ pointgrid_map +
   )
 ```
 
-## Minimum bounding geometries
+## Convex hull
 
 Some measures of gerrymandering rely on the ratio of the area to the area of the convex hull or of the minimum bounding circle.
 
@@ -130,17 +132,19 @@ The watersheds contributing to more overlapping areas whould result in lower com
 watersheds_hull <- mutate(watersheds_hull,
                           compact_hull = round(as.numeric(warea / st_area(geom)), 2))
 
-watersheds_hull |> knitr::kable()
+watersheds_hull |> st_drop_geometry() |> knitr::kable()
 ```
 
-Finally, let's find the minimum bounding circles and calculate the same.
-https://r-spatial.github.io/lwgeom/reference/bounding_circle.html
+## Minimum bounding circle
+
+Finally, let's find the minimum bounding circles.
+This function is not yet included in the current `sf` package on CRAN, but it is in `lwgeom`.
 
 ```{r}
-watersheds_boundcircle <- watersheds_shp |> st_minimum_rotated_()
+watersheds_boundcircle <- watersheds_shp |> st_minimum_bounding_circle()
 ```
 
-
+Let's map the resulting circle polygons.
 
 ```{r}
 pointgrid_map +
@@ -154,3 +158,15 @@ pointgrid_map +
     alpha = 0.2
   ) 
 ```
+
+Finally, let's calculate the ratio of area of the polygon to the area of its minimum bounding circle.
+
+```{r}
+watersheds_boundcircle <- mutate(watersheds_boundcircle,
+                          compact_circ = round(as.numeric(warea / st_area(geom)), 2))
+
+watersheds_boundcircle |> st_drop_geometry() |> knitr::kable()
+```
+
+## Summarize findings
+

@@ -2,6 +2,10 @@ introduction
 abstract
 study-metadata
 hello-central-falls-world
+measuring-shapes
+area-and-perimeter
+whats-the-point
+minimum-bounding-geometries
 area-weighted-re-aggregation
 calculate-source-areas
 disaggregate

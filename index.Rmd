@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # record all the packages you are using here
 # this includes any calls to library(), require(),
 # and double colons such as here::i_am()
-packages <- c("here", "tidyverse", "sf", "tmap")
+packages <- c("here", "tidyverse", "sf", "tmap", "lwgeom")
 
 # force all conflicts to become errors
 # if you load dplyr and use filter(), R has to guess whether you mean dplyr::filter() or stats::filter()

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Area-weighted re-aggregation | Learn Simple Features for Spatial Analysis in R</title>
+  <title>Chapter 3 Area-weighted re-aggregation | Learn Simple Features for Spatial Analysis in R</title>
   <meta name="description" content="Learn R simple features (SF) using Central Falls examples." />
   <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Area-weighted re-aggregation | Learn Simple Features for Spatial Analysis in R" />
+  <meta property="og:title" content="Chapter 3 Area-weighted re-aggregation | Learn Simple Features for Spatial Analysis in R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Learn R simple features (SF) using Central Falls examples." />
   <meta name="github-repo" content="opengisci/Learn-Simple-Features" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Area-weighted re-aggregation | Learn Simple Features for Spatial Analysis in R" />
+  <meta name="twitter:title" content="Chapter 3 Area-weighted re-aggregation | Learn Simple Features for Spatial Analysis in R" />
   
   <meta name="twitter:description" content="Learn R simple features (SF) using Central Falls examples." />
   
@@ -23,14 +23,14 @@
 <meta name="author" content="Joseph Holler" />
 
 
-<meta name="date" content="2025-02-13" />
+<meta name="date" content="2025-02-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
+<link rel="prev" href="measuring-shapes.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -143,11 +143,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#study-metadata"><i class="fa fa-check"></i><b>1.2</b> Study Metadata</a></li>
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#hello-central-falls-world"><i class="fa fa-check"></i><b>1.3</b> Hello, Central Falls world</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html"><i class="fa fa-check"></i><b>2</b> Area-weighted re-aggregation</a>
+<li class="chapter" data-level="2" data-path="measuring-shapes.html"><a href="measuring-shapes.html"><i class="fa fa-check"></i><b>2</b> Measuring shapes</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html#calculate-source-areas"><i class="fa fa-check"></i><b>2.1</b> Calculate source areas</a></li>
-<li class="chapter" data-level="2.2" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html#disaggregate"><i class="fa fa-check"></i><b>2.2</b> Disaggregate</a></li>
-<li class="chapter" data-level="2.3" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html#reaggregate"><i class="fa fa-check"></i><b>2.3</b> Reaggregate</a></li>
+<li class="chapter" data-level="2.1" data-path="measuring-shapes.html"><a href="measuring-shapes.html#area-and-perimeter"><i class="fa fa-check"></i><b>2.1</b> Area and Perimeter</a></li>
+<li class="chapter" data-level="2.2" data-path="measuring-shapes.html"><a href="measuring-shapes.html#whats-the-point"><i class="fa fa-check"></i><b>2.2</b> What’s the point?</a></li>
+<li class="chapter" data-level="2.3" data-path="measuring-shapes.html"><a href="measuring-shapes.html#minimum-bounding-geometries"><i class="fa fa-check"></i><b>2.3</b> Minimum bounding geometries</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html"><i class="fa fa-check"></i><b>3</b> Area-weighted re-aggregation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html#calculate-source-areas"><i class="fa fa-check"></i><b>3.1</b> Calculate source areas</a></li>
+<li class="chapter" data-level="3.2" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html#disaggregate"><i class="fa fa-check"></i><b>3.2</b> Disaggregate</a></li>
+<li class="chapter" data-level="3.3" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html#reaggregate"><i class="fa fa-check"></i><b>3.3</b> Reaggregate</a></li>
 </ul></li>
 </ul>
 
@@ -166,22 +172,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="area-weighted-re-aggregation" class="section level1 hasAnchor" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Area-weighted re-aggregation<a href="area-weighted-re-aggregation.html#area-weighted-re-aggregation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="area-weighted-re-aggregation" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Area-weighted re-aggregation<a href="area-weighted-re-aggregation.html#area-weighted-re-aggregation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Suppose that we need to summarize population data from <code>zones</code> in the boundaries of the <code>watersheds</code>.
 We only have one commonality between the two layers: geographic location.
 To make matters more complicated, the boundaries are not neatly nested within one another.
 In order to move data from the <code>zones</code> into the <code>watersheds</code>, we must assume that the population (and variables thereof) are equally distributed across the space of the zones.</p>
-<div id="calculate-source-areas" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> Calculate source areas<a href="area-weighted-re-aggregation.html#calculate-source-areas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="area-weighted-re-aggregation.html#cb16-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">mutate</span>(zones, <span class="at">s_area =</span> <span class="fu">st_area</span>(geom))</span></code></pre></div>
+<div id="calculate-source-areas" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Calculate source areas<a href="area-weighted-re-aggregation.html#calculate-source-areas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="area-weighted-re-aggregation.html#cb28-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">mutate</span>(zones, <span class="at">s_area =</span> <span class="fu">st_area</span>(geom))</span></code></pre></div>
 </div>
-<div id="disaggregate" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> Disaggregate<a href="area-weighted-re-aggregation.html#disaggregate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="disaggregate" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Disaggregate<a href="area-weighted-re-aggregation.html#disaggregate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Let’s use the <code>st_intersection</code> operation to overlay <code>zones</code> and <code>watersheds</code>.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="area-weighted-re-aggregation.html#cb17-1" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(zones, watersheds)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="area-weighted-re-aggregation.html#cb29-1" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(zones, watersheds)</span></code></pre></div>
 <p>Resulting in the table…</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="area-weighted-re-aggregation.html#cb18-1" tabindex="-1"></a>fragments <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="area-weighted-re-aggregation.html#cb30-1" tabindex="-1"></a>fragments <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -270,22 +276,22 @@ In order to move data from the <code>zones</code> into the <code>watersheds</cod
 </tbody>
 </table>
 <p>and the map…</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="area-weighted-re-aggregation.html#cb19-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb19-2"><a href="area-weighted-re-aggregation.html#cb19-2" tabindex="-1"></a>  fragments <span class="sc">|&gt;</span> <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;id&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb19-3"><a href="area-weighted-re-aggregation.html#cb19-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
-<span id="cb19-4"><a href="area-weighted-re-aggregation.html#cb19-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb19-5"><a href="area-weighted-re-aggregation.html#cb19-5" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;id&quot;</span>)</span></code></pre></div>
-<p><img src="results/figures/unnamed-chunk-18-1.png" width="768" /></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="area-weighted-re-aggregation.html#cb31-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb31-2"><a href="area-weighted-re-aggregation.html#cb31-2" tabindex="-1"></a>  fragments <span class="sc">|&gt;</span> <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;id&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="area-weighted-re-aggregation.html#cb31-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb31-4"><a href="area-weighted-re-aggregation.html#cb31-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="area-weighted-re-aggregation.html#cb31-5" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;id&quot;</span>)</span></code></pre></div>
+<p><img src="results/figures/unnamed-chunk-31-1.png" width="768" /></p>
 <p>Now, calculate area-weighted estimates.
 We use an <code>as.numeric</code> function to discard the <code>units</code> data of <code>m^2</code>.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="area-weighted-re-aggregation.html#cb20-1" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">mutate</span>(fragments,</span>
-<span id="cb20-2"><a href="area-weighted-re-aggregation.html#cb20-2" tabindex="-1"></a>                    <span class="at">f_area =</span> <span class="fu">st_area</span>(geom),</span>
-<span id="cb20-3"><a href="area-weighted-re-aggregation.html#cb20-3" tabindex="-1"></a>                    <span class="at">aw =</span> <span class="fu">as.numeric</span>(f_area <span class="sc">/</span> s_area),</span>
-<span id="cb20-4"><a href="area-weighted-re-aggregation.html#cb20-4" tabindex="-1"></a>                    <span class="at">aw_pop =</span> aw <span class="sc">*</span> pop,</span>
-<span id="cb20-5"><a href="area-weighted-re-aggregation.html#cb20-5" tabindex="-1"></a>                    <span class="at">aw_minor =</span> aw <span class="sc">*</span> minority,</span>
-<span id="cb20-6"><a href="area-weighted-re-aggregation.html#cb20-6" tabindex="-1"></a>                    <span class="at">aw_pov =</span> aw <span class="sc">*</span> poverty)</span>
-<span id="cb20-7"><a href="area-weighted-re-aggregation.html#cb20-7" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="area-weighted-re-aggregation.html#cb20-8" tabindex="-1"></a>fragments <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="area-weighted-re-aggregation.html#cb32-1" tabindex="-1"></a>fragments <span class="ot">&lt;-</span> <span class="fu">mutate</span>(fragments,</span>
+<span id="cb32-2"><a href="area-weighted-re-aggregation.html#cb32-2" tabindex="-1"></a>                    <span class="at">f_area =</span> <span class="fu">st_area</span>(geom),</span>
+<span id="cb32-3"><a href="area-weighted-re-aggregation.html#cb32-3" tabindex="-1"></a>                    <span class="at">aw =</span> <span class="fu">as.numeric</span>(f_area <span class="sc">/</span> s_area),</span>
+<span id="cb32-4"><a href="area-weighted-re-aggregation.html#cb32-4" tabindex="-1"></a>                    <span class="at">aw_pop =</span> aw <span class="sc">*</span> pop,</span>
+<span id="cb32-5"><a href="area-weighted-re-aggregation.html#cb32-5" tabindex="-1"></a>                    <span class="at">aw_minor =</span> aw <span class="sc">*</span> minority,</span>
+<span id="cb32-6"><a href="area-weighted-re-aggregation.html#cb32-6" tabindex="-1"></a>                    <span class="at">aw_pov =</span> aw <span class="sc">*</span> poverty)</span>
+<span id="cb32-7"><a href="area-weighted-re-aggregation.html#cb32-7" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="area-weighted-re-aggregation.html#cb32-8" tabindex="-1"></a>fragments <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <colgroup>
 <col width="3%" />
@@ -433,24 +439,26 @@ We use an <code>as.numeric</code> function to discard the <code>units</code> dat
 </tbody>
 </table>
 </div>
-<div id="reaggregate" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> Reaggregate<a href="area-weighted-re-aggregation.html#reaggregate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="reaggregate" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Reaggregate<a href="area-weighted-re-aggregation.html#reaggregate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now it’s time to re-aggregate into watersheds.
 In R, we accomplish this by grouping with <code>group_by</code> and summarizing with <code>summarize</code>.
-We dissolve the polygons together with <code>st_union</code>.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="area-weighted-re-aggregation.html#cb21-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> fragments <span class="sc">|&gt;</span> <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="area-weighted-re-aggregation.html#cb21-2" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb21-3"><a href="area-weighted-re-aggregation.html#cb21-3" tabindex="-1"></a>    <span class="at">sumpop =</span> <span class="fu">sum</span>(aw_pop),</span>
-<span id="cb21-4"><a href="area-weighted-re-aggregation.html#cb21-4" tabindex="-1"></a>    <span class="at">summinor =</span> <span class="fu">sum</span>(aw_minor),</span>
-<span id="cb21-5"><a href="area-weighted-re-aggregation.html#cb21-5" tabindex="-1"></a>    <span class="at">sumpov =</span> <span class="fu">sum</span>(aw_pov),</span>
-<span id="cb21-6"><a href="area-weighted-re-aggregation.html#cb21-6" tabindex="-1"></a>    <span class="at">geom =</span> <span class="fu">st_union</span>(geom)</span>
-<span id="cb21-7"><a href="area-weighted-re-aggregation.html#cb21-7" tabindex="-1"></a>  )</span></code></pre></div>
+We dissolve the polygons together with <code>st_union</code>.
+<strong>Based on this, it may note be required to explicitly specify <code>geom = st_union(geom)</code></strong>
+<a href="https://bookdown.org/robinlovelace/geocompr/geometric-operations.html" class="uri">https://bookdown.org/robinlovelace/geocompr/geometric-operations.html</a></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="area-weighted-re-aggregation.html#cb33-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> fragments <span class="sc">|&gt;</span> <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span> </span>
+<span id="cb33-2"><a href="area-weighted-re-aggregation.html#cb33-2" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb33-3"><a href="area-weighted-re-aggregation.html#cb33-3" tabindex="-1"></a>    <span class="at">sumpop =</span> <span class="fu">sum</span>(aw_pop),</span>
+<span id="cb33-4"><a href="area-weighted-re-aggregation.html#cb33-4" tabindex="-1"></a>    <span class="at">summinor =</span> <span class="fu">sum</span>(aw_minor),</span>
+<span id="cb33-5"><a href="area-weighted-re-aggregation.html#cb33-5" tabindex="-1"></a>    <span class="at">sumpov =</span> <span class="fu">sum</span>(aw_pov),</span>
+<span id="cb33-6"><a href="area-weighted-re-aggregation.html#cb33-6" tabindex="-1"></a>    <span class="at">geom =</span> <span class="fu">st_union</span>(geom)</span>
+<span id="cb33-7"><a href="area-weighted-re-aggregation.html#cb33-7" tabindex="-1"></a>  )</span></code></pre></div>
 <p>Let’s calculate the percentage minority and percentage below poverty and view the resulting attribute table.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="area-weighted-re-aggregation.html#cb22-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_pop,</span>
-<span id="cb22-2"><a href="area-weighted-re-aggregation.html#cb22-2" tabindex="-1"></a>                         <span class="at">pctminority =</span> <span class="fu">round</span>(summinor <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb22-3"><a href="area-weighted-re-aggregation.html#cb22-3" tabindex="-1"></a>                         <span class="at">pctpov =</span> <span class="fu">round</span>(sumpov <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
-<span id="cb22-4"><a href="area-weighted-re-aggregation.html#cb22-4" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="area-weighted-re-aggregation.html#cb22-5" tabindex="-1"></a>watersheds_pop <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="area-weighted-re-aggregation.html#cb34-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_pop,</span>
+<span id="cb34-2"><a href="area-weighted-re-aggregation.html#cb34-2" tabindex="-1"></a>                         <span class="at">pctminority =</span> <span class="fu">round</span>(summinor <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb34-3"><a href="area-weighted-re-aggregation.html#cb34-3" tabindex="-1"></a>                         <span class="at">pctpov =</span> <span class="fu">round</span>(sumpov <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
+<span id="cb34-4"><a href="area-weighted-re-aggregation.html#cb34-4" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="area-weighted-re-aggregation.html#cb34-5" tabindex="-1"></a>watersheds_pop <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -490,26 +498,26 @@ We dissolve the polygons together with <code>st_union</code>.</p>
 </tbody>
 </table>
 <p>And map the percentage in poverty in watersheds.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="area-weighted-re-aggregation.html#cb23-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb23-2"><a href="area-weighted-re-aggregation.html#cb23-2" tabindex="-1"></a>  watersheds_pop <span class="sc">|&gt;</span> </span>
-<span id="cb23-3"><a href="area-weighted-re-aggregation.html#cb23-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
-<span id="cb23-4"><a href="area-weighted-re-aggregation.html#cb23-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;pctminority&quot;</span>,</span>
-<span id="cb23-5"><a href="area-weighted-re-aggregation.html#cb23-5" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
-<span id="cb23-6"><a href="area-weighted-re-aggregation.html#cb23-6" tabindex="-1"></a>                <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb23-7"><a href="area-weighted-re-aggregation.html#cb23-7" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;pctminority&quot;</span>)</span></code></pre></div>
-<p><img src="results/figures/unnamed-chunk-22-1.png" width="768" />
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="area-weighted-re-aggregation.html#cb35-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb35-2"><a href="area-weighted-re-aggregation.html#cb35-2" tabindex="-1"></a>  watersheds_pop <span class="sc">|&gt;</span> </span>
+<span id="cb35-3"><a href="area-weighted-re-aggregation.html#cb35-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb35-4"><a href="area-weighted-re-aggregation.html#cb35-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;pctminority&quot;</span>,</span>
+<span id="cb35-5"><a href="area-weighted-re-aggregation.html#cb35-5" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb35-6"><a href="area-weighted-re-aggregation.html#cb35-6" tabindex="-1"></a>                <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb35-7"><a href="area-weighted-re-aggregation.html#cb35-7" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;pctminority&quot;</span>)</span></code></pre></div>
+<p><img src="results/figures/unnamed-chunk-35-1.png" width="768" />
 Another approach could have summarized the attribute data <em>without</em> the geometry data, and then joined the summaries back to the watersheds by attribute.</p>
 <p>First, drop the geometry data and summarize the attribute data.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="area-weighted-re-aggregation.html#cb24-1" tabindex="-1"></a>watersheds_sum <span class="ot">&lt;-</span> fragments <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="area-weighted-re-aggregation.html#cb24-2" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb24-3"><a href="area-weighted-re-aggregation.html#cb24-3" tabindex="-1"></a>  <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span> </span>
-<span id="cb24-4"><a href="area-weighted-re-aggregation.html#cb24-4" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb24-5"><a href="area-weighted-re-aggregation.html#cb24-5" tabindex="-1"></a>    <span class="at">sumpop =</span> <span class="fu">sum</span>(aw_pop),</span>
-<span id="cb24-6"><a href="area-weighted-re-aggregation.html#cb24-6" tabindex="-1"></a>    <span class="at">summinor =</span> <span class="fu">sum</span>(aw_minor),</span>
-<span id="cb24-7"><a href="area-weighted-re-aggregation.html#cb24-7" tabindex="-1"></a>    <span class="at">sumpov =</span> <span class="fu">sum</span>(aw_pov)</span>
-<span id="cb24-8"><a href="area-weighted-re-aggregation.html#cb24-8" tabindex="-1"></a>  )</span>
-<span id="cb24-9"><a href="area-weighted-re-aggregation.html#cb24-9" tabindex="-1"></a></span>
-<span id="cb24-10"><a href="area-weighted-re-aggregation.html#cb24-10" tabindex="-1"></a>watersheds_sum <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="area-weighted-re-aggregation.html#cb36-1" tabindex="-1"></a>watersheds_sum <span class="ot">&lt;-</span> fragments <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="area-weighted-re-aggregation.html#cb36-2" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="area-weighted-re-aggregation.html#cb36-3" tabindex="-1"></a>  <span class="fu">group_by</span>(name) <span class="sc">|&gt;</span> </span>
+<span id="cb36-4"><a href="area-weighted-re-aggregation.html#cb36-4" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb36-5"><a href="area-weighted-re-aggregation.html#cb36-5" tabindex="-1"></a>    <span class="at">sumpop =</span> <span class="fu">sum</span>(aw_pop),</span>
+<span id="cb36-6"><a href="area-weighted-re-aggregation.html#cb36-6" tabindex="-1"></a>    <span class="at">summinor =</span> <span class="fu">sum</span>(aw_minor),</span>
+<span id="cb36-7"><a href="area-weighted-re-aggregation.html#cb36-7" tabindex="-1"></a>    <span class="at">sumpov =</span> <span class="fu">sum</span>(aw_pov)</span>
+<span id="cb36-8"><a href="area-weighted-re-aggregation.html#cb36-8" tabindex="-1"></a>  )</span>
+<span id="cb36-9"><a href="area-weighted-re-aggregation.html#cb36-9" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="area-weighted-re-aggregation.html#cb36-10" tabindex="-1"></a>watersheds_sum <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -541,12 +549,12 @@ Another approach could have summarized the attribute data <em>without</em> the g
 </tbody>
 </table>
 <p>Next, join the data to watersheds by attribute.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="area-weighted-re-aggregation.html#cb25-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> </span>
-<span id="cb25-2"><a href="area-weighted-re-aggregation.html#cb25-2" tabindex="-1"></a>  <span class="fu">left_join</span>(watersheds_sum, <span class="at">by =</span> <span class="fu">join_by</span>(name)) <span class="sc">|&gt;</span> </span>
-<span id="cb25-3"><a href="area-weighted-re-aggregation.html#cb25-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pctminority =</span> <span class="fu">round</span>(summinor <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb25-4"><a href="area-weighted-re-aggregation.html#cb25-4" tabindex="-1"></a>         <span class="at">pctpov =</span> <span class="fu">round</span>(sumpov <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
-<span id="cb25-5"><a href="area-weighted-re-aggregation.html#cb25-5" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="area-weighted-re-aggregation.html#cb25-6" tabindex="-1"></a>watersheds_pop <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="area-weighted-re-aggregation.html#cb37-1" tabindex="-1"></a>watersheds_pop <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> </span>
+<span id="cb37-2"><a href="area-weighted-re-aggregation.html#cb37-2" tabindex="-1"></a>  <span class="fu">left_join</span>(watersheds_sum, <span class="at">by =</span> <span class="fu">join_by</span>(name)) <span class="sc">|&gt;</span> </span>
+<span id="cb37-3"><a href="area-weighted-re-aggregation.html#cb37-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pctminority =</span> <span class="fu">round</span>(summinor <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb37-4"><a href="area-weighted-re-aggregation.html#cb37-4" tabindex="-1"></a>         <span class="at">pctpov =</span> <span class="fu">round</span>(sumpov <span class="sc">/</span> sumpop <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
+<span id="cb37-5"><a href="area-weighted-re-aggregation.html#cb37-5" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="area-weighted-re-aggregation.html#cb37-6" tabindex="-1"></a>watersheds_pop <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -585,15 +593,15 @@ Another approach could have summarized the attribute data <em>without</em> the g
 </tr>
 </tbody>
 </table>
-<p>And map the percentage in poverty in watersheds.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="area-weighted-re-aggregation.html#cb26-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb26-2"><a href="area-weighted-re-aggregation.html#cb26-2" tabindex="-1"></a>  watersheds_pop <span class="sc">|&gt;</span> </span>
-<span id="cb26-3"><a href="area-weighted-re-aggregation.html#cb26-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
-<span id="cb26-4"><a href="area-weighted-re-aggregation.html#cb26-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;pctminority&quot;</span>,</span>
-<span id="cb26-5"><a href="area-weighted-re-aggregation.html#cb26-5" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
-<span id="cb26-6"><a href="area-weighted-re-aggregation.html#cb26-6" tabindex="-1"></a>                <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb26-7"><a href="area-weighted-re-aggregation.html#cb26-7" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;pctminority&quot;</span>)</span></code></pre></div>
-<p><img src="results/figures/unnamed-chunk-25-1.png" width="768" /></p>
+<p>And map the percentage of people in poverty in watersheds.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="area-weighted-re-aggregation.html#cb38-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb38-2"><a href="area-weighted-re-aggregation.html#cb38-2" tabindex="-1"></a>  watersheds_pop <span class="sc">|&gt;</span> </span>
+<span id="cb38-3"><a href="area-weighted-re-aggregation.html#cb38-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb38-4"><a href="area-weighted-re-aggregation.html#cb38-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;pctminority&quot;</span>,</span>
+<span id="cb38-5"><a href="area-weighted-re-aggregation.html#cb38-5" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb38-6"><a href="area-weighted-re-aggregation.html#cb38-6" tabindex="-1"></a>                <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb38-7"><a href="area-weighted-re-aggregation.html#cb38-7" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;pctminority&quot;</span>)</span></code></pre></div>
+<p><img src="results/figures/unnamed-chunk-38-1.png" width="768" /></p>
 
 </div>
 </div>
@@ -602,7 +610,7 @@ Another approach could have summarized the attribute data <em>without</em> the g
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="measuring-shapes.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
