@@ -24,12 +24,13 @@ watersheds_shp |> st_drop_geometry() |> knitr::kable()
 ```
 
 We can also calculate the compactness as a function of perimeter and area.
+The Polsby-Popper *isoperimetric ratio* is 4 * *pi* * *A* / *P*^2
 
 ```{r}
 watersheds_shp <- mutate(watersheds_shp, 
                      compact = round(
                        as.numeric(
-                         (400 * pi * warea) / wperim^2),
+                         (4 * pi * warea) / wperim^2),
                        2))
 
 watersheds_shp |> st_drop_geometry() |> knitr::kable()
@@ -42,9 +43,9 @@ Let's map them.
 pointgrid_map +
   watersheds_shp |> 
     tm_shape() +
-    tm_polygons(col = "compact",
-                alpha = 0.5,
-                legend.show = FALSE) +
+    tm_polygons(fill = "compact",
+                fill_alpha = 0.5,
+                fill.legend = tm_legend_hide()) +
     tm_text("compact")
 ```
 
@@ -103,7 +104,7 @@ pointgrid_map +
 
 ## Convex hull
 
-Some measures of gerrymandering rely on the ratio of the area to the area of the convex hull or of the minimum bounding circle.
+Some measures of gerrymandering rely on the ratio of the area to the area of the convex hull or of the minimum bounding circle (Niemi et al. 1990).
 
 Let's calculate the convex hull.
 
@@ -138,7 +139,9 @@ watersheds_hull |> st_drop_geometry() |> knitr::kable()
 
 ## Minimum bounding circle
 
-Finally, let's find the minimum bounding circles.
+Another method of measuring compactness is to find the ratio of the area of the polygon and divide it by the area of its minimum bounding circle (Reock 1961).
+
+Let's find the minimum bounding circles of watersheds.
 This function is not yet included in the current `sf` package on CRAN, but it is in `lwgeom`.
 
 ```{r}
@@ -169,7 +172,7 @@ watersheds_boundcircle <- mutate(watersheds_boundcircle,
 watersheds_boundcircle |> st_drop_geometry() |> knitr::kable()
 ```
 
-## Summarize findings
+
 
 
 

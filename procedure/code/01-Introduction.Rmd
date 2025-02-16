@@ -26,8 +26,8 @@ You may also need to respond to prompts and warnings output to the console, incl
 - install the correct version of R for the time given and start an R session with that version
 - restart the R session and re-run the code block
 
-```{r}
-packages <- c("here", "tidyverse", "sf", "tmap", "lwgeom")
+```{r message=FALSE, warning=FALSE}
+packages <- c("here", "tidyverse", "sf", "tmap", "lwgeom", "kableExtra")
 
 # force all conflicts to become errors
 # if you load dplyr and use filter(), R has to guess whether you mean dplyr::filter() or stats::filter()
@@ -72,9 +72,6 @@ writeLines(
   capture.output(sessionInfo()),
   here("procedure", "environment", paste0("r-environment-", Sys.Date(), ".txt"))
 )
-
-# save package citations
-packages <- c("here", "tidyverse", "sf", "tmap", "lwgeom")
 
 knitr::write_bib(c(packages, c("knitr", "bookdown", "rmarkdown")), 
                  here('packages.bib'))

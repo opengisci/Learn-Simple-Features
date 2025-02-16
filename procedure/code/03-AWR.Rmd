@@ -51,7 +51,11 @@ fragments <- mutate(fragments,
                     aw_minor = aw * minority,
                     aw_pov = aw * poverty)
 
-fragments |> st_drop_geometry() |> knitr::kable(digits = 2)
+fragments |> st_drop_geometry() |> 
+  knitr::kable(digits = 2) |>
+  kable_styling() |> 
+  scroll_box(width = "100%", box_css = "border: 0px;")
+  
 ```
 
 ## Reaggregate

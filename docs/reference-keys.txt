@@ -9,7 +9,6 @@ centroids
 point-on-surface
 convex-hull
 minimum-bounding-circle
-summarize-findings
 area-weighted-re-aggregation
 calculate-source-areas
 disaggregate

@@ -52,6 +52,8 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -151,7 +153,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#point-on-surface"><i class="fa fa-check"></i><b>2.3</b> Point on surface</a></li>
 <li class="chapter" data-level="2.4" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#convex-hull"><i class="fa fa-check"></i><b>2.4</b> Convex hull</a></li>
 <li class="chapter" data-level="2.5" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#minimum-bounding-circle"><i class="fa fa-check"></i><b>2.5</b> Minimum bounding circle</a></li>
-<li class="chapter" data-level="2.6" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#summarize-findings"><i class="fa fa-check"></i><b>2.6</b> Summarize findings</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html"><i class="fa fa-check"></i><b>3</b> Area-weighted re-aggregation</a>
 <ul>
@@ -186,16 +187,16 @@ This <em>can</em> be helpful, but when it isn’t, it’s easy enough to convert
 <h2><span class="header-section-number">2.1</span> Area and Perimeter<a href="measuring-and-constructing-shapes.html#area-and-perimeter" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>What is the area of each watershed?
 You’ll need to know which column stores the geographic <em>geometry</em> data.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="measuring-and-constructing-shapes.html#cb27-1" tabindex="-1"></a>watersheds_shp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds, </span>
-<span id="cb27-2"><a href="measuring-and-constructing-shapes.html#cb27-2" tabindex="-1"></a>                     <span class="at">warea =</span> <span class="fu">st_area</span>(geom),</span>
-<span id="cb27-3"><a href="measuring-and-constructing-shapes.html#cb27-3" tabindex="-1"></a>                     <span class="at">wperim =</span> <span class="fu">st_perimeter</span>(geom))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="measuring-and-constructing-shapes.html#cb18-1" tabindex="-1"></a>watersheds_shp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds, </span>
+<span id="cb18-2"><a href="measuring-and-constructing-shapes.html#cb18-2" tabindex="-1"></a>                     <span class="at">warea =</span> <span class="fu">st_area</span>(geom),</span>
+<span id="cb18-3"><a href="measuring-and-constructing-shapes.html#cb18-3" tabindex="-1"></a>                     <span class="at">wperim =</span> <span class="fu">st_perimeter</span>(geom))</span></code></pre></div>
 <pre><code>## Warning: There was 1 warning in `stopifnot()`.
 ## ℹ In argument: `wperim = st_perimeter(geom)`.
 ## Caused by warning in `st_perimeter()`:
 ## ! &#39;st_perimeter&#39; is deprecated.
 ## Use &#39;sf::st_perimeter or lwgeom::st_perimeter_lwgeom&#39; instead.
 ## See help(&quot;Deprecated&quot;)</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="measuring-and-constructing-shapes.html#cb29-1" tabindex="-1"></a>watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="measuring-and-constructing-shapes.html#cb20-1" tabindex="-1"></a>watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -222,14 +223,15 @@ You’ll need to know which column stores the geographic <em>geometry</em> data.
 </tr>
 </tbody>
 </table>
-<p>We can also calculate the compactness as a function of perimeter and area.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="measuring-and-constructing-shapes.html#cb30-1" tabindex="-1"></a>watersheds_shp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_shp, </span>
-<span id="cb30-2"><a href="measuring-and-constructing-shapes.html#cb30-2" tabindex="-1"></a>                     <span class="at">compact =</span> <span class="fu">round</span>(</span>
-<span id="cb30-3"><a href="measuring-and-constructing-shapes.html#cb30-3" tabindex="-1"></a>                       <span class="fu">as.numeric</span>(</span>
-<span id="cb30-4"><a href="measuring-and-constructing-shapes.html#cb30-4" tabindex="-1"></a>                         (<span class="dv">400</span> <span class="sc">*</span> pi <span class="sc">*</span> warea) <span class="sc">/</span> wperim<span class="sc">^</span><span class="dv">2</span>),</span>
-<span id="cb30-5"><a href="measuring-and-constructing-shapes.html#cb30-5" tabindex="-1"></a>                       <span class="dv">2</span>))</span>
-<span id="cb30-6"><a href="measuring-and-constructing-shapes.html#cb30-6" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="measuring-and-constructing-shapes.html#cb30-7" tabindex="-1"></a>watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<p>We can also calculate the compactness as a function of perimeter and area.
+The Polsby-Popper <em>isoperimetric ratio</em> is 4 * <em>pi</em> * <em>A</em> / <em>P</em>^2</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="measuring-and-constructing-shapes.html#cb21-1" tabindex="-1"></a>watersheds_shp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_shp, </span>
+<span id="cb21-2"><a href="measuring-and-constructing-shapes.html#cb21-2" tabindex="-1"></a>                     <span class="at">compact =</span> <span class="fu">round</span>(</span>
+<span id="cb21-3"><a href="measuring-and-constructing-shapes.html#cb21-3" tabindex="-1"></a>                       <span class="fu">as.numeric</span>(</span>
+<span id="cb21-4"><a href="measuring-and-constructing-shapes.html#cb21-4" tabindex="-1"></a>                         (<span class="dv">4</span> <span class="sc">*</span> pi <span class="sc">*</span> warea) <span class="sc">/</span> wperim<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb21-5"><a href="measuring-and-constructing-shapes.html#cb21-5" tabindex="-1"></a>                       <span class="dv">2</span>))</span>
+<span id="cb21-6"><a href="measuring-and-constructing-shapes.html#cb21-6" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="measuring-and-constructing-shapes.html#cb21-7" tabindex="-1"></a>watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -244,31 +246,31 @@ You’ll need to know which column stores the geographic <em>geometry</em> data.
 <td align="left">Moshassuck</td>
 <td align="right">1031250 [m^2]</td>
 <td align="right">4560.660 [m]</td>
-<td align="right">62.30</td>
+<td align="right">0.62</td>
 </tr>
 <tr class="even">
 <td align="left">Narragansett</td>
 <td align="right">593750 [m^2]</td>
 <td align="right">3353.553 [m]</td>
-<td align="right">66.34</td>
+<td align="right">0.66</td>
 </tr>
 <tr class="odd">
 <td align="left">Blackstone</td>
 <td align="right">2375000 [m^2]</td>
 <td align="right">7914.214 [m]</td>
-<td align="right">47.65</td>
+<td align="right">0.48</td>
 </tr>
 </tbody>
 </table>
 <p>Do the compactness scores make sense?
 Let’s map them.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="measuring-and-constructing-shapes.html#cb31-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb31-2"><a href="measuring-and-constructing-shapes.html#cb31-2" tabindex="-1"></a>  watersheds_shp <span class="sc">|&gt;</span> </span>
-<span id="cb31-3"><a href="measuring-and-constructing-shapes.html#cb31-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
-<span id="cb31-4"><a href="measuring-and-constructing-shapes.html#cb31-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;compact&quot;</span>,</span>
-<span id="cb31-5"><a href="measuring-and-constructing-shapes.html#cb31-5" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
-<span id="cb31-6"><a href="measuring-and-constructing-shapes.html#cb31-6" tabindex="-1"></a>                <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb31-7"><a href="measuring-and-constructing-shapes.html#cb31-7" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;compact&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="measuring-and-constructing-shapes.html#cb22-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb22-2"><a href="measuring-and-constructing-shapes.html#cb22-2" tabindex="-1"></a>  watersheds_shp <span class="sc">|&gt;</span> </span>
+<span id="cb22-3"><a href="measuring-and-constructing-shapes.html#cb22-3" tabindex="-1"></a>    <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb22-4"><a href="measuring-and-constructing-shapes.html#cb22-4" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;compact&quot;</span>,</span>
+<span id="cb22-5"><a href="measuring-and-constructing-shapes.html#cb22-5" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb22-6"><a href="measuring-and-constructing-shapes.html#cb22-6" tabindex="-1"></a>                <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="measuring-and-constructing-shapes.html#cb22-7" tabindex="-1"></a>    <span class="fu">tm_text</span>(<span class="st">&quot;compact&quot;</span>)</span></code></pre></div>
 <pre><code>## </code></pre>
 <pre><code>## ── tmap v3 code detected ──────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
 <pre><code>## [v3-&gt;v4] `tm_polygons()`: use &#39;fill&#39; for the fill color of polygons/symbols (instead of &#39;col&#39;), and &#39;col&#39; for the
@@ -283,63 +285,63 @@ Let’s map them.</p>
 <h2><span class="header-section-number">2.2</span> Centroids<a href="measuring-and-constructing-shapes.html#centroids" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We also have a few methods for converting polygons to points.</p>
 <p><em>Centroids</em> are located at the center of gravity of a polygon.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="measuring-and-constructing-shapes.html#cb35-1" tabindex="-1"></a>watersheds_centroids <span class="ot">&lt;-</span> watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_centroid</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="measuring-and-constructing-shapes.html#cb26-1" tabindex="-1"></a>watersheds_centroids <span class="ot">&lt;-</span> watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_centroid</span>()</span></code></pre></div>
 <p>Map the centroid points as blue dots.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="measuring-and-constructing-shapes.html#cb36-1" tabindex="-1"></a>watersheds_centroids_map <span class="ot">&lt;-</span> watersheds_centroids <span class="sc">|&gt;</span> </span>
-<span id="cb36-2"><a href="measuring-and-constructing-shapes.html#cb36-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
-<span id="cb36-3"><a href="measuring-and-constructing-shapes.html#cb36-3" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(</span>
-<span id="cb36-4"><a href="measuring-and-constructing-shapes.html#cb36-4" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.8</span>,</span>
-<span id="cb36-5"><a href="measuring-and-constructing-shapes.html#cb36-5" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>,</span>
-<span id="cb36-6"><a href="measuring-and-constructing-shapes.html#cb36-6" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="fl">0.8</span></span>
-<span id="cb36-7"><a href="measuring-and-constructing-shapes.html#cb36-7" tabindex="-1"></a>  )</span>
-<span id="cb36-8"><a href="measuring-and-constructing-shapes.html#cb36-8" tabindex="-1"></a></span>
-<span id="cb36-9"><a href="measuring-and-constructing-shapes.html#cb36-9" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb36-10"><a href="measuring-and-constructing-shapes.html#cb36-10" tabindex="-1"></a>  watersheds_map <span class="sc">+</span></span>
-<span id="cb36-11"><a href="measuring-and-constructing-shapes.html#cb36-11" tabindex="-1"></a>  watersheds_centroids_map</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="measuring-and-constructing-shapes.html#cb27-1" tabindex="-1"></a>watersheds_centroids_map <span class="ot">&lt;-</span> watersheds_centroids <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="measuring-and-constructing-shapes.html#cb27-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb27-3"><a href="measuring-and-constructing-shapes.html#cb27-3" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(</span>
+<span id="cb27-4"><a href="measuring-and-constructing-shapes.html#cb27-4" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.8</span>,</span>
+<span id="cb27-5"><a href="measuring-and-constructing-shapes.html#cb27-5" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb27-6"><a href="measuring-and-constructing-shapes.html#cb27-6" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb27-7"><a href="measuring-and-constructing-shapes.html#cb27-7" tabindex="-1"></a>  )</span>
+<span id="cb27-8"><a href="measuring-and-constructing-shapes.html#cb27-8" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="measuring-and-constructing-shapes.html#cb27-9" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb27-10"><a href="measuring-and-constructing-shapes.html#cb27-10" tabindex="-1"></a>  watersheds_map <span class="sc">+</span></span>
+<span id="cb27-11"><a href="measuring-and-constructing-shapes.html#cb27-11" tabindex="-1"></a>  watersheds_centroids_map</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-18-1.png" width="768" /></p>
 </div>
 <div id="point-on-surface" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Point on surface<a href="measuring-and-constructing-shapes.html#point-on-surface" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Centroids sometimes fall outside of the polygon, which might produce undesirable results for cartography or topological analysis. In those cases <code>point_on_surface</code> may be better.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="measuring-and-constructing-shapes.html#cb37-1" tabindex="-1"></a>watersheds_pt_on_surf <span class="ot">&lt;-</span> watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_point_on_surface</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="measuring-and-constructing-shapes.html#cb28-1" tabindex="-1"></a>watersheds_pt_on_surf <span class="ot">&lt;-</span> watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_point_on_surface</span>()</span></code></pre></div>
 <p>Let’s see the points on surface in relation to the centroids.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="measuring-and-constructing-shapes.html#cb38-1" tabindex="-1"></a>watersheds_points_on_surface_map <span class="ot">&lt;-</span> watersheds_pt_on_surf <span class="sc">|&gt;</span> </span>
-<span id="cb38-2"><a href="measuring-and-constructing-shapes.html#cb38-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
-<span id="cb38-3"><a href="measuring-and-constructing-shapes.html#cb38-3" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(</span>
-<span id="cb38-4"><a href="measuring-and-constructing-shapes.html#cb38-4" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.8</span>,</span>
-<span id="cb38-5"><a href="measuring-and-constructing-shapes.html#cb38-5" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb38-6"><a href="measuring-and-constructing-shapes.html#cb38-6" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="fl">0.8</span></span>
-<span id="cb38-7"><a href="measuring-and-constructing-shapes.html#cb38-7" tabindex="-1"></a>  )</span>
-<span id="cb38-8"><a href="measuring-and-constructing-shapes.html#cb38-8" tabindex="-1"></a></span>
-<span id="cb38-9"><a href="measuring-and-constructing-shapes.html#cb38-9" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb38-10"><a href="measuring-and-constructing-shapes.html#cb38-10" tabindex="-1"></a>  watersheds_map <span class="sc">+</span></span>
-<span id="cb38-11"><a href="measuring-and-constructing-shapes.html#cb38-11" tabindex="-1"></a>  watersheds_centroids_map <span class="sc">+</span></span>
-<span id="cb38-12"><a href="measuring-and-constructing-shapes.html#cb38-12" tabindex="-1"></a>  watersheds_points_on_surface_map</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="measuring-and-constructing-shapes.html#cb29-1" tabindex="-1"></a>watersheds_points_on_surface_map <span class="ot">&lt;-</span> watersheds_pt_on_surf <span class="sc">|&gt;</span> </span>
+<span id="cb29-2"><a href="measuring-and-constructing-shapes.html#cb29-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb29-3"><a href="measuring-and-constructing-shapes.html#cb29-3" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(</span>
+<span id="cb29-4"><a href="measuring-and-constructing-shapes.html#cb29-4" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.8</span>,</span>
+<span id="cb29-5"><a href="measuring-and-constructing-shapes.html#cb29-5" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb29-6"><a href="measuring-and-constructing-shapes.html#cb29-6" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb29-7"><a href="measuring-and-constructing-shapes.html#cb29-7" tabindex="-1"></a>  )</span>
+<span id="cb29-8"><a href="measuring-and-constructing-shapes.html#cb29-8" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="measuring-and-constructing-shapes.html#cb29-9" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb29-10"><a href="measuring-and-constructing-shapes.html#cb29-10" tabindex="-1"></a>  watersheds_map <span class="sc">+</span></span>
+<span id="cb29-11"><a href="measuring-and-constructing-shapes.html#cb29-11" tabindex="-1"></a>  watersheds_centroids_map <span class="sc">+</span></span>
+<span id="cb29-12"><a href="measuring-and-constructing-shapes.html#cb29-12" tabindex="-1"></a>  watersheds_points_on_surface_map</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-20-1.png" width="768" /></p>
 </div>
 <div id="convex-hull" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Convex hull<a href="measuring-and-constructing-shapes.html#convex-hull" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Some measures of gerrymandering rely on the ratio of the area to the area of the convex hull or of the minimum bounding circle.</p>
+<p>Some measures of gerrymandering rely on the ratio of the area to the area of the convex hull or of the minimum bounding circle (Niemi et al. 1990).</p>
 <p>Let’s calculate the convex hull.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="measuring-and-constructing-shapes.html#cb39-1" tabindex="-1"></a>watersheds_hull <span class="ot">&lt;-</span> watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_convex_hull</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="measuring-and-constructing-shapes.html#cb30-1" tabindex="-1"></a>watersheds_hull <span class="ot">&lt;-</span> watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_convex_hull</span>()</span></code></pre></div>
 <p>And visualize the resulting polygons.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="measuring-and-constructing-shapes.html#cb40-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb40-2"><a href="measuring-and-constructing-shapes.html#cb40-2" tabindex="-1"></a>  watersheds_map <span class="sc">+</span></span>
-<span id="cb40-3"><a href="measuring-and-constructing-shapes.html#cb40-3" tabindex="-1"></a>  <span class="fu">tm_shape</span>(watersheds_hull) <span class="sc">+</span></span>
-<span id="cb40-4"><a href="measuring-and-constructing-shapes.html#cb40-4" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
-<span id="cb40-5"><a href="measuring-and-constructing-shapes.html#cb40-5" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb40-6"><a href="measuring-and-constructing-shapes.html#cb40-6" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">3</span>,</span>
-<span id="cb40-7"><a href="measuring-and-constructing-shapes.html#cb40-7" tabindex="-1"></a>    <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>,</span>
-<span id="cb40-8"><a href="measuring-and-constructing-shapes.html#cb40-8" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>,</span>
-<span id="cb40-9"><a href="measuring-and-constructing-shapes.html#cb40-9" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="fl">0.2</span></span>
-<span id="cb40-10"><a href="measuring-and-constructing-shapes.html#cb40-10" tabindex="-1"></a>  ) </span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="measuring-and-constructing-shapes.html#cb31-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb31-2"><a href="measuring-and-constructing-shapes.html#cb31-2" tabindex="-1"></a>  watersheds_map <span class="sc">+</span></span>
+<span id="cb31-3"><a href="measuring-and-constructing-shapes.html#cb31-3" tabindex="-1"></a>  <span class="fu">tm_shape</span>(watersheds_hull) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="measuring-and-constructing-shapes.html#cb31-4" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
+<span id="cb31-5"><a href="measuring-and-constructing-shapes.html#cb31-5" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb31-6"><a href="measuring-and-constructing-shapes.html#cb31-6" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">3</span>,</span>
+<span id="cb31-7"><a href="measuring-and-constructing-shapes.html#cb31-7" tabindex="-1"></a>    <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>,</span>
+<span id="cb31-8"><a href="measuring-and-constructing-shapes.html#cb31-8" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb31-9"><a href="measuring-and-constructing-shapes.html#cb31-9" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="fl">0.2</span></span>
+<span id="cb31-10"><a href="measuring-and-constructing-shapes.html#cb31-10" tabindex="-1"></a>  ) </span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-22-1.png" width="768" /></p>
 <p>How would the ratios of area to area of the convex hull come out?
 The watersheds contributing to more overlapping areas whould result in lower compactness scores.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="measuring-and-constructing-shapes.html#cb41-1" tabindex="-1"></a>watersheds_hull <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_hull,</span>
-<span id="cb41-2"><a href="measuring-and-constructing-shapes.html#cb41-2" tabindex="-1"></a>                          <span class="at">compact_hull =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(warea <span class="sc">/</span> <span class="fu">st_area</span>(geom)), <span class="dv">2</span>))</span>
-<span id="cb41-3"><a href="measuring-and-constructing-shapes.html#cb41-3" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="measuring-and-constructing-shapes.html#cb41-4" tabindex="-1"></a>watersheds_hull <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="measuring-and-constructing-shapes.html#cb32-1" tabindex="-1"></a>watersheds_hull <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_hull,</span>
+<span id="cb32-2"><a href="measuring-and-constructing-shapes.html#cb32-2" tabindex="-1"></a>                          <span class="at">compact_hull =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(warea <span class="sc">/</span> <span class="fu">st_area</span>(geom)), <span class="dv">2</span>))</span>
+<span id="cb32-3"><a href="measuring-and-constructing-shapes.html#cb32-3" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="measuring-and-constructing-shapes.html#cb32-4" tabindex="-1"></a>watersheds_hull <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -355,21 +357,21 @@ The watersheds contributing to more overlapping areas whould result in lower com
 <td align="left">Moshassuck</td>
 <td align="right">1031250 [m^2]</td>
 <td align="right">4560.660 [m]</td>
-<td align="right">62.30</td>
+<td align="right">0.62</td>
 <td align="right">1.00</td>
 </tr>
 <tr class="even">
 <td align="left">Narragansett</td>
 <td align="right">593750 [m^2]</td>
 <td align="right">3353.553 [m]</td>
-<td align="right">66.34</td>
+<td align="right">0.66</td>
 <td align="right">0.90</td>
 </tr>
 <tr class="odd">
 <td align="left">Blackstone</td>
 <td align="right">2375000 [m^2]</td>
 <td align="right">7914.214 [m]</td>
-<td align="right">47.65</td>
+<td align="right">0.48</td>
 <td align="right">0.82</td>
 </tr>
 </tbody>
@@ -377,26 +379,27 @@ The watersheds contributing to more overlapping areas whould result in lower com
 </div>
 <div id="minimum-bounding-circle" class="section level2 hasAnchor" number="2.5">
 <h2><span class="header-section-number">2.5</span> Minimum bounding circle<a href="measuring-and-constructing-shapes.html#minimum-bounding-circle" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Finally, let’s find the minimum bounding circles.
+<p>Another method of measuring compactness is to find the ratio of the area of the polygon and divide it by the area of its minimum bounding circle (Reock 1961).</p>
+<p>Let’s find the minimum bounding circles of watersheds.
 This function is not yet included in the current <code>sf</code> package on CRAN, but it is in <code>lwgeom</code>.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="measuring-and-constructing-shapes.html#cb42-1" tabindex="-1"></a>watersheds_boundcircle <span class="ot">&lt;-</span> watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_minimum_bounding_circle</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="measuring-and-constructing-shapes.html#cb33-1" tabindex="-1"></a>watersheds_boundcircle <span class="ot">&lt;-</span> watersheds_shp <span class="sc">|&gt;</span> <span class="fu">st_minimum_bounding_circle</span>()</span></code></pre></div>
 <p>Let’s map the resulting circle polygons.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="measuring-and-constructing-shapes.html#cb43-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb43-2"><a href="measuring-and-constructing-shapes.html#cb43-2" tabindex="-1"></a>  watersheds_map <span class="sc">+</span></span>
-<span id="cb43-3"><a href="measuring-and-constructing-shapes.html#cb43-3" tabindex="-1"></a>  <span class="fu">tm_shape</span>(watersheds_boundcircle) <span class="sc">+</span></span>
-<span id="cb43-4"><a href="measuring-and-constructing-shapes.html#cb43-4" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
-<span id="cb43-5"><a href="measuring-and-constructing-shapes.html#cb43-5" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb43-6"><a href="measuring-and-constructing-shapes.html#cb43-6" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">3</span>,</span>
-<span id="cb43-7"><a href="measuring-and-constructing-shapes.html#cb43-7" tabindex="-1"></a>    <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>,</span>
-<span id="cb43-8"><a href="measuring-and-constructing-shapes.html#cb43-8" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>,</span>
-<span id="cb43-9"><a href="measuring-and-constructing-shapes.html#cb43-9" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="fl">0.2</span></span>
-<span id="cb43-10"><a href="measuring-and-constructing-shapes.html#cb43-10" tabindex="-1"></a>  ) </span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="measuring-and-constructing-shapes.html#cb34-1" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb34-2"><a href="measuring-and-constructing-shapes.html#cb34-2" tabindex="-1"></a>  watersheds_map <span class="sc">+</span></span>
+<span id="cb34-3"><a href="measuring-and-constructing-shapes.html#cb34-3" tabindex="-1"></a>  <span class="fu">tm_shape</span>(watersheds_boundcircle) <span class="sc">+</span></span>
+<span id="cb34-4"><a href="measuring-and-constructing-shapes.html#cb34-4" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
+<span id="cb34-5"><a href="measuring-and-constructing-shapes.html#cb34-5" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb34-6"><a href="measuring-and-constructing-shapes.html#cb34-6" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">3</span>,</span>
+<span id="cb34-7"><a href="measuring-and-constructing-shapes.html#cb34-7" tabindex="-1"></a>    <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>,</span>
+<span id="cb34-8"><a href="measuring-and-constructing-shapes.html#cb34-8" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb34-9"><a href="measuring-and-constructing-shapes.html#cb34-9" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="fl">0.2</span></span>
+<span id="cb34-10"><a href="measuring-and-constructing-shapes.html#cb34-10" tabindex="-1"></a>  ) </span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-25-1.png" width="768" /></p>
 <p>Finally, let’s calculate the ratio of area of the polygon to the area of its minimum bounding circle.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="measuring-and-constructing-shapes.html#cb44-1" tabindex="-1"></a>watersheds_boundcircle <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_boundcircle,</span>
-<span id="cb44-2"><a href="measuring-and-constructing-shapes.html#cb44-2" tabindex="-1"></a>                          <span class="at">compact_circ =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(warea <span class="sc">/</span> <span class="fu">st_area</span>(geom)), <span class="dv">2</span>))</span>
-<span id="cb44-3"><a href="measuring-and-constructing-shapes.html#cb44-3" tabindex="-1"></a></span>
-<span id="cb44-4"><a href="measuring-and-constructing-shapes.html#cb44-4" tabindex="-1"></a>watersheds_boundcircle <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="measuring-and-constructing-shapes.html#cb35-1" tabindex="-1"></a>watersheds_boundcircle <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_boundcircle,</span>
+<span id="cb35-2"><a href="measuring-and-constructing-shapes.html#cb35-2" tabindex="-1"></a>                          <span class="at">compact_circ =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(warea <span class="sc">/</span> <span class="fu">st_area</span>(geom)), <span class="dv">2</span>))</span>
+<span id="cb35-3"><a href="measuring-and-constructing-shapes.html#cb35-3" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="measuring-and-constructing-shapes.html#cb35-4" tabindex="-1"></a>watersheds_boundcircle <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -412,28 +415,25 @@ This function is not yet included in the current <code>sf</code> package on CRAN
 <td align="left">Moshassuck</td>
 <td align="right">1031250 [m^2]</td>
 <td align="right">4560.660 [m]</td>
-<td align="right">62.30</td>
+<td align="right">0.62</td>
 <td align="right">0.36</td>
 </tr>
 <tr class="even">
 <td align="left">Narragansett</td>
 <td align="right">593750 [m^2]</td>
 <td align="right">3353.553 [m]</td>
-<td align="right">66.34</td>
+<td align="right">0.66</td>
 <td align="right">0.48</td>
 </tr>
 <tr class="odd">
 <td align="left">Blackstone</td>
 <td align="right">2375000 [m^2]</td>
 <td align="right">7914.214 [m]</td>
-<td align="right">47.65</td>
+<td align="right">0.48</td>
 <td align="right">0.38</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="summarize-findings" class="section level2 hasAnchor" number="2.6">
-<h2><span class="header-section-number">2.6</span> Summarize findings<a href="measuring-and-constructing-shapes.html#summarize-findings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 
 </div>
 </div>
