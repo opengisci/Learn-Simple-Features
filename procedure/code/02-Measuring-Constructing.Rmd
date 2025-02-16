@@ -2,11 +2,7 @@
 output: html_document
 ---
 
-```{r include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-# Measuring shapes
+# Measuring and constructing shapes
 
 Let's practice using spatial functions to measure and characterize the shapes of polygons using the example of `watersheds`.
 All of these measurements are dependent upon the accuracy of the map projection in which the data is stored.
@@ -63,16 +59,21 @@ We also have a few methods for converting polygons to points.
 ```{r warning=FALSE}
 watersheds_centroids <- watersheds_shp |> st_centroid()
 ```
-Here are the centroids:
+
+Map the centroid points as blue dots.
 
 ```{r}
+watersheds_centroids_map <- watersheds_centroids |> 
+  tm_shape() +
+  tm_symbols(
+    size = 0.8,
+    fill = "blue",
+    fill_alpha = 0.8
+  )
+
 pointgrid_map +
   watersheds_map +
-  tm_shape(watersheds_centroids) +
-  tm_symbols(
-    size = 1,
-    col = "blue"
-  )
+  watersheds_centroids_map
 ```
 
 ## Point on surface
@@ -86,18 +87,18 @@ watersheds_pt_on_surf <- watersheds_shp |> st_point_on_surface()
 Let's see the points on surface in relation to the centroids.
 
 ```{r}
+watersheds_points_on_surface_map <- watersheds_pt_on_surf |> 
+  tm_shape() +
+  tm_symbols(
+    size = 0.8,
+    fill = "white",
+    fill_alpha = 0.8
+  )
+
 pointgrid_map +
   watersheds_map +
-  tm_shape(watersheds_centroids) +
-  tm_symbols(
-    size = 1,
-    col = "blue"
-  ) +
-  tm_shape(watersheds_pt_on_surf) +
-  tm_symbols(
-    size = 0.5,
-    col = "white"
-  )
+  watersheds_centroids_map +
+  watersheds_points_on_surface_map
 ```
 
 ## Convex hull
@@ -117,11 +118,11 @@ pointgrid_map +
   watersheds_map +
   tm_shape(watersheds_hull) +
   tm_polygons(
-    border.col = "white",
-    col = "red",
+    col = "white",
     lwd = 3,
     lty = "dotted",
-    alpha = 0.2
+    fill = "red",
+    fill_alpha = 0.2
   ) 
 ```
 
@@ -151,11 +152,11 @@ pointgrid_map +
   watersheds_map +
   tm_shape(watersheds_boundcircle) +
   tm_polygons(
-    border.col = "white",
-    col = "red",
+    col = "white",
     lwd = 3,
     lty = "dotted",
-    alpha = 0.2
+    fill = "red",
+    fill_alpha = 0.2
   ) 
 ```
 
@@ -169,4 +170,6 @@ watersheds_boundcircle |> st_drop_geometry() |> knitr::kable()
 ```
 
 ## Summarize findings
+
+
 

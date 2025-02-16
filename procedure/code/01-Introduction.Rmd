@@ -2,8 +2,82 @@
 output: html_document
 ---
 
-```{r include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+## Computational environment in R
+
+We set up a computational environment for spatial analysis in R using the `groundhog` package.
+This package allows you to specify a date at which the analysis was developed and a list of packages required.
+From there, groundhog checks for a version of R appropriate for that date and installs the latest versions of the required packages as of that date.
+
+This is particularly important in the context of spatial data science because the packages we use have a history of major version upgrades without backward capability.
+For example, version 4.0 of the `tmap` package for thematic mapping cannot be used to run all code written for version 3: most of the code will work with warnings, but not all.
+
+In this book, we use:
+
+- `here` to manage reproducible file paths
+- `tidyverse` for data wrangling and graphing
+- `sf` for vector data and algorithms aligned with the *simple features* standards
+- `tmap` for cartography
+- `lwgeom` for minimum bounding circles and geodesic calculations
+
+The code block below may need to be run multiple times to get the full environment working.
+You may also need to respond to prompts and warnings output to the console, including:
+
+- `ok` for permission to write groundhog files to the groundhog folder
+- install the correct version of R for the time given and start an R session with that version
+- restart the R session and re-run the code block
+
+```{r}
+packages <- c("here", "tidyverse", "sf", "tmap", "lwgeom")
+
+# force all conflicts to become errors
+# if you load dplyr and use filter(), R has to guess whether you mean dplyr::filter() or stats::filter()
+# the conflicted package forces you to be explicit about this
+# disable at your own peril
+# https://conflicted.r-lib.org/
+require(conflicted)
+
+# load and install required packages
+# https://groundhogr.com/
+if (!require(groundhog)) {
+  install.packages("groundhog")
+  require(groundhog)
+}
+
+# this date will be used to determine the versions of R and your packages
+# it is best practice to keep R and its packages up to date
+groundhog.day <- "2025-02-01"
+
+# you may want to use set.groundhog.folder() to choose where to install packages under groundhog
+# the folder should be on the same drive as your R installation, and should not be synced to the cloud
+
+# this replaces any library() or require() calls
+groundhog.library(packages, groundhog.day)
+
+# set up default knitr parameters: https://yihui.org/knitr/options/
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.retina = 4,
+  fig.width = 8,
+  fig.path = paste0(here("results", "figures"), "/")
+)
+```
+
+Record the established computational environment for R.
+
+```{r eval=FALSE}
+sessionInfo()
+
+# alternatively, use devtools::session_info() for better results
+writeLines(
+  capture.output(sessionInfo()),
+  here("procedure", "environment", paste0("r-environment-", Sys.Date(), ".txt"))
+)
+
+# save package citations
+packages <- c("here", "tidyverse", "sf", "tmap", "lwgeom")
+
+knitr::write_bib(c(packages, c("knitr", "bookdown", "rmarkdown")), 
+                 here('packages.bib'))
 ```
 
 ## Hello, Central Falls world
@@ -144,4 +218,3 @@ pointgrid_map +
   watersheds_map
 ```
 
-I am not certain why the `fontface = "italic"` option in the `tm_text()` function is not having any effect on the font face.

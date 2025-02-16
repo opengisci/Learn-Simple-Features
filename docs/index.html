@@ -23,7 +23,7 @@
 <meta name="author" content="Joseph Holler" />
 
 
-<meta name="date" content="2025-02-14" />
+<meta name="date" content="2025-02-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 
-<link rel="next" href="measuring-shapes.html"/>
+<link rel="next" href="measuring-and-constructing-shapes.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -141,13 +141,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#abstract"><i class="fa fa-check"></i><b>1.1</b> Abstract</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#study-metadata"><i class="fa fa-check"></i><b>1.2</b> Study Metadata</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#hello-central-falls-world"><i class="fa fa-check"></i><b>1.3</b> Hello, Central Falls world</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#computational-environment-in-r"><i class="fa fa-check"></i><b>1.3</b> Computational environment in R</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#hello-central-falls-world"><i class="fa fa-check"></i><b>1.4</b> Hello, Central Falls world</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="measuring-shapes.html"><a href="measuring-shapes.html"><i class="fa fa-check"></i><b>2</b> Measuring shapes</a>
+<li class="chapter" data-level="2" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html"><i class="fa fa-check"></i><b>2</b> Measuring and constructing shapes</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="measuring-shapes.html"><a href="measuring-shapes.html#area-and-perimeter"><i class="fa fa-check"></i><b>2.1</b> Area and Perimeter</a></li>
-<li class="chapter" data-level="2.2" data-path="measuring-shapes.html"><a href="measuring-shapes.html#whats-the-point"><i class="fa fa-check"></i><b>2.2</b> What’s the point?</a></li>
-<li class="chapter" data-level="2.3" data-path="measuring-shapes.html"><a href="measuring-shapes.html#minimum-bounding-geometries"><i class="fa fa-check"></i><b>2.3</b> Minimum bounding geometries</a></li>
+<li class="chapter" data-level="2.1" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#area-and-perimeter"><i class="fa fa-check"></i><b>2.1</b> Area and Perimeter</a></li>
+<li class="chapter" data-level="2.2" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#centroids"><i class="fa fa-check"></i><b>2.2</b> Centroids</a></li>
+<li class="chapter" data-level="2.3" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#point-on-surface"><i class="fa fa-check"></i><b>2.3</b> Point on surface</a></li>
+<li class="chapter" data-level="2.4" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#convex-hull"><i class="fa fa-check"></i><b>2.4</b> Convex hull</a></li>
+<li class="chapter" data-level="2.5" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#minimum-bounding-circle"><i class="fa fa-check"></i><b>2.5</b> Minimum bounding circle</a></li>
+<li class="chapter" data-level="2.6" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#summarize-findings"><i class="fa fa-check"></i><b>2.6</b> Summarize findings</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="area-weighted-re-aggregation.html"><a href="area-weighted-re-aggregation.html"><i class="fa fa-check"></i><b>3</b> Area-weighted re-aggregation</a>
 <ul>
@@ -175,7 +179,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Learn Simple Features for Spatial Analysis in R</h1>
 <p class="author"><em>Joseph Holler</em></p>
-<p class="date"><em>2025-02-14</em></p>
+<p class="date"><em>2025-02-16</em></p>
 </div>
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
@@ -196,21 +200,119 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 
 </div>
-<div id="hello-central-falls-world" class="section level2 hasAnchor" number="1.3">
-<h2><span class="header-section-number">1.3</span> Hello, Central Falls world<a href="index.html#hello-central-falls-world" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="computational-environment-in-r" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Computational environment in R<a href="index.html#computational-environment-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We set up a computational environment for spatial analysis in R using the <code>groundhog</code> package.
+This package allows you to specify a date at which the analysis was developed and a list of packages required.
+From there, groundhog checks for a version of R appropriate for that date and installs the latest versions of the required packages as of that date.</p>
+<p>This is particularly important in the context of spatial data science because the packages we use have a history of major version upgrades without backward capability.
+For example, version 4.0 of the <code>tmap</code> package for thematic mapping cannot be used to run all code written for version 3: most of the code will work with warnings, but not all.</p>
+<p>In this book, we use:</p>
+<ul>
+<li><code>here</code> to manage reproducible file paths</li>
+<li><code>tidyverse</code> for data wrangling and graphing</li>
+<li><code>sf</code> for vector data and algorithms aligned with the <em>simple features</em> standards</li>
+<li><code>tmap</code> for cartography</li>
+<li><code>lwgeom</code> for minimum bounding circles and geodesic calculations</li>
+</ul>
+<p>The code block below may need to be run multiple times to get the full environment working.
+You may also need to respond to prompts and warnings output to the console, including:</p>
+<ul>
+<li><code>ok</code> for permission to write groundhog files to the groundhog folder</li>
+<li>install the correct version of R for the time given and start an R session with that version</li>
+<li>restart the R session and re-run the code block</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;here&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;sf&quot;</span>, <span class="st">&quot;tmap&quot;</span>, <span class="st">&quot;lwgeom&quot;</span>)</span>
+<span id="cb1-2"><a href="index.html#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="index.html#cb1-3" tabindex="-1"></a><span class="co"># force all conflicts to become errors</span></span>
+<span id="cb1-4"><a href="index.html#cb1-4" tabindex="-1"></a><span class="co"># if you load dplyr and use filter(), R has to guess whether you mean dplyr::filter() or stats::filter()</span></span>
+<span id="cb1-5"><a href="index.html#cb1-5" tabindex="-1"></a><span class="co"># the conflicted package forces you to be explicit about this</span></span>
+<span id="cb1-6"><a href="index.html#cb1-6" tabindex="-1"></a><span class="co"># disable at your own peril</span></span>
+<span id="cb1-7"><a href="index.html#cb1-7" tabindex="-1"></a><span class="co"># https://conflicted.r-lib.org/</span></span>
+<span id="cb1-8"><a href="index.html#cb1-8" tabindex="-1"></a><span class="fu">require</span>(conflicted)</span></code></pre></div>
+<pre><code>## Loading required package: conflicted</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" tabindex="-1"></a><span class="co"># load and install required packages</span></span>
+<span id="cb3-2"><a href="index.html#cb3-2" tabindex="-1"></a><span class="co"># https://groundhogr.com/</span></span>
+<span id="cb3-3"><a href="index.html#cb3-3" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(groundhog)) {</span>
+<span id="cb3-4"><a href="index.html#cb3-4" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;groundhog&quot;</span>)</span>
+<span id="cb3-5"><a href="index.html#cb3-5" tabindex="-1"></a>  <span class="fu">require</span>(groundhog)</span>
+<span id="cb3-6"><a href="index.html#cb3-6" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Loading required package: groundhog</code></pre>
+<pre><code>## Attached: &#39;Groundhog&#39; (Version: 3.2.2)</code></pre>
+<pre><code>## Tips and troubleshooting: https://groundhogR.com</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="index.html#cb7-1" tabindex="-1"></a><span class="co"># this date will be used to determine the versions of R and your packages</span></span>
+<span id="cb7-2"><a href="index.html#cb7-2" tabindex="-1"></a><span class="co"># it is best practice to keep R and its packages up to date</span></span>
+<span id="cb7-3"><a href="index.html#cb7-3" tabindex="-1"></a>groundhog.day <span class="ot">&lt;-</span> <span class="st">&quot;2025-02-01&quot;</span></span>
+<span id="cb7-4"><a href="index.html#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="index.html#cb7-5" tabindex="-1"></a><span class="co"># you may want to use set.groundhog.folder() to choose where to install packages under groundhog</span></span>
+<span id="cb7-6"><a href="index.html#cb7-6" tabindex="-1"></a><span class="co"># the folder should be on the same drive as your R installation, and should not be synced to the cloud</span></span>
+<span id="cb7-7"><a href="index.html#cb7-7" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="index.html#cb7-8" tabindex="-1"></a><span class="co"># this replaces any library() or require() calls</span></span>
+<span id="cb7-9"><a href="index.html#cb7-9" tabindex="-1"></a><span class="fu">groundhog.library</span>(packages, groundhog.day)</span></code></pre></div>
+<pre><code>## here() starts at C:/git/opengisci/Learn-Simple-Features</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ─────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## Linking to GEOS 3.13.0, GDAL 3.10.1, PROJ 9.5.1; sf_use_s2() is TRUE
+## 
+## Linking to liblwgeom 3.0.0beta1 r16016, GEOS 3.13.0, PROJ 9.5.1
+## 
+## 
+## Attaching package: &#39;lwgeom&#39;
+## 
+## 
+## The following object is masked from &#39;package:sf&#39;:
+## 
+##     st_perimeter
+## 
+## 
+## [36mSuccessfully attached &#39;here_1.0.1&#39;[0m
+## 
+## [36mSuccessfully attached &#39;tidyverse_2.0.0&#39;[0m
+## 
+## [36mSuccessfully attached &#39;sf_1.0-19&#39;[0m
+## 
+## [36mSuccessfully attached &#39;tmap_4.0&#39;[0m
+## 
+## [36mSuccessfully attached &#39;lwgeom_0.2-14&#39;[0m</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="index.html#cb10-1" tabindex="-1"></a><span class="co"># set up default knitr parameters: https://yihui.org/knitr/options/</span></span>
+<span id="cb10-2"><a href="index.html#cb10-2" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<span id="cb10-3"><a href="index.html#cb10-3" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-4"><a href="index.html#cb10-4" tabindex="-1"></a>  <span class="at">fig.retina =</span> <span class="dv">4</span>,</span>
+<span id="cb10-5"><a href="index.html#cb10-5" tabindex="-1"></a>  <span class="at">fig.width =</span> <span class="dv">8</span>,</span>
+<span id="cb10-6"><a href="index.html#cb10-6" tabindex="-1"></a>  <span class="at">fig.path =</span> <span class="fu">paste0</span>(<span class="fu">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;figures&quot;</span>), <span class="st">&quot;/&quot;</span>)</span>
+<span id="cb10-7"><a href="index.html#cb10-7" tabindex="-1"></a>)</span></code></pre></div>
+<p>Record the established computational environment for R.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="index.html#cb11-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb11-2"><a href="index.html#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="index.html#cb11-3" tabindex="-1"></a><span class="co"># alternatively, use devtools::session_info() for better results</span></span>
+<span id="cb11-4"><a href="index.html#cb11-4" tabindex="-1"></a><span class="fu">writeLines</span>(</span>
+<span id="cb11-5"><a href="index.html#cb11-5" tabindex="-1"></a>  <span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>()),</span>
+<span id="cb11-6"><a href="index.html#cb11-6" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">&quot;procedure&quot;</span>, <span class="st">&quot;environment&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;r-environment-&quot;</span>, <span class="fu">Sys.Date</span>(), <span class="st">&quot;.txt&quot;</span>))</span>
+<span id="cb11-7"><a href="index.html#cb11-7" tabindex="-1"></a>)</span>
+<span id="cb11-8"><a href="index.html#cb11-8" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="index.html#cb11-9" tabindex="-1"></a><span class="co"># save package citations</span></span>
+<span id="cb11-10"><a href="index.html#cb11-10" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;here&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;sf&quot;</span>, <span class="st">&quot;tmap&quot;</span>, <span class="st">&quot;lwgeom&quot;</span>)</span>
+<span id="cb11-11"><a href="index.html#cb11-11" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="index.html#cb11-12" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">write_bib</span>(<span class="fu">c</span>(packages, <span class="fu">c</span>(<span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;bookdown&quot;</span>, <span class="st">&quot;rmarkdown&quot;</span>)), </span>
+<span id="cb11-13"><a href="index.html#cb11-13" tabindex="-1"></a>                 <span class="fu">here</span>(<span class="st">&#39;packages.bib&#39;</span>))</span></code></pre></div>
+</div>
+<div id="hello-central-falls-world" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Hello, Central Falls world<a href="index.html#hello-central-falls-world" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Let’s read a reference point grid from the geopackage <code>cf_given</code> in the layer <code>pointgrid</code>.</p>
 <p>As we read the data in, we’ll recalculate x- and y- offsets for label placement in <code>tmap</code>.<br />
 Those offsets worked well to place the grid reference letters and numbers just outside the grid in QGIS layouts, but they need to be adjusted to achieve the same placements in <code>tmap</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a>pointgrid <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_given.gpkg&quot;</span>), </span>
-<span id="cb1-2"><a href="index.html#cb1-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;pointgrid&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb1-3"><a href="index.html#cb1-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">xOff =</span> xOff <span class="sc">/</span> <span class="dv">4</span>,</span>
-<span id="cb1-4"><a href="index.html#cb1-4" tabindex="-1"></a>         <span class="at">yOff =</span> yOff <span class="sc">/</span> <span class="sc">-</span><span class="dv">4</span>,</span>
-<span id="cb1-5"><a href="index.html#cb1-5" tabindex="-1"></a>         <span class="at">order =</span> <span class="fu">case_when</span>(</span>
-<span id="cb1-6"><a href="index.html#cb1-6" tabindex="-1"></a>           order <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="fl">0.5</span>,</span>
-<span id="cb1-7"><a href="index.html#cb1-7" tabindex="-1"></a>           <span class="at">.default =</span> order</span>
-<span id="cb1-8"><a href="index.html#cb1-8" tabindex="-1"></a>         ))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="index.html#cb12-1" tabindex="-1"></a>pointgrid <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_given.gpkg&quot;</span>), </span>
+<span id="cb12-2"><a href="index.html#cb12-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;pointgrid&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="index.html#cb12-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">xOff =</span> xOff <span class="sc">/</span> <span class="dv">4</span>,</span>
+<span id="cb12-4"><a href="index.html#cb12-4" tabindex="-1"></a>         <span class="at">yOff =</span> yOff <span class="sc">/</span> <span class="sc">-</span><span class="dv">4</span>,</span>
+<span id="cb12-5"><a href="index.html#cb12-5" tabindex="-1"></a>         <span class="at">order =</span> <span class="fu">ifelse</span>(order <span class="sc">==</span> <span class="dv">0</span>, <span class="fl">0.5</span>, order),</span>
+<span id="cb12-6"><a href="index.html#cb12-6" tabindex="-1"></a>         <span class="at">label =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(label), <span class="st">&quot;&quot;</span>, label))</span></code></pre></div>
 <pre><code>## Reading layer `pointgrid&#39; from data source 
-##   `C:\GitHub\opengisci\Learn-Simple-Features\data\raw\public\cf_given.gpkg&#39; 
+##   `C:\git\opengisci\Learn-Simple-Features\data\raw\public\cf_given.gpkg&#39; 
 ##   using driver `GPKG&#39;
 ## Simple feature collection with 81 features and 8 fields
 ## Geometry type: POINT
@@ -220,25 +322,25 @@ Those offsets worked well to place the grid reference letters and numbers just o
 <p>As we load the data, <em>sf</em> reports some basic geographic metadata about the layer, including the geometry type, bounding box (geographic extent), and coordinate reference system.</p>
 <p>Let’s display the grid.</p>
 <p>We make the <code>bbox</code> equal to a buffered <code>pointgrid</code> to add some margin space to the map figure.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" tabindex="-1"></a>pointgrid_map <span class="ot">&lt;-</span> pointgrid <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a href="index.html#cb3-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>(<span class="at">bbox =</span> <span class="fu">st_buffer</span>(pointgrid, <span class="dv">250</span>)) <span class="sc">+</span></span>
-<span id="cb3-3"><a href="index.html#cb3-3" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">border.alpha =</span> <span class="fl">0.5</span>,</span>
-<span id="cb3-4"><a href="index.html#cb3-4" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="dv">0</span>,</span>
-<span id="cb3-5"><a href="index.html#cb3-5" tabindex="-1"></a>             <span class="at">size =</span> <span class="st">&quot;order&quot;</span>,</span>
-<span id="cb3-6"><a href="index.html#cb3-6" tabindex="-1"></a>             <span class="at">legend.size.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb3-7"><a href="index.html#cb3-7" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;label&quot;</span>,</span>
-<span id="cb3-8"><a href="index.html#cb3-8" tabindex="-1"></a>          <span class="at">ymod=</span><span class="st">&quot;yOff&quot;</span>,</span>
-<span id="cb3-9"><a href="index.html#cb3-9" tabindex="-1"></a>          <span class="at">xmod=</span><span class="st">&quot;xOff&quot;</span>,</span>
-<span id="cb3-10"><a href="index.html#cb3-10" tabindex="-1"></a>          <span class="at">col=</span><span class="st">&quot;grey50&quot;</span>,</span>
-<span id="cb3-11"><a href="index.html#cb3-11" tabindex="-1"></a>          <span class="at">fontfamily =</span> <span class="st">&quot;mono&quot;</span>)</span>
-<span id="cb3-12"><a href="index.html#cb3-12" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="index.html#cb3-13" tabindex="-1"></a>pointgrid_map</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="index.html#cb14-1" tabindex="-1"></a>pointgrid_map <span class="ot">&lt;-</span> pointgrid <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="index.html#cb14-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>(<span class="at">bbox =</span> <span class="fu">st_buffer</span>(pointgrid, <span class="dv">250</span>)) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="index.html#cb14-3" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">col_alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb14-4"><a href="index.html#cb14-4" tabindex="-1"></a>             <span class="at">fill_alpha =</span> <span class="dv">0</span>,</span>
+<span id="cb14-5"><a href="index.html#cb14-5" tabindex="-1"></a>             <span class="at">size =</span> <span class="st">&quot;order&quot;</span>,</span>
+<span id="cb14-6"><a href="index.html#cb14-6" tabindex="-1"></a>             <span class="at">size.legend =</span> <span class="fu">tm_legend_hide</span>()) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="index.html#cb14-7" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;label&quot;</span>,</span>
+<span id="cb14-8"><a href="index.html#cb14-8" tabindex="-1"></a>          <span class="at">ymod=</span><span class="st">&quot;yOff&quot;</span>,</span>
+<span id="cb14-9"><a href="index.html#cb14-9" tabindex="-1"></a>          <span class="at">xmod=</span><span class="st">&quot;xOff&quot;</span>,</span>
+<span id="cb14-10"><a href="index.html#cb14-10" tabindex="-1"></a>          <span class="at">col=</span><span class="st">&quot;grey50&quot;</span>,</span>
+<span id="cb14-11"><a href="index.html#cb14-11" tabindex="-1"></a>          <span class="at">fontfamily =</span> <span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb14-12"><a href="index.html#cb14-12" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="index.html#cb14-13" tabindex="-1"></a>pointgrid_map</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-4-1.png" width="768" /></p>
 <p>Let’s read a layer of Central Falls <code>zones</code>, the local geographic unit of enumeration and neighborhood governance.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="index.html#cb4-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_digitized.gpkg&quot;</span>), </span>
-<span id="cb4-2"><a href="index.html#cb4-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;zones&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="index.html#cb15-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_digitized.gpkg&quot;</span>), </span>
+<span id="cb15-2"><a href="index.html#cb15-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;zones&quot;</span>)</span></code></pre></div>
 <pre><code>## Reading layer `zones&#39; from data source 
-##   `C:\GitHub\opengisci\Learn-Simple-Features\data\raw\public\cf_digitized.gpkg&#39; 
+##   `C:\git\opengisci\Learn-Simple-Features\data\raw\public\cf_digitized.gpkg&#39; 
 ##   using driver `GPKG&#39;
 ## Simple feature collection with 4 features and 4 fields
 ## Geometry type: MULTIPOLYGON
@@ -246,7 +348,7 @@ Those offsets worked well to place the grid reference letters and numbers just o
 ## Bounding box:  xmin: 107710.4 ymin: 88292.71 xmax: 109710.4 ymax: 90292.71
 ## Projected CRS: NAD83(2011) / Rhode Island</code></pre>
 <p>Let’s inspect the <code>zones</code> attribute table.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="index.html#cb6-1" tabindex="-1"></a>zones <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="index.html#cb17-1" tabindex="-1"></a>zones <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -292,23 +394,23 @@ There are four other columns:</p>
 <li><code>poverty</code> is an integer count of the population with household income below the poverty level</li>
 </ul>
 <p>Let’s map the <code>zones</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="index.html#cb7-1" tabindex="-1"></a>zones_map <span class="ot">&lt;-</span> zones <span class="sc">|&gt;</span> </span>
-<span id="cb7-2"><a href="index.html#cb7-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span> </span>
-<span id="cb7-3"><a href="index.html#cb7-3" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">border.col =</span> <span class="st">&quot;grey30&quot;</span>,</span>
-<span id="cb7-4"><a href="index.html#cb7-4" tabindex="-1"></a>              <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb7-5"><a href="index.html#cb7-5" tabindex="-1"></a>              <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>,</span>
-<span id="cb7-6"><a href="index.html#cb7-6" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb7-7"><a href="index.html#cb7-7" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;zone&quot;</span>,</span>
-<span id="cb7-8"><a href="index.html#cb7-8" tabindex="-1"></a>          <span class="at">col=</span><span class="st">&quot;grey30&quot;</span>)  </span>
-<span id="cb7-9"><a href="index.html#cb7-9" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="index.html#cb7-10" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb7-11"><a href="index.html#cb7-11" tabindex="-1"></a>  zones_map</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="index.html#cb18-1" tabindex="-1"></a>zones_map <span class="ot">&lt;-</span> zones <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="index.html#cb18-2" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span> </span>
+<span id="cb18-3"><a href="index.html#cb18-3" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">&quot;grey30&quot;</span>,</span>
+<span id="cb18-4"><a href="index.html#cb18-4" tabindex="-1"></a>              <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb18-5"><a href="index.html#cb18-5" tabindex="-1"></a>              <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>,</span>
+<span id="cb18-6"><a href="index.html#cb18-6" tabindex="-1"></a>              <span class="at">fill_alpha =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb18-7"><a href="index.html#cb18-7" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;zone&quot;</span>,</span>
+<span id="cb18-8"><a href="index.html#cb18-8" tabindex="-1"></a>          <span class="at">col=</span><span class="st">&quot;grey30&quot;</span>)  </span>
+<span id="cb18-9"><a href="index.html#cb18-9" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="index.html#cb18-10" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb18-11"><a href="index.html#cb18-11" tabindex="-1"></a>  zones_map</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-7-1.png" width="768" /></p>
 <p>Let’s load in the <code>parks</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="index.html#cb8-1" tabindex="-1"></a>parks <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_digitized.gpkg&quot;</span>), </span>
-<span id="cb8-2"><a href="index.html#cb8-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;parks&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="index.html#cb19-1" tabindex="-1"></a>parks <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_digitized.gpkg&quot;</span>), </span>
+<span id="cb19-2"><a href="index.html#cb19-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;parks&quot;</span>)</span></code></pre></div>
 <pre><code>## Reading layer `parks&#39; from data source 
-##   `C:\GitHub\opengisci\Learn-Simple-Features\data\raw\public\cf_digitized.gpkg&#39; 
+##   `C:\git\opengisci\Learn-Simple-Features\data\raw\public\cf_digitized.gpkg&#39; 
 ##   using driver `GPKG&#39;
 ## Simple feature collection with 5 features and 1 field
 ## Geometry type: MULTIPOLYGON
@@ -316,7 +418,7 @@ There are four other columns:</p>
 ## Bounding box:  xmin: 107710.4 ymin: 88792.71 xmax: 109710.4 ymax: 90292.71
 ## Projected CRS: NAD83(2011) / Rhode Island</code></pre>
 <p>Let’s inspect the <code>parks</code> attribute table.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="index.html#cb10-1" tabindex="-1"></a>parks <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="index.html#cb21-1" tabindex="-1"></a>parks <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -343,25 +445,24 @@ There are four other columns:</p>
 </table>
 <p>There is just one field, <code>park</code>, containing the park names.</p>
 <p>Let’s map the <code>parks</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="index.html#cb11-1" tabindex="-1"></a>working_color <span class="ot">=</span> <span class="st">&quot;darkgreen&quot;</span></span>
-<span id="cb11-2"><a href="index.html#cb11-2" tabindex="-1"></a>parks_map <span class="ot">&lt;-</span> parks <span class="sc">|&gt;</span> </span>
-<span id="cb11-3"><a href="index.html#cb11-3" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span> </span>
-<span id="cb11-4"><a href="index.html#cb11-4" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">border.col =</span> working_color,</span>
-<span id="cb11-5"><a href="index.html#cb11-5" tabindex="-1"></a>              <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb11-6"><a href="index.html#cb11-6" tabindex="-1"></a>              <span class="at">col =</span> working_color,</span>
-<span id="cb11-7"><a href="index.html#cb11-7" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb11-8"><a href="index.html#cb11-8" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;park&quot;</span>,</span>
-<span id="cb11-9"><a href="index.html#cb11-9" tabindex="-1"></a>          <span class="at">col=</span>working_color,</span>
-<span id="cb11-10"><a href="index.html#cb11-10" tabindex="-1"></a>          <span class="at">along.lines =</span> <span class="cn">TRUE</span>)  </span>
-<span id="cb11-11"><a href="index.html#cb11-11" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="index.html#cb11-12" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb11-13"><a href="index.html#cb11-13" tabindex="-1"></a>  parks_map</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="index.html#cb22-1" tabindex="-1"></a>working_color <span class="ot">=</span> <span class="st">&quot;darkgreen&quot;</span></span>
+<span id="cb22-2"><a href="index.html#cb22-2" tabindex="-1"></a>parks_map <span class="ot">&lt;-</span> parks <span class="sc">|&gt;</span> </span>
+<span id="cb22-3"><a href="index.html#cb22-3" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span> </span>
+<span id="cb22-4"><a href="index.html#cb22-4" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">col =</span> working_color,</span>
+<span id="cb22-5"><a href="index.html#cb22-5" tabindex="-1"></a>              <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb22-6"><a href="index.html#cb22-6" tabindex="-1"></a>              <span class="at">fill =</span> working_color,</span>
+<span id="cb22-7"><a href="index.html#cb22-7" tabindex="-1"></a>              <span class="at">fill_alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="index.html#cb22-8" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;park&quot;</span>,</span>
+<span id="cb22-9"><a href="index.html#cb22-9" tabindex="-1"></a>          <span class="at">col =</span> working_color)  </span>
+<span id="cb22-10"><a href="index.html#cb22-10" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="index.html#cb22-11" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb22-12"><a href="index.html#cb22-12" tabindex="-1"></a>  parks_map</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-10-1.png" width="768" /></p>
 <p>Let’s load in the <code>watersheds</code></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="index.html#cb12-1" tabindex="-1"></a>watersheds <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_digitized.gpkg&quot;</span>), </span>
-<span id="cb12-2"><a href="index.html#cb12-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;watersheds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="index.html#cb23-1" tabindex="-1"></a>watersheds <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;public&quot;</span>, <span class="st">&quot;cf_digitized.gpkg&quot;</span>), </span>
+<span id="cb23-2"><a href="index.html#cb23-2" tabindex="-1"></a>                     <span class="at">layer=</span><span class="st">&quot;watersheds&quot;</span>)</span></code></pre></div>
 <pre><code>## Reading layer `watersheds&#39; from data source 
-##   `C:\GitHub\opengisci\Learn-Simple-Features\data\raw\public\cf_digitized.gpkg&#39; 
+##   `C:\git\opengisci\Learn-Simple-Features\data\raw\public\cf_digitized.gpkg&#39; 
 ##   using driver `GPKG&#39;
 ## Simple feature collection with 3 features and 1 field
 ## Geometry type: MULTIPOLYGON
@@ -369,7 +470,7 @@ There are four other columns:</p>
 ## Bounding box:  xmin: 107710.4 ymin: 88292.71 xmax: 109710.4 ymax: 90292.71
 ## Projected CRS: NAD83(2011) / Rhode Island</code></pre>
 <p>Let’s inspect the <code>watersheds</code> attribute table.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="index.html#cb14-1" tabindex="-1"></a>watersheds <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="index.html#cb25-1" tabindex="-1"></a>watersheds <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -389,23 +490,21 @@ There are four other columns:</p>
 </tbody>
 </table>
 <p>Let’s map the <code>watersheds</code>.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="index.html#cb15-1" tabindex="-1"></a>working_color <span class="ot">=</span> <span class="st">&quot;royalblue3&quot;</span></span>
-<span id="cb15-2"><a href="index.html#cb15-2" tabindex="-1"></a>watersheds_map <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> </span>
-<span id="cb15-3"><a href="index.html#cb15-3" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span> </span>
-<span id="cb15-4"><a href="index.html#cb15-4" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">border.col =</span> working_color,</span>
-<span id="cb15-5"><a href="index.html#cb15-5" tabindex="-1"></a>              <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb15-6"><a href="index.html#cb15-6" tabindex="-1"></a>              <span class="at">col =</span> working_color,</span>
-<span id="cb15-7"><a href="index.html#cb15-7" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb15-8"><a href="index.html#cb15-8" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;name&quot;</span>,</span>
-<span id="cb15-9"><a href="index.html#cb15-9" tabindex="-1"></a>          <span class="at">col=</span>working_color,</span>
-<span id="cb15-10"><a href="index.html#cb15-10" tabindex="-1"></a>          <span class="at">ymod=</span><span class="dv">1</span>,</span>
-<span id="cb15-11"><a href="index.html#cb15-11" tabindex="-1"></a>          <span class="at">fontface =</span> <span class="st">&quot;italic&quot;</span>,</span>
-<span id="cb15-12"><a href="index.html#cb15-12" tabindex="-1"></a>          <span class="at">fontfamily =</span> <span class="st">&quot;serif&quot;</span>)   </span>
-<span id="cb15-13"><a href="index.html#cb15-13" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="index.html#cb15-14" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
-<span id="cb15-15"><a href="index.html#cb15-15" tabindex="-1"></a>  watersheds_map</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="index.html#cb26-1" tabindex="-1"></a>working_color <span class="ot">=</span> <span class="st">&quot;royalblue3&quot;</span></span>
+<span id="cb26-2"><a href="index.html#cb26-2" tabindex="-1"></a>watersheds_map <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="index.html#cb26-3" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span> </span>
+<span id="cb26-4"><a href="index.html#cb26-4" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">col =</span> working_color,</span>
+<span id="cb26-5"><a href="index.html#cb26-5" tabindex="-1"></a>              <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb26-6"><a href="index.html#cb26-6" tabindex="-1"></a>              <span class="at">fill =</span> working_color,</span>
+<span id="cb26-7"><a href="index.html#cb26-7" tabindex="-1"></a>              <span class="at">fill_alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb26-8"><a href="index.html#cb26-8" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;name&quot;</span>,</span>
+<span id="cb26-9"><a href="index.html#cb26-9" tabindex="-1"></a>          <span class="at">col =</span> working_color,</span>
+<span id="cb26-10"><a href="index.html#cb26-10" tabindex="-1"></a>          <span class="at">ymod =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb26-11"><a href="index.html#cb26-11" tabindex="-1"></a>          <span class="at">fontface =</span> <span class="st">&quot;italic&quot;</span>)   </span>
+<span id="cb26-12"><a href="index.html#cb26-12" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="index.html#cb26-13" tabindex="-1"></a>pointgrid_map <span class="sc">+</span></span>
+<span id="cb26-14"><a href="index.html#cb26-14" tabindex="-1"></a>  watersheds_map</span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-13-1.png" width="768" /></p>
-<p>I am not certain why the <code>fontface = "italic"</code> option in the <code>tm_text()</code> function is not having any effect on the font face.</p>
 
 </div>
 </div>
@@ -415,7 +514,7 @@ There are four other columns:</p>
         </div>
       </div>
 
-<a href="measuring-shapes.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="measuring-and-constructing-shapes.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

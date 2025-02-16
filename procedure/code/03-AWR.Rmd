@@ -2,10 +2,6 @@
 output: html_document
 ---
 
-```{r include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # Area-weighted re-aggregation
 
 Suppose that we need to summarize population data from `zones` in the boundaries of the `watersheds`.
@@ -40,7 +36,7 @@ and the map...
 pointgrid_map +
   fragments |> rownames_to_column(var = "id") |> 
     tm_shape() +
-    tm_polygons(alpha = 0.5) +
+    tm_polygons(fill_alpha = 0.5) +
     tm_text("id")
 ```
 
@@ -55,7 +51,7 @@ fragments <- mutate(fragments,
                     aw_minor = aw * minority,
                     aw_pov = aw * poverty)
 
-fragments |> st_drop_geometry() |> knitr::kable()
+fragments |> st_drop_geometry() |> knitr::kable(digits = 2)
 ```
 
 ## Reaggregate
@@ -84,7 +80,7 @@ watersheds_pop <- mutate(watersheds_pop,
                          pctminority = round(summinor / sumpop * 100, 1),
                          pctpov = round(sumpov / sumpop * 100, 1))
 
-watersheds_pop |> st_drop_geometry() |> knitr::kable()
+watersheds_pop |> st_drop_geometry() |> knitr::kable(digits = 2)
 ```
 
 And map the percentage in poverty in watersheds.
@@ -93,9 +89,9 @@ And map the percentage in poverty in watersheds.
 pointgrid_map +
   watersheds_pop |> 
     tm_shape() +
-    tm_polygons(col = "pctminority",
-                alpha = 0.5,
-                legend.show = FALSE) +
+    tm_polygons(fill = "pctminority",
+                fill_alpha = 0.5,
+                fill.legend = tm_legend_hide()) +
     tm_text("pctminority")
 ```
 Another approach could have summarized the attribute data *without* the geometry data, and then joined the summaries back to the watersheds by attribute.
@@ -112,7 +108,7 @@ watersheds_sum <- fragments |>
     sumpov = sum(aw_pov)
   )
 
-watersheds_sum |> knitr::kable()
+watersheds_sum |> knitr::kable(digits = 1)
 ```
 
 Next, join the data to watersheds by attribute.
@@ -123,7 +119,7 @@ watersheds_pop <- watersheds |>
   mutate(pctminority = round(summinor / sumpop * 100, 1),
          pctpov = round(sumpov / sumpop * 100, 1))
 
-watersheds_pop |> st_drop_geometry() |> knitr::kable()
+watersheds_pop |> st_drop_geometry() |> knitr::kable(digits = 1)
 ```
 
 And map the percentage of people in poverty in watersheds.
@@ -132,8 +128,8 @@ And map the percentage of people in poverty in watersheds.
 pointgrid_map +
   watersheds_pop |> 
     tm_shape() +
-    tm_polygons(col = "pctminority",
-                alpha = 0.5,
-                legend.show = FALSE) +
+    tm_polygons(fill = "pctminority",
+                fill_alpha = 0.5,
+                fill.legend = tm_legend_hide()) +
     tm_text("pctminority")
 ```
