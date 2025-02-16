@@ -43,7 +43,7 @@ if (!require(groundhog)) {
 
 # this date will be used to determine the versions of R and your packages
 # it is best practice to keep R and its packages up to date
-groundhog.day <- "2025-01-01"
+groundhog.day <- "2025-02-01"
 
 # you may want to use set.groundhog.folder() to choose where to install pacakges under groundhog
 # the folder should be on the same drive as your R installation, and should not be synced to the cloud
