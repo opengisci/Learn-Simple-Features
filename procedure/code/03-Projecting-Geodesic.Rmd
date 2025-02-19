@@ -1,0 +1,85 @@
+---
+output: html_document
+---
+
+# Projections and geodesic calculations
+
+If only every study fit within a state plane zone or UTM zone... but alas, they do not.
+
+How can we check the coordinate reference system and transform coordinates into another system?
+How can we calculate area and length geodesically, rather than planimetrically?
+
+## Projections
+
+Let's check the projection of the watersheds layer.
+
+```{r}
+watersheds_crs <- st_crs(watersheds)
+
+watersheds_crs$input
+```
+
+And let's see what the geometry data looks like.
+
+```{r}
+watersheds |> st_astext()
+```
+Now let's transform the data into NAD 1983 geographic coordinates.
+
+```{r}
+watersheds_NAD83 <- watersheds |> st_transform(4269)
+```
+
+And check the CRS.
+
+```{r}
+watersheds_NAD83 |> st_crs()
+```
+
+And inspect the geometry data to see if the coordinates have changed.
+
+```{r}
+watersheds_NAD83 |> st_astext()
+```
+Indeed, they are now stored as latitude and longitude coordinates!
+
+## Geodesic calculations
+
+As it turns out, *sf* will calculate spherical lengths and areas with `st_area` and `st_length` *if* the geometries are stored in a geographic coordinate system.
+This is tested with the `st_is_longlat()` function.
+Furthermore, there is a global setting for sf to switch spherical calculations off and use more accurate ellipsoidal calculations. This can be achieved with `sf_use_s2(FALSE)`. 
+
+
+```{r message=FALSE}
+sf_use_s2(TRUE)
+
+watersheds_NAD83 <- watersheds_NAD83 |>  mutate(
+  spherical_area = st_area(geom),
+  spherical_perim = st_perimeter(geom)
+)
+
+sf_use_s2(FALSE)
+
+watersheds_NAD83 <- watersheds_NAD83 |>  mutate(
+  ellipsoidal_area = st_area(geom),
+  ellipsoidal_perim = st_perimeter(geom)
+)
+
+watersheds_NAD83 |> st_drop_geometry() |> kable()
+```
+
+
+Finally, you cannot calculate geodestic distance and area with geometries using projected coordinate systems in *sf*.
+You could achieve this by transforming temporarily as you calculate, e.g. `st_area(st_transform(geom, 4269))`.
+
+```{r message=FALSE}
+sf_use_s2(FALSE)
+
+watersheds_measure <- watersheds |> 
+  mutate(planar_area = st_area(geom),
+         planar_perim = st_perimeter(geom),
+         ellipsoidal_area = st_area(st_transform(geom, 4269)),
+         ellipsoidal_perim = st_perimeter(st_transform(geom, 4269)))
+
+watersheds_measure |> st_drop_geometry() |> kable()
+```
