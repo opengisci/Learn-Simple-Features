@@ -49,20 +49,23 @@ As it turns out, *sf* will calculate spherical lengths and areas with `st_area` 
 This is tested with the `st_is_longlat()` function.
 Furthermore, there is a global setting for sf to switch spherical calculations off and use more accurate ellipsoidal calculations. This can be achieved with `sf_use_s2(FALSE)`. 
 
+For perimeter calculations below, `st_perimeter(geom)` should work, and does work when running code blocks manually. 
+For reasons I cannot explain, the operation needs to be simplified to a length function on a line in order for me to compile this code into a book.
+
 
 ```{r message=FALSE}
 sf_use_s2(TRUE)
 
 watersheds_NAD83 <- watersheds_NAD83 |>  mutate(
   spherical_area = st_area(geom),
-  spherical_perim = st_perimeter(geom)
+  spherical_perim = st_length(st_cast(st_cast(geom, "POLYGON"), "LINESTRING"))
 )
 
 sf_use_s2(FALSE)
 
 watersheds_NAD83 <- watersheds_NAD83 |>  mutate(
   ellipsoidal_area = st_area(geom),
-  ellipsoidal_perim = st_perimeter(geom)
+  ellipsoidal_perim = st_length(st_cast(st_cast(geom, "POLYGON"), "LINESTRING"))
 )
 
 watersheds_NAD83 |> st_drop_geometry() |> kable()
@@ -71,15 +74,14 @@ watersheds_NAD83 |> st_drop_geometry() |> kable()
 
 Finally, you cannot calculate geodestic distance and area with geometries using projected coordinate systems in *sf*.
 You could achieve this by transforming temporarily as you calculate, e.g. `st_area(st_transform(geom, 4269))`.
+For example, we can calculate the planar and ellipsoidal areas of watersheds as follows:
 
 ```{r message=FALSE}
 sf_use_s2(FALSE)
 
 watersheds_measure <- watersheds |> 
   mutate(planar_area = st_area(geom),
-         planar_perim = st_perimeter(geom),
-         ellipsoidal_area = st_area(st_transform(geom, 4269)),
-         ellipsoidal_perim = st_perimeter(st_transform(geom, 4269)))
+         ellipsoidal_area = st_area(st_transform(geom, 4269)))
 
 watersheds_measure |> st_drop_geometry() |> kable()
 ```

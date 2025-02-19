@@ -9,6 +9,9 @@ centroids
 point-on-surface
 convex-hull
 minimum-bounding-circle
+projections-and-geodesic-calculations
+projections
+geodesic-calculations
 area-weighted-re-aggregation
 calculate-source-areas
 disaggregate
