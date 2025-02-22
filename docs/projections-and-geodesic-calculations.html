@@ -23,7 +23,7 @@
 <meta name="author" content="Joseph Holler" />
 
 
-<meta name="date" content="2025-02-18" />
+<meta name="date" content="2025-02-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -153,6 +153,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#point-on-surface"><i class="fa fa-check"></i><b>2.3</b> Point on surface</a></li>
 <li class="chapter" data-level="2.4" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#convex-hull"><i class="fa fa-check"></i><b>2.4</b> Convex hull</a></li>
 <li class="chapter" data-level="2.5" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#minimum-bounding-circle"><i class="fa fa-check"></i><b>2.5</b> Minimum bounding circle</a></li>
+<li class="chapter" data-level="2.6" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#summarize-compactness"><i class="fa fa-check"></i><b>2.6</b> Summarize compactness</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="projections-and-geodesic-calculations.html"><a href="projections-and-geodesic-calculations.html"><i class="fa fa-check"></i><b>3</b> Projections and geodesic calculations</a>
 <ul>
@@ -190,19 +191,19 @@ How can we calculate area and length geodesically, rather than planimetrically?<
 <div id="projections" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Projections<a href="projections-and-geodesic-calculations.html#projections" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Let’s check the projection of the watersheds layer.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="projections-and-geodesic-calculations.html#cb33-1" tabindex="-1"></a>watersheds_crs <span class="ot">&lt;-</span> <span class="fu">st_crs</span>(watersheds)</span>
-<span id="cb33-2"><a href="projections-and-geodesic-calculations.html#cb33-2" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="projections-and-geodesic-calculations.html#cb33-3" tabindex="-1"></a>watersheds_crs<span class="sc">$</span>input</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="projections-and-geodesic-calculations.html#cb34-1" tabindex="-1"></a>watersheds_crs <span class="ot">&lt;-</span> <span class="fu">st_crs</span>(watersheds)</span>
+<span id="cb34-2"><a href="projections-and-geodesic-calculations.html#cb34-2" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="projections-and-geodesic-calculations.html#cb34-3" tabindex="-1"></a>watersheds_crs<span class="sc">$</span>input</span></code></pre></div>
 <pre><code>## [1] &quot;NAD83(2011) / Rhode Island&quot;</code></pre>
 <p>And let’s see what the geometry data looks like.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="projections-and-geodesic-calculations.html#cb35-1" tabindex="-1"></a>watersheds <span class="sc">|&gt;</span> <span class="fu">st_astext</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="projections-and-geodesic-calculations.html#cb36-1" tabindex="-1"></a>watersheds <span class="sc">|&gt;</span> <span class="fu">st_astext</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;MULTIPOLYGON(((107710.4025421 90042.7079543,108460.4025421 89292.7079543,108460.4025421 88292.7079543,107710.4025421 88292.7079543,107710.4025421 90042.7079543)))&quot;                                                                                                                                                                              
 ## [2] &quot;MULTIPOLYGON(((108460.4025421 88792.7079543,108960.4025421 88792.7079543,109210.4025421 89042.7079543,109460.4025421 89042.7079543,109460.4025421 88292.7079543,108460.4025421 88292.7079543,108460.4025421 88792.7079543)))&quot;                                                                                                                    
 ## [3] &quot;MULTIPOLYGON(((109460.4025421 88292.7079543,109460.4025421 89042.7079543,109210.4025421 89042.7079543,108960.4025421 88792.7079543,108460.4025421 88792.7079543,108460.4025421 89292.7079543,107710.4025421 90042.7079543,107710.4025421 90292.7079543,109710.4025421 90292.7079543,109710.4025421 88292.7079543,109460.4025421 88292.7079543)))&quot;</code></pre>
 <p>Now let’s transform the data into NAD 1983 geographic coordinates.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="projections-and-geodesic-calculations.html#cb37-1" tabindex="-1"></a>watersheds_NAD83 <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(<span class="dv">4269</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="projections-and-geodesic-calculations.html#cb38-1" tabindex="-1"></a>watersheds_NAD83 <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(<span class="dv">4269</span>)</span></code></pre></div>
 <p>And check the CRS.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="projections-and-geodesic-calculations.html#cb38-1" tabindex="-1"></a>watersheds_NAD83 <span class="sc">|&gt;</span> <span class="fu">st_crs</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="projections-and-geodesic-calculations.html#cb39-1" tabindex="-1"></a>watersheds_NAD83 <span class="sc">|&gt;</span> <span class="fu">st_crs</span>()</span></code></pre></div>
 <pre><code>## Coordinate Reference System:
 ##   User input: EPSG:4269 
 ##   wkt:
@@ -225,7 +226,7 @@ How can we calculate area and length geodesically, rather than planimetrically?<
 ##         BBOX[14.92,167.65,86.45,-40.73]],
 ##     ID[&quot;EPSG&quot;,4269]]</code></pre>
 <p>And inspect the geometry data to see if the coordinates have changed.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="projections-and-geodesic-calculations.html#cb40-1" tabindex="-1"></a>watersheds_NAD83 <span class="sc">|&gt;</span> <span class="fu">st_astext</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="projections-and-geodesic-calculations.html#cb41-1" tabindex="-1"></a>watersheds_NAD83 <span class="sc">|&gt;</span> <span class="fu">st_astext</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;MULTIPOLYGON(((-71.4070897 41.8940335,-71.3980629 41.8872734,-71.3980772 41.8782701,-71.4071125 41.8782778,-71.4070897 41.8940335)))&quot;                                                                                                                                          
 ## [2] &quot;MULTIPOLYGON(((-71.3980701 41.8827718,-71.3920461 41.8827663,-71.3890303 41.8850142,-71.3860182 41.8850113,-71.3860302 41.8782588,-71.3980772 41.8782701,-71.3980701 41.8827718)))&quot;                                                                                            
 ## [3] &quot;MULTIPOLYGON(((-71.3860302 41.8782588,-71.3860182 41.8850113,-71.3890303 41.8850142,-71.3920461 41.8827663,-71.3980701 41.8827718,-71.3980629 41.8872734,-71.4070897 41.8940335,-71.4070864 41.8962844,-71.3829856 41.8962623,-71.3830185 41.8782558,-71.3860302 41.8782588)))&quot;</code></pre>
@@ -238,21 +239,21 @@ This is tested with the <code>st_is_longlat()</code> function.
 Furthermore, there is a global setting for sf to switch spherical calculations off and use more accurate ellipsoidal calculations. This can be achieved with <code>sf_use_s2(FALSE)</code>.</p>
 <p>For perimeter calculations below, <code>st_perimeter(geom)</code> should work, and does work when running code blocks manually.
 For reasons I cannot explain, the operation needs to be simplified to a length function on a line in order for me to compile this code into a book.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="projections-and-geodesic-calculations.html#cb42-1" tabindex="-1"></a><span class="fu">sf_use_s2</span>(<span class="cn">TRUE</span>)</span>
-<span id="cb42-2"><a href="projections-and-geodesic-calculations.html#cb42-2" tabindex="-1"></a></span>
-<span id="cb42-3"><a href="projections-and-geodesic-calculations.html#cb42-3" tabindex="-1"></a>watersheds_NAD83 <span class="ot">&lt;-</span> watersheds_NAD83 <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(</span>
-<span id="cb42-4"><a href="projections-and-geodesic-calculations.html#cb42-4" tabindex="-1"></a>  <span class="at">spherical_area =</span> <span class="fu">st_area</span>(geom),</span>
-<span id="cb42-5"><a href="projections-and-geodesic-calculations.html#cb42-5" tabindex="-1"></a>  <span class="at">spherical_perim =</span> <span class="fu">st_length</span>(<span class="fu">st_cast</span>(<span class="fu">st_cast</span>(geom, <span class="st">&quot;POLYGON&quot;</span>), <span class="st">&quot;LINESTRING&quot;</span>))</span>
-<span id="cb42-6"><a href="projections-and-geodesic-calculations.html#cb42-6" tabindex="-1"></a>)</span>
-<span id="cb42-7"><a href="projections-and-geodesic-calculations.html#cb42-7" tabindex="-1"></a></span>
-<span id="cb42-8"><a href="projections-and-geodesic-calculations.html#cb42-8" tabindex="-1"></a><span class="fu">sf_use_s2</span>(<span class="cn">FALSE</span>)</span>
-<span id="cb42-9"><a href="projections-and-geodesic-calculations.html#cb42-9" tabindex="-1"></a></span>
-<span id="cb42-10"><a href="projections-and-geodesic-calculations.html#cb42-10" tabindex="-1"></a>watersheds_NAD83 <span class="ot">&lt;-</span> watersheds_NAD83 <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(</span>
-<span id="cb42-11"><a href="projections-and-geodesic-calculations.html#cb42-11" tabindex="-1"></a>  <span class="at">ellipsoidal_area =</span> <span class="fu">st_area</span>(geom),</span>
-<span id="cb42-12"><a href="projections-and-geodesic-calculations.html#cb42-12" tabindex="-1"></a>  <span class="at">ellipsoidal_perim =</span> <span class="fu">st_length</span>(<span class="fu">st_cast</span>(<span class="fu">st_cast</span>(geom, <span class="st">&quot;POLYGON&quot;</span>), <span class="st">&quot;LINESTRING&quot;</span>))</span>
-<span id="cb42-13"><a href="projections-and-geodesic-calculations.html#cb42-13" tabindex="-1"></a>)</span>
-<span id="cb42-14"><a href="projections-and-geodesic-calculations.html#cb42-14" tabindex="-1"></a></span>
-<span id="cb42-15"><a href="projections-and-geodesic-calculations.html#cb42-15" tabindex="-1"></a>watersheds_NAD83 <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="projections-and-geodesic-calculations.html#cb43-1" tabindex="-1"></a><span class="fu">sf_use_s2</span>(<span class="cn">TRUE</span>)</span>
+<span id="cb43-2"><a href="projections-and-geodesic-calculations.html#cb43-2" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="projections-and-geodesic-calculations.html#cb43-3" tabindex="-1"></a>watersheds_NAD83 <span class="ot">&lt;-</span> watersheds_NAD83 <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(</span>
+<span id="cb43-4"><a href="projections-and-geodesic-calculations.html#cb43-4" tabindex="-1"></a>  <span class="at">spherical_area =</span> <span class="fu">st_area</span>(geom),</span>
+<span id="cb43-5"><a href="projections-and-geodesic-calculations.html#cb43-5" tabindex="-1"></a>  <span class="at">spherical_perim =</span> <span class="fu">st_length</span>(<span class="fu">st_cast</span>(<span class="fu">st_cast</span>(geom, <span class="st">&quot;POLYGON&quot;</span>), <span class="st">&quot;LINESTRING&quot;</span>))</span>
+<span id="cb43-6"><a href="projections-and-geodesic-calculations.html#cb43-6" tabindex="-1"></a>)</span>
+<span id="cb43-7"><a href="projections-and-geodesic-calculations.html#cb43-7" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="projections-and-geodesic-calculations.html#cb43-8" tabindex="-1"></a><span class="fu">sf_use_s2</span>(<span class="cn">FALSE</span>)</span>
+<span id="cb43-9"><a href="projections-and-geodesic-calculations.html#cb43-9" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="projections-and-geodesic-calculations.html#cb43-10" tabindex="-1"></a>watersheds_NAD83 <span class="ot">&lt;-</span> watersheds_NAD83 <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(</span>
+<span id="cb43-11"><a href="projections-and-geodesic-calculations.html#cb43-11" tabindex="-1"></a>  <span class="at">ellipsoidal_area =</span> <span class="fu">st_area</span>(geom),</span>
+<span id="cb43-12"><a href="projections-and-geodesic-calculations.html#cb43-12" tabindex="-1"></a>  <span class="at">ellipsoidal_perim =</span> <span class="fu">st_length</span>(<span class="fu">st_cast</span>(<span class="fu">st_cast</span>(geom, <span class="st">&quot;POLYGON&quot;</span>), <span class="st">&quot;LINESTRING&quot;</span>))</span>
+<span id="cb43-13"><a href="projections-and-geodesic-calculations.html#cb43-13" tabindex="-1"></a>)</span>
+<span id="cb43-14"><a href="projections-and-geodesic-calculations.html#cb43-14" tabindex="-1"></a></span>
+<span id="cb43-15"><a href="projections-and-geodesic-calculations.html#cb43-15" tabindex="-1"></a>watersheds_NAD83 <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <colgroup>
 <col width="16%" />
@@ -297,13 +298,13 @@ For reasons I cannot explain, the operation needs to be simplified to a length f
 <p>Finally, you cannot calculate geodestic distance and area with geometries using projected coordinate systems in <em>sf</em>.
 You could achieve this by transforming temporarily as you calculate, e.g. <code>st_area(st_transform(geom, 4269))</code>.
 For example, we can calculate the planar and ellipsoidal areas of watersheds as follows:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="projections-and-geodesic-calculations.html#cb43-1" tabindex="-1"></a><span class="fu">sf_use_s2</span>(<span class="cn">FALSE</span>)</span>
-<span id="cb43-2"><a href="projections-and-geodesic-calculations.html#cb43-2" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="projections-and-geodesic-calculations.html#cb43-3" tabindex="-1"></a>watersheds_measure <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> </span>
-<span id="cb43-4"><a href="projections-and-geodesic-calculations.html#cb43-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">planar_area =</span> <span class="fu">st_area</span>(geom),</span>
-<span id="cb43-5"><a href="projections-and-geodesic-calculations.html#cb43-5" tabindex="-1"></a>         <span class="at">ellipsoidal_area =</span> <span class="fu">st_area</span>(<span class="fu">st_transform</span>(geom, <span class="dv">4269</span>)))</span>
-<span id="cb43-6"><a href="projections-and-geodesic-calculations.html#cb43-6" tabindex="-1"></a></span>
-<span id="cb43-7"><a href="projections-and-geodesic-calculations.html#cb43-7" tabindex="-1"></a>watersheds_measure <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="projections-and-geodesic-calculations.html#cb44-1" tabindex="-1"></a><span class="fu">sf_use_s2</span>(<span class="cn">FALSE</span>)</span>
+<span id="cb44-2"><a href="projections-and-geodesic-calculations.html#cb44-2" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="projections-and-geodesic-calculations.html#cb44-3" tabindex="-1"></a>watersheds_measure <span class="ot">&lt;-</span> watersheds <span class="sc">|&gt;</span> </span>
+<span id="cb44-4"><a href="projections-and-geodesic-calculations.html#cb44-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">planar_area =</span> <span class="fu">st_area</span>(geom),</span>
+<span id="cb44-5"><a href="projections-and-geodesic-calculations.html#cb44-5" tabindex="-1"></a>         <span class="at">ellipsoidal_area =</span> <span class="fu">st_area</span>(<span class="fu">st_transform</span>(geom, <span class="dv">4269</span>)))</span>
+<span id="cb44-6"><a href="projections-and-geodesic-calculations.html#cb44-6" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="projections-and-geodesic-calculations.html#cb44-7" tabindex="-1"></a>watersheds_measure <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">

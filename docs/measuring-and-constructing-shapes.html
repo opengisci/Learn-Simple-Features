@@ -23,7 +23,7 @@
 <meta name="author" content="Joseph Holler" />
 
 
-<meta name="date" content="2025-02-18" />
+<meta name="date" content="2025-02-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -153,6 +153,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#point-on-surface"><i class="fa fa-check"></i><b>2.3</b> Point on surface</a></li>
 <li class="chapter" data-level="2.4" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#convex-hull"><i class="fa fa-check"></i><b>2.4</b> Convex hull</a></li>
 <li class="chapter" data-level="2.5" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#minimum-bounding-circle"><i class="fa fa-check"></i><b>2.5</b> Minimum bounding circle</a></li>
+<li class="chapter" data-level="2.6" data-path="measuring-and-constructing-shapes.html"><a href="measuring-and-constructing-shapes.html#summarize-compactness"><i class="fa fa-check"></i><b>2.6</b> Summarize compactness</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="projections-and-geodesic-calculations.html"><a href="projections-and-geodesic-calculations.html"><i class="fa fa-check"></i><b>3</b> Projections and geodesic calculations</a>
 <ul>
@@ -336,17 +337,27 @@ Let’s map them.</p>
 <p><img src="results/figures/unnamed-chunk-22-1.png" width="768" /></p>
 <p>How would the ratios of area to area of the convex hull come out?
 The watersheds contributing to more overlapping areas whould result in lower compactness scores.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="measuring-and-constructing-shapes.html#cb29-1" tabindex="-1"></a>watersheds_hull <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_hull,</span>
-<span id="cb29-2"><a href="measuring-and-constructing-shapes.html#cb29-2" tabindex="-1"></a>                          <span class="at">compact_hull =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(warea <span class="sc">/</span> <span class="fu">st_area</span>(geom)), <span class="dv">2</span>))</span>
-<span id="cb29-3"><a href="measuring-and-constructing-shapes.html#cb29-3" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="measuring-and-constructing-shapes.html#cb29-4" tabindex="-1"></a>watersheds_hull <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="measuring-and-constructing-shapes.html#cb29-1" tabindex="-1"></a>watersheds_hull <span class="ot">&lt;-</span> watersheds_hull <span class="sc">|&gt;</span> </span>
+<span id="cb29-2"><a href="measuring-and-constructing-shapes.html#cb29-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hullarea =</span> <span class="fu">st_area</span>(geom),</span>
+<span id="cb29-3"><a href="measuring-and-constructing-shapes.html#cb29-3" tabindex="-1"></a>         <span class="at">compact_hull =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(warea <span class="sc">/</span> hullarea), <span class="dv">2</span>))</span>
+<span id="cb29-4"><a href="measuring-and-constructing-shapes.html#cb29-4" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="measuring-and-constructing-shapes.html#cb29-5" tabindex="-1"></a>watersheds_hull <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
+<colgroup>
+<col width="17%" />
+<col width="18%" />
+<col width="17%" />
+<col width="10%" />
+<col width="18%" />
+<col width="17%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">name</th>
 <th align="right">warea</th>
 <th align="right">wperim</th>
 <th align="right">compact</th>
+<th align="right">hullarea</th>
 <th align="right">compact_hull</th>
 </tr>
 </thead>
@@ -356,6 +367,7 @@ The watersheds contributing to more overlapping areas whould result in lower com
 <td align="right">1031250 [m^2]</td>
 <td align="right">4560.660 [m]</td>
 <td align="right">0.62</td>
+<td align="right">1031250 [m^2]</td>
 <td align="right">1.00</td>
 </tr>
 <tr class="even">
@@ -363,6 +375,7 @@ The watersheds contributing to more overlapping areas whould result in lower com
 <td align="right">593750 [m^2]</td>
 <td align="right">3353.553 [m]</td>
 <td align="right">0.66</td>
+<td align="right">656250 [m^2]</td>
 <td align="right">0.90</td>
 </tr>
 <tr class="odd">
@@ -370,6 +383,7 @@ The watersheds contributing to more overlapping areas whould result in lower com
 <td align="right">2375000 [m^2]</td>
 <td align="right">7914.214 [m]</td>
 <td align="right">0.48</td>
+<td align="right">2906250 [m^2]</td>
 <td align="right">0.82</td>
 </tr>
 </tbody>
@@ -394,17 +408,28 @@ This function is not yet included in the current <code>sf</code> package on CRAN
 <span id="cb31-10"><a href="measuring-and-constructing-shapes.html#cb31-10" tabindex="-1"></a>  ) </span></code></pre></div>
 <p><img src="results/figures/unnamed-chunk-25-1.png" width="768" /></p>
 <p>Finally, let’s calculate the ratio of area of the polygon to the area of its minimum bounding circle.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="measuring-and-constructing-shapes.html#cb32-1" tabindex="-1"></a>watersheds_boundcircle <span class="ot">&lt;-</span> <span class="fu">mutate</span>(watersheds_boundcircle,</span>
-<span id="cb32-2"><a href="measuring-and-constructing-shapes.html#cb32-2" tabindex="-1"></a>                          <span class="at">compact_circ =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(warea <span class="sc">/</span> <span class="fu">st_area</span>(geom)), <span class="dv">2</span>))</span>
-<span id="cb32-3"><a href="measuring-and-constructing-shapes.html#cb32-3" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="measuring-and-constructing-shapes.html#cb32-4" tabindex="-1"></a>watersheds_boundcircle <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="measuring-and-constructing-shapes.html#cb32-1" tabindex="-1"></a>watersheds_boundcircle <span class="ot">&lt;-</span> watersheds_boundcircle <span class="sc">|&gt;</span> </span>
+<span id="cb32-2"><a href="measuring-and-constructing-shapes.html#cb32-2" tabindex="-1"></a>  <span class="fu">mutate</span>(watersheds_boundcircle,</span>
+<span id="cb32-3"><a href="measuring-and-constructing-shapes.html#cb32-3" tabindex="-1"></a>         <span class="at">mbcarea =</span> <span class="fu">st_area</span>(geom),</span>
+<span id="cb32-4"><a href="measuring-and-constructing-shapes.html#cb32-4" tabindex="-1"></a>         <span class="at">compact_circ =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(warea <span class="sc">/</span> mbcarea), <span class="dv">2</span>))</span>
+<span id="cb32-5"><a href="measuring-and-constructing-shapes.html#cb32-5" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="measuring-and-constructing-shapes.html#cb32-6" tabindex="-1"></a>watersheds_boundcircle <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
+<colgroup>
+<col width="17%" />
+<col width="18%" />
+<col width="17%" />
+<col width="10%" />
+<col width="18%" />
+<col width="17%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">name</th>
 <th align="right">warea</th>
 <th align="right">wperim</th>
 <th align="right">compact</th>
+<th align="right">mbcarea</th>
 <th align="right">compact_circ</th>
 </tr>
 </thead>
@@ -414,6 +439,7 @@ This function is not yet included in the current <code>sf</code> package on CRAN
 <td align="right">1031250 [m^2]</td>
 <td align="right">4560.660 [m]</td>
 <td align="right">0.62</td>
+<td align="right">2845768 [m^2]</td>
 <td align="right">0.36</td>
 </tr>
 <tr class="even">
@@ -421,6 +447,7 @@ This function is not yet included in the current <code>sf</code> package on CRAN
 <td align="right">593750 [m^2]</td>
 <td align="right">3353.553 [m]</td>
 <td align="right">0.66</td>
+<td align="right">1226624 [m^2]</td>
 <td align="right">0.48</td>
 </tr>
 <tr class="odd">
@@ -428,6 +455,54 @@ This function is not yet included in the current <code>sf</code> package on CRAN
 <td align="right">2375000 [m^2]</td>
 <td align="right">7914.214 [m]</td>
 <td align="right">0.48</td>
+<td align="right">6280315 [m^2]</td>
+<td align="right">0.38</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="summarize-compactness" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Summarize compactness<a href="measuring-and-constructing-shapes.html#summarize-compactness" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>And summarize the various metrics into one table by joining.
+First, drop geometry data for the table to be joined, and <code>select</code> the columns to be used by the join.
+Then, join the two tables with a <code>left_join</code>.
+Left joins keep all of the records in the left table and only the matching records from the right table to be joined.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="measuring-and-constructing-shapes.html#cb33-1" tabindex="-1"></a>watersheds_boundcircle_compactness <span class="ot">&lt;-</span> watersheds_boundcircle <span class="sc">|&gt;</span> </span>
+<span id="cb33-2"><a href="measuring-and-constructing-shapes.html#cb33-2" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href="measuring-and-constructing-shapes.html#cb33-3" tabindex="-1"></a>  <span class="fu">select</span>(name, compact_circ)</span>
+<span id="cb33-4"><a href="measuring-and-constructing-shapes.html#cb33-4" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="measuring-and-constructing-shapes.html#cb33-5" tabindex="-1"></a>watersheds_compactness_summary <span class="ot">&lt;-</span> watersheds_hull <span class="sc">|&gt;</span> </span>
+<span id="cb33-6"><a href="measuring-and-constructing-shapes.html#cb33-6" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="measuring-and-constructing-shapes.html#cb33-7" tabindex="-1"></a>  <span class="fu">select</span>(name, <span class="at">compact_shp =</span> compact, compact_hull) <span class="sc">|&gt;</span> </span>
+<span id="cb33-8"><a href="measuring-and-constructing-shapes.html#cb33-8" tabindex="-1"></a>  <span class="fu">left_join</span>(watersheds_boundcircle_compactness, <span class="at">by =</span> <span class="st">&quot;name&quot;</span>)</span>
+<span id="cb33-9"><a href="measuring-and-constructing-shapes.html#cb33-9" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="measuring-and-constructing-shapes.html#cb33-10" tabindex="-1"></a>watersheds_compactness_summary <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="right">compact_shp</th>
+<th align="right">compact_hull</th>
+<th align="right">compact_circ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Moshassuck</td>
+<td align="right">0.62</td>
+<td align="right">1.00</td>
+<td align="right">0.36</td>
+</tr>
+<tr class="even">
+<td align="left">Narragansett</td>
+<td align="right">0.66</td>
+<td align="right">0.90</td>
+<td align="right">0.48</td>
+</tr>
+<tr class="odd">
+<td align="left">Blackstone</td>
+<td align="right">0.48</td>
+<td align="right">0.82</td>
 <td align="right">0.38</td>
 </tr>
 </tbody>

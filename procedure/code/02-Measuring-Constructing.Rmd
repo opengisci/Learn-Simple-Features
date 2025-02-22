@@ -131,8 +131,9 @@ How would the ratios of area to area of the convex hull come out?
 The watersheds contributing to more overlapping areas whould result in lower compactness scores.
 
 ```{r}
-watersheds_hull <- mutate(watersheds_hull,
-                          compact_hull = round(as.numeric(warea / st_area(geom)), 2))
+watersheds_hull <- watersheds_hull |> 
+  mutate(hullarea = st_area(geom),
+         compact_hull = round(as.numeric(warea / hullarea), 2))
 
 watersheds_hull |> st_drop_geometry() |> knitr::kable()
 ```
@@ -166,12 +167,33 @@ pointgrid_map +
 Finally, let's calculate the ratio of area of the polygon to the area of its minimum bounding circle.
 
 ```{r}
-watersheds_boundcircle <- mutate(watersheds_boundcircle,
-                          compact_circ = round(as.numeric(warea / st_area(geom)), 2))
+watersheds_boundcircle <- watersheds_boundcircle |> 
+  mutate(watersheds_boundcircle,
+         mbcarea = st_area(geom),
+         compact_circ = round(as.numeric(warea / mbcarea), 2))
 
 watersheds_boundcircle |> st_drop_geometry() |> knitr::kable()
 ```
 
+## Summarize compactness
+
+And summarize the various metrics into one table by joining. 
+First, drop geometry data for the table to be joined, and `select` the columns to be used by the join.
+Then, join the two tables with a `left_join`.
+Left joins keep all of the records in the left table and only the matching records from the right table to be joined.
+
+```{r}
+watersheds_boundcircle_compactness <- watersheds_boundcircle |> 
+  st_drop_geometry() |> 
+  select(name, compact_circ)
+
+watersheds_compactness_summary <- watersheds_hull |> 
+
+  select(name, compact_shp = compact, compact_hull) |> 
+  left_join(watersheds_boundcircle_compactness, by = "name")
+
+watersheds_compactness_summary |> st_drop_geometry() |> kable()
+```
 
 
 

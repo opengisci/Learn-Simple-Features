@@ -9,6 +9,7 @@ centroids
 point-on-surface
 convex-hull
 minimum-bounding-circle
+summarize-compactness
 projections-and-geodesic-calculations
 projections
 geodesic-calculations
